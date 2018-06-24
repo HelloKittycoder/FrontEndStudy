@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<html xmlns="http://www.w3.org/1999/xhtml">  
+<head>  
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />  
+<title>LIGHTBOX EXAMPLE</title>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.3.js" ></script>
+<script type="text/javascript" src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<script type="text/javascript" src="js/jquery-mousewheel.js" ></script>
+<script type="text/javascript" src="js/mylightbox.js" ></script>
+<script type="text/javascript">
+	$(function(){
+		// 写法一：
+		/*LightBox.init({
+			imgObj : $(".imgPreview"),
+			config : {
+				boxHeight : 300,
+				boxWidth : 500
+			}
+		});*/
+		// 写法二：
+		$(".imgPreview").lightbox({
+			boxHeight : 300,
+			boxWidth : 500
+		});
+	});
+</script>
+
+<link rel="stylesheet" href="css/mylightbox.css" />
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css" />
+</head>  
+<body>
+	<!-- 当点击按钮时，恢复至原位 https://stackoverflow.com/questions/10014196/jquery-draggable-revert-on-button-click-->
+	<!--<a href="javascript:void(0)" onclick="show('light')">打开1</a>  
+	<a href="javascript:void(0)" onclick="show('light2')">打开2</a>
+	<div id="light" class="white_content">
+	      <div class="close"><a class="removePrompt href="javascript:void(0)" onclick="hide('light')"> 关闭</a><a class="resetPosition" href="javascript:void(0)" onclick="resetPosition()"> 重置</a></div>
+	      <div class="con">
+	      	<img id="lightImg" src="../dist/images/1.png"/>
+	      </div>  
+	</div>
+	<div id="fade" class="black_overlay"></div>-->
+	<img id="lightImgaa" class="imgPreview" src="images/1.png"/>
+	<img id="lightImgbb" class="imgPreview" src="images/2.png"/>
+</body>  
+</html>
