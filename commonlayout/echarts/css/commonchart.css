@@ -1,0 +1,83 @@
+/* echarts图通用页面布局 */
+.chartContainerDiv {
+    border: 0px; margin: 0 -0.5% 0 -0.5%;
+}
+.chartContainerDiv * {
+    box-sizing: border-box;
+}
+/* 一列布局 */
+.chartContainerDiv .chart1_1 {
+    float: left;
+    width: 100%;
+    padding-left: 0.5%;
+    padding-right:0.5%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+/* 两列布局 */
+.chartContainerDiv .chart2_1 {
+    float: left;
+    width: 50%;
+    padding-left: 0.5%;
+    padding-right: 3px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.chartContainerDiv .chart2_2 {
+    float: left;
+    width: 50%;
+    padding-right: 0.5%;
+    padding-left: 3px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+/* 带嵌套的两列布局 */
+.chartContainerDiv .nest-chart2_1 {
+    float: left;
+    width: 50%;
+    padding-right: 3px;
+}
+.chartContainerDiv .nest-chart2_2 {
+    float: left;
+    width: 50%;
+    padding-left: 3px;
+}
+/* 三列布局 */
+.chartContainerDiv .chart3_1 {
+    float: left;
+    width: 33.3%;
+    padding-left: 0.5%;
+    padding-right: 3px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.chartContainerDiv .chart3_2 {
+    float: left;
+    width: 33.3%;
+    padding-right: 3px;
+    padding-left: 3px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.chartContainerDiv .chart3_3 {
+    float: left;
+    width: 33.3%;
+    padding-right: 0.5%;
+    padding-left: 3px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.chartContainerDiv .chartContent {
+    width: 100%;
+    height: 350px;
+}
+.chartContainerDiv .light.borderd {
+    border: 1px solid #e7ecf1;
+    padding: 15px 20px 10px;
+}
+.chartContainerDiv .light {
+    background: #F9F9FA;
+}
+.chartContainerDiv .chartBody {
+    padding-top: 10px;
+}
