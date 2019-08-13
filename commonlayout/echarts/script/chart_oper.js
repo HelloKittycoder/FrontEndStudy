@@ -115,6 +115,63 @@ var ChartOper = function () {
         }
     }
 
+    var queryChart3 = function () {
+        loadChartBase('#chart3', function (callback) {
+            /*$.post(chartAjaxDataUrl,{
+                "chartDataType":"test1"
+            }, function (responseText) {
+                if (responseText != null) {
+                    var option = getOption(responseText.seriesData, responseText.legendData);
+                    callback(option);
+                }
+            });*/
+            var responseText = getChartData3();
+            var option = getOption(responseText.seriesData, responseText.legendData);
+            callback(option);
+        });
+
+        function getOption(seriesData, legendData) {
+            return {
+                title : {
+                    text: '各小组人员占比',
+                    x:'center'
+                },
+                tooltip : {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+                },
+                toolbox: {
+                    feature: {
+                        saveAsImage: {show: true}
+                    }
+                },
+                legend: {
+                    type: 'scroll',
+                    orient: 'vertical',
+                    right: 60,
+                    top: 20,
+                    data: legendData
+                },
+                series : [
+                    {
+                        name:'数量（个）',
+                        type: 'pie',
+                        radius : '55%',
+                        center: ['50%', '50%'],
+                        data: seriesData,
+                        itemStyle: {
+                            emphasis: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
+                    }
+                ]
+            };
+        }
+    }
+
     var getChartData1 = function () {
         return {
             seriesData : [{
@@ -167,6 +224,32 @@ var ChartOper = function () {
         };
     }
 
+    var getChartData3 = function () {
+        return {
+            seriesData : [{
+                name : "小组1",
+                value : 50
+            },
+                {
+                    name : "小组2",
+                    value : 40
+                },
+                {
+                    name : "小组3",
+                    value : 20
+                },
+                {
+                    name : "小组4",
+                    value : 10
+                },
+                {
+                    name : "小组5",
+                    value : 30
+                }],
+            legendData : ["小组1", "小组2", "小组3", "小组4", "小组5"]
+        };
+    }
+
     // 加载图形报表base方法
     var loadChartBase = function(selector, getDataFunc) {
         $(selector).each(function () {
@@ -201,6 +284,9 @@ var ChartOper = function () {
         },
         queryChart2 : function () {
             queryChart2();
+        },
+        queryChart3 : function () {
+            queryChart3();
         }
     }
 }();
