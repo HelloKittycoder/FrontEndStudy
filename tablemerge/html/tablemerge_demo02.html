@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>表格合并demo2（自己写的）</title>
+    <style type="text/css">
+        body {
+            margin: 0px;
+            padding: 0px;
+        }
+        .containerDiv {
+            width: 98%;
+            margin: 0 auto; /* 设置div在body中居中 */
+            border: 1px solid red;
+            height: 1500px;
+        }
+        .column_2_1 {
+            width: 50%;
+            float: left;
+        }
+        .column_2_2 {
+            width: 50%;
+            float: left;
+        }
+        .column_2_1 table, .column_2_2 table {
+            margin: auto;
+        }
+        .column_2_1 table>caption, .column_2_2 table>caption {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="containerDiv">
+    <div id="div1" class="column_2_1">
+        <table id="table1" border="" cellspacing="" cellpadding="">
+            <caption>合并前</caption>
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>项目名称</th>
+                    <th>企业名称</th>
+                    <th>账户名称</th>
+                    <th>录入人</th>
+                    <th>录入日期</th>
+                    <th>表单类别</th>
+                    <th>金额</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>lsc_test_pro_01</td>
+                    <td>寒武纪</td>
+                    <td>spv01</td>
+                    <td>张三</td>
+                    <td>2005-08-05</td>
+                    <td>call款</td>
+                    <td>100</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>lsc_test_pro_01</td>
+                    <td>寒武纪</td>
+                    <td>spv02</td>
+                    <td>张三</td>
+                    <td>2005-08-07</td>
+                    <td>分配收益</td>
+                    <td>100</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>lsc_test_pro_01</td>
+                    <td>寒武纪</td>
+                    <td>spv02</td>
+                    <td>张三</td>
+                    <td>2005-08-10</td>
+                    <td>管理费</td>
+                    <td>100</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>lsc_test_pro_01</td>
+                    <td>寒武纪</td>
+                    <td>spv02</td>
+                    <td>张三</td>
+                    <td>2005-08-05</td>
+                    <td>管理费</td>
+                    <td>100</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>lsc_test_pro_02</td>
+                    <td>寒武纪</td>
+                    <td>spv02</td>
+                    <td>李四</td>
+                    <td>2005-08-07</td>
+                    <td>分配收益</td>
+                    <td>100</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>lsc_test_pro_02</td>
+                    <td>寒武纪</td>
+                    <td>spv02</td>
+                    <td>李四</td>
+                    <td>2005-08-10</td>
+                    <td>管理费</td>
+                    <td>100</td>
+                </tr>
+
+
+                <tr>
+                    <td>7</td>
+                    <td>lsc_test_pro_02</td>
+                    <td>寒武纪1</td>
+                    <td>spv01</td>
+                    <td>张三</td>
+                    <td>2005-08-05</td>
+                    <td>call款</td>
+                    <td>100</td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>lsc_test_pro_02</td>
+                    <td>寒武纪1</td>
+                    <td>spv02</td>
+                    <td>张三</td>
+                    <td>2005-08-07</td>
+                    <td>分配收益</td>
+                    <td>100</td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>lsc_test_pro_02</td>
+                    <td>寒武纪1</td>
+                    <td>spv02</td>
+                    <td>张三</td>
+                    <td>2005-08-10</td>
+                    <td>管理费</td>
+                    <td>3000</td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>lsc_test_pro_02</td>
+                    <td>寒武纪</td>
+                    <td>spv01</td>
+                    <td>李四</td>
+                    <td>2005-08-05</td>
+                    <td>call款</td>
+                    <td>1000</td>
+                </tr>
+                <tr>
+                    <td>11</td>
+                    <td>lsc_test_pro_02</td>
+                    <td>寒武纪</td>
+                    <td>spv02</td>
+                    <td>李四</td>
+                    <td>2005-08-07</td>
+                    <td>分配收益</td>
+                    <td>100</td>
+                </tr>
+                <tr>
+                    <td>12</td>
+                    <td>lsc_test_pro_02</td>
+                    <td>寒武纪</td>
+                    <td>spv02</td>
+                    <td>李四</td>
+                    <td>2005-08-10</td>
+                    <td>管理费</td>
+                    <td>100</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="div2" class="column_2_2">
+        <table id="table2" border="" cellspacing="" cellpadding="">
+            <caption>合并后</caption>
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>项目名称</th>
+                    <th>企业名称</th>
+                    <th>账户名称</th>
+                    <th>录入人</th>
+                    <th>录入日期</th>
+                    <th>表单类别</th>
+                    <th>金额</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>lsc_test_pro_01</td>
+                    <td>寒武纪</td>
+                    <td>spv01</td>
+                    <td>张三</td>
+                    <td>2005-08-05</td>
+                    <td>call款</td>
+                    <td>100</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>lsc_test_pro_01</td>
+                    <td>寒武纪</td>
+                    <td>spv02</td>
+                    <td>张三</td>
+                    <td>2005-08-07</td>
+                    <td>分配收益</td>
+                    <td>100</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>lsc_test_pro_01</td>
+                    <td>寒武纪</td>
+                    <td>spv02</td>
+                    <td>张三</td>
+                    <td>2005-08-10</td>
+                    <td>管理费</td>
+                    <td>100</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>lsc_test_pro_01</td>
+                    <td>寒武纪</td>
+                    <td>spv02</td>
+                    <td>张三</td>
+                    <td>2005-08-05</td>
+                    <td>管理费</td>
+                    <td>100</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>lsc_test_pro_02</td>
+                    <td>寒武纪</td>
+                    <td>spv02</td>
+                    <td>李四</td>
+                    <td>2005-08-07</td>
+                    <td>分配收益</td>
+                    <td>100</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>lsc_test_pro_02</td>
+                    <td>寒武纪</td>
+                    <td>spv02</td>
+                    <td>李四</td>
+                    <td>2005-08-10</td>
+                    <td>管理费</td>
+                    <td>100</td>
+                </tr>
+
+
+                <tr>
+                    <td>7</td>
+                    <td>lsc_test_pro_02</td>
+                    <td>寒武纪1</td>
+                    <td>spv01</td>
+                    <td>张三</td>
+                    <td>2005-08-05</td>
+                    <td>call款</td>
+                    <td>100</td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>lsc_test_pro_02</td>
+                    <td>寒武纪1</td>
+                    <td>spv02</td>
+                    <td>张三</td>
+                    <td>2005-08-07</td>
+                    <td>分配收益</td>
+                    <td>100</td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>lsc_test_pro_02</td>
+                    <td>寒武纪1</td>
+                    <td>spv02</td>
+                    <td>张三</td>
+                    <td>2005-08-10</td>
+                    <td>管理费</td>
+                    <td>3000</td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>lsc_test_pro_02</td>
+                    <td>寒武纪</td>
+                    <td>spv01</td>
+                    <td>李四</td>
+                    <td>2005-08-05</td>
+                    <td>call款</td>
+                    <td>1000</td>
+                </tr>
+                <tr>
+                    <td>11</td>
+                    <td>lsc_test_pro_02</td>
+                    <td>寒武纪</td>
+                    <td>spv02</td>
+                    <td>李四</td>
+                    <td>2005-08-07</td>
+                    <td>分配收益</td>
+                    <td>100</td>
+                </tr>
+                <tr>
+                    <td>12</td>
+                    <td>lsc_test_pro_02</td>
+                    <td>寒武纪</td>
+                    <td>spv02</td>
+                    <td>李四</td>
+                    <td>2005-08-10</td>
+                    <td>管理费</td>
+                    <td>100</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- 前端库在线引用地址：https://www.bootcdn.cn/ -->
+<script src="https://cdn.bootcss.com/jquery/1.9.1/jquery.js"></script>
+<script type="text/javascript">
+    jQuery.fn.rowspan2 = function (colIds) {
+
+        // 遍历table中的所有tr，拿到指定列的td，把处理过的合并信息放到td上面
+        this.each(function () {
+            var $thatTdElement;
+            $("tr", this).each(function (rownum, rowelement) {
+                var $tdElement = $("td:eq("+colIds+")", this);
+                if ($tdElement.length != 0) {
+                    if ($thatTdElement != null && $thatTdElement.html() == $tdElement.html()) {
+                        var rowspan = $thatTdElement.attr("data-rowspan");
+                        if (rowspan == undefined) {
+                            $thatTdElement.attr("data-rowspan", 1);
+                            rowspan = 1;
+                        }
+                        rowspan = Number(rowspan)+1;
+                        // 需要合并的行
+                        $thatTdElement.attr("data-rowspan", rowspan);
+                    } else {
+                        $thatTdElement = $tdElement;
+                        // 当前所在行
+                        $thatTdElement.attr("data-rownum", rownum);
+                    }
+                }
+            });
+        });
+
+        // 统一处理之前算好的需要合并的结果
+        var colId_tds = this.find("tr>td:nth-child("+(colIds+1)+")");
+        var hasDataRowspanTds = this.find("tr>td:nth-child("+(colIds+1)+")[data-rowspan]");
+        hasDataRowspanTds.each(function () {
+            var rownum = $(this).attr("data-rownum") - 1;
+            var rowspan = $(this).attr("data-rowspan") - 0;
+            colId_tds.slice(rownum + 1, rownum + rowspan).hide();
+            $(this).attr("rowspan", rowspan);
+        });
+    }
+
+    $(function() {
+        $("#table2").rowspan2(1);//传入的参数是对应的列数从0开始
+        $("#table2").rowspan2(2);
+    });
+</script>
+
+</body>
+</html>
