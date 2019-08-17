@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>拖拽操作demo2（自己写的）</title>
+    <style type="text/css">
+        body {
+            margin: 0px;
+            padding: 0px;
+        }
+        .containerDiv {
+            width: 98%;
+            margin: 0 auto; /* 设置div在body中居中 */
+            border: 1px solid red;
+            height: 1500px;
+        }
+        .column_1_1 {
+            width: 100%;
+        }
+        .dd-row {
+            border: 1px solid burlywood;
+            margin: 3px;
+            padding: 10px;
+        }
+        /* 进度条样式 */
+        .dd-progress {
+            /*border: 1px solid black;*/
+            background: #c7c1c1;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .dd-progress-bar {
+            /*border: 1px solid red;*/
+            background: #1adc30;
+            text-align: center;
+            color: #fff;
+            float: left; /* 加这个属性的原因：进度条如果是在td内部，td设置成align:center，里面不设置float:left，图形就会受到影响 */
+        }
+    </style>
+</head>
+<body>
+<div class="containerDiv">
+    <div class="dd-row">
+        <div id="div1" class="column_1_1">
+            <div class="dd-progress">
+                <div class="dd-progress-bar" style="width: 20%">20%</div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
