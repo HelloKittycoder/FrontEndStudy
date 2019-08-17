@@ -26,11 +26,16 @@
             padding: 10px;
         }
         /* 进度条样式 */
+        /**
+        为什么进度条样式里没有设置高度，进度条却有高度呢？是不是高度可以不用设置呢？
+        答：高度需要设置，进度条之所以有高度是因为div.dd-progress-bar的文字占了高度
+         */
         .dd-progress {
             /*border: 1px solid black;*/
             background: #c7c1c1;
             border-radius: 10px;
             overflow: hidden;
+            height: 21px;
         }
         .dd-progress-bar {
             /*border: 1px solid red;*/
