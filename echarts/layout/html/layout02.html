@@ -5,8 +5,8 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>常用布局（一列布局）</title>
-    <link rel="stylesheet" type="text/css" href="../../../echarts/css/commonchart.css"/>
+    <title>常用布局（两列布局）</title>
+    <link rel="stylesheet" type="text/css" href="../../css/commonchart.css"/>
     <style type="text/css">
         .containerDiv {
             width: 98%;
@@ -19,10 +19,17 @@
 <div id="chart2" style="width: 700px; height: 400px; float: left;"></div>-->
 <div class="containerDiv">
     <div class="chartContainerDiv">
-        <div class="chart1_1">
+        <div class="chart2_1">
             <div class="light borderd">
                 <div class="chartBody">
                     <div id="chart1" class="chartContent"></div>
+                </div>
+            </div>
+        </div>
+        <div class="chart2_2">
+            <div class="light borderd">
+                <div class="chartBody">
+                    <div id="chart2" class="chartContent"></div>
                 </div>
             </div>
         </div>
@@ -36,6 +43,7 @@
 <script type="text/javascript">
     $(function () {
         ChartOper.queryChart1();
+        ChartOper.queryChart2();
     });
 </script>
 </body>
