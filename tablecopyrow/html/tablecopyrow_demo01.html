@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>table复制行（自己写的）</title>
+    <link rel="stylesheet" type="text/css" href="../css/table.css"/>
+    <style type="text/css">
+        body {
+            margin: 0px;
+            padding: 0px;
+        }
+        .containerDiv {
+            width: 98%;
+            margin: 0 auto; /* 设置div在body中居中 */
+            border: 1px solid red;
+            height: 1500px;
+        }
+        .column_1_1 {
+            width: 100%;
+        }
+        .dd-row {
+            border: 1px solid burlywood;
+            margin: 3px;
+            padding: 10px;
+        }
+        /* 解决div内部元素浮动产生的高度塌陷问题 */
+        .dd-row:after {
+            content: '';
+            clear: both;
+            display: block;
+        }
+        .column_2_1 {
+            width: 50%;
+            float: left;
+        }
+        .column_2_2 {
+            width: 50%;
+            float: left;
+        }
+        .column_2_1 table, .column_2_2 table {
+            margin: auto;
+        }
+        .column_2_1 table>caption, .column_2_2 table>caption {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="containerDiv">
+    <div class="dd-row">
+        <div>添加单行</div>
+        <div id="div1" class="column_2_1">
+            <form id="myForm1" action="#">
+                <table class="result-table" cellpadding="0" cellspacing="0">
+                    <caption>添加按钮在table中</caption>
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>姓名</th>
+                            <th>性别</th>
+                            <th>年龄</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr rowid="copt0" style="display: none;">
+                            <td>0</td>
+                            <td><input type="text" name="sname[-1]"/></td>
+                            <td>
+                                <select name="ssex[-1]">
+                                    <option value="1">男</option>
+                                    <option value="2">女</option>
+                                </select>
+                            </td>
+                            <td><input type="text" name="sage[-1]"/></td>
+                        </tr>
+                        <tr rowid="copt1">
+                            <td>1</td>
+                            <td><input type="text" name="sname[0]"/></td>
+                            <td>
+                                <select name="ssex[0]">
+                                    <option value="1">男</option>
+                                    <option value="2">女</option>
+                                </select>
+                            </td>
+                            <td>
+                                <input type="text" name="sage[0]"/>
+                            </td>
+                        </tr>
+                        <tr rowid="copt2">
+                            <td>2</td>
+                            <td><input type="text" name="sname[1]"/></td>
+                            <td>
+                                <select name="ssex[1]">
+                                    <option value="1">男</option>
+                                    <option value="2">女</option>
+                                </select>
+                            </td>
+                            <td>
+                                <input type="text" name="sage[1]"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                <input class="addBtn" type="button" value="添加"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+        <div id="div2" class="column_2_2">
+            <form id="myForm2" action="#">
+                <input class="addBtn" type="button" value="添加"/>
+                <table class="result-table" cellpadding="0" cellspacing="0">
+                    <caption>添加按钮不在table中</caption>
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>姓名</th>
+                            <th>性别</th>
+                            <th>年龄</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr rowid="copt0" style="display: none;">
+                            <td>0</td>
+                            <td><input type="text" name="sname[-1]"/></td>
+                            <td>
+                                <select name="ssex[-1]">
+                                    <option value="1">男</option>
+                                    <option value="2">女</option>
+                                </select>
+                            </td>
+                            <td><input type="text" name="sage[-1]"/></td>
+                        </tr>
+                        <tr rowid="copt1">
+                            <td>1</td>
+                            <td><input type="text" name="sname[0]"/></td>
+                            <td>
+                                <select name="ssex[0]">
+                                    <option value="1">男</option>
+                                    <option value="2">女</option>
+                                </select>
+                            </td>
+                            <td>
+                                <input type="text" name="sage[0]"/>
+                            </td>
+                        </tr>
+                        <tr rowid="copt2">
+                            <td>2</td>
+                            <td><input type="text" name="sname[1]"/></td>
+                            <td>
+                                <select name="ssex[1]">
+                                    <option value="1">男</option>
+                                    <option value="2">女</option>
+                                </select>
+                            </td>
+                            <td>
+                                <input type="text" name="sage[1]"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+    <div class="dd-row">
+        <div>添加多行</div>
+        <div id="div3" class="column_2_1">
+            <form id="myForm3" action="#">
+                <table class="result-table" cellpadding="0" cellspacing="0">
+                    <caption>添加按钮在table中</caption>
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>指标</th>
+                            <th>index1</th>
+                            <th>index2</th>
+                            <th>index3</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr rowid="copt0" style="display: none;">
+                            <td rowspan="3">0</td>
+                            <td>预测值</td>
+                            <td><input type="text" name="financeBudgetList[-1].valueList[0]"/></td>
+                            <td><input type="text" name="financeBudgetList[-1].valueList[1]"/></td>
+                            <td><input type="text" name="financeBudgetList[-1].valueList[2]"/></td>
+                        </tr>
+                        <tr rowid="copt0" style="display: none;">
+                            <td style="display: none;">0</td>
+                            <td>分析人</td>
+                            <td><input type="text" name="financeBudgetList[-1].personList[0]"/></td>
+                            <td><input type="text" name="financeBudgetList[-1].personList[1]"/></td>
+                            <td><input type="text" name="financeBudgetList[-1].personList[2]"/></td>
+                        </tr>
+                        <tr rowid="copt0" style="display: none;">
+                            <td style="display: none;">0</td>
+                            <td>备注</td>
+                            <td><input type="text" name="financeBudgetList[-1].remarkList[0]"/></td>
+                            <td><input type="text" name="financeBudgetList[-1].remarkList[1]"/></td>
+                            <td><input type="text" name="financeBudgetList[-1].remarkList[2]"/></td>
+                        </tr>
+                        <tr rowid="copt1">
+                            <td rowspan="3">1</td>
+                            <td>预测值</td>
+                            <td><input type="text" name="financeBudgetList[0].valueList[0]"/></td>
+                            <td><input type="text" name="financeBudgetList[0].valueList[1]"/></td>
+                            <td><input type="text" name="financeBudgetList[0].valueList[2]"/></td>
+                        </tr>
+                        <tr rowid="copt1">
+                            <td style="display: none;">1</td>
+                            <td>分析人</td>
+                            <td><input type="text" name="financeBudgetList[0].personList[0]"/></td>
+                            <td><input type="text" name="financeBudgetList[0].personList[1]"/></td>
+                            <td><input type="text" name="financeBudgetList[0].personList[2]"/></td>
+                        </tr>
+                        <tr rowid="copt1">
+                            <td style="display: none;">1</td>
+                            <td>备注</td>
+                            <td><input type="text" name="financeBudgetList[0].remarkList[0]"/></td>
+                            <td><input type="text" name="financeBudgetList[0].remarkList[1]"/></td>
+                            <td><input type="text" name="financeBudgetList[0].remarkList[2]"/></td>
+                        </tr>
+                        <tr>
+                            <td colspan="5">
+                                <input class="addBtn" type="button" value="添加"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+        <div id="div4" class="column_2_2">
+            <form id="myForm4" action="#">
+                <input class="addBtn" type="button" value="添加"/>
+                <table class="result-table" cellpadding="0" cellspacing="0">
+                    <caption>添加按钮不在table中</caption>
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>指标</th>
+                            <th>index1</th>
+                            <th>index2</th>
+                            <th>index3</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr rowid="copt0" style="display: none;">
+                            <td rowspan="3">0</td>
+                            <td>预测值</td>
+                            <td><input type="text" name="financeBudgetList[-1].valueList[0]"/></td>
+                            <td><input type="text" name="financeBudgetList[-1].valueList[1]"/></td>
+                            <td><input type="text" name="financeBudgetList[-1].valueList[2]"/></td>
+                        </tr>
+                        <tr rowid="copt0" style="display: none;">
+                            <td style="display: none;">0</td>
+                            <td>分析人</td>
+                            <td><input type="text" name="financeBudgetList[-1].personList[0]"/></td>
+                            <td><input type="text" name="financeBudgetList[-1].personList[1]"/></td>
+                            <td><input type="text" name="financeBudgetList[-1].personList[2]"/></td>
+                        </tr>
+                        <tr rowid="copt0" style="display: none;">
+                            <td style="display: none;">0</td>
+                            <td>备注</td>
+                            <td><input type="text" name="financeBudgetList[-1].remarkList[0]"/></td>
+                            <td><input type="text" name="financeBudgetList[-1].remarkList[1]"/></td>
+                            <td><input type="text" name="financeBudgetList[-1].remarkList[2]"/></td>
+                        </tr>
+                        <tr rowid="copt1">
+                            <td rowspan="3">1</td>
+                            <td>预测值</td>
+                            <td><input type="text" name="financeBudgetList[0].valueList[0]"/></td>
+                            <td><input type="text" name="financeBudgetList[0].valueList[1]"/></td>
+                            <td><input type="text" name="financeBudgetList[0].valueList[2]"/></td>
+                        </tr>
+                        <tr rowid="copt1">
+                            <td style="display: none;">1</td>
+                            <td>分析人</td>
+                            <td><input type="text" name="financeBudgetList[0].personList[0]"/></td>
+                            <td><input type="text" name="financeBudgetList[0].personList[1]"/></td>
+                            <td><input type="text" name="financeBudgetList[0].personList[2]"/></td>
+                        </tr>
+                        <tr rowid="copt1">
+                            <td style="display: none;">1</td>
+                            <td>备注</td>
+                            <td><input type="text" name="financeBudgetList[0].remarkList[0]"/></td>
+                            <td><input type="text" name="financeBudgetList[0].remarkList[1]"/></td>
+                            <td><input type="text" name="financeBudgetList[0].remarkList[2]"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- 前端库在线引用地址：https://www.bootcdn.cn/ -->
+<script src="https://cdn.bootcss.com/jquery/1.9.1/jquery.js"></script>
+<script type="text/javascript" src="../script/tablecopyrow_demo01.js"></script>
+</body>
+</html>
