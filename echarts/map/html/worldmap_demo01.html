@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>世界地图demo</title>
+    <link rel="stylesheet" type="text/css" href="../../css/commonchart.css"/>
+    <style type="text/css">
+        .containerDiv {
+            width: 98%;
+            margin: 0 auto; /* 设置div在body中居中 */
+        }
+    </style>
+</head>
+<body>
+<div class="containerDiv">
+    <div class="chartContainerDiv">
+        <div class="chart1_1">
+            <div class="light borderd">
+                <div class="chartBody">
+                    <div id="chart1" class="chartContent" style="height: 800px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 前端库在线引用地址：https://www.bootcdn.cn/ -->
+<script src="https://cdn.bootcss.com/jquery/1.9.1/jquery.js"></script>
+<script type="text/javascript" src="../../util/dd-ui.js"></script>
+<script src="https://cdn.bootcss.com/echarts/3.1.10/echarts.js"></script>
+<script type="text/javascript" src="../../lib/world.js"></script>
+<script type="text/javascript" src="../script/worldmap_demo01.js"></script>
+<script type="text/javascript">
+    $(function () {
+        Worldmap_demo01.queryChart1();
+    });
+</script>
+</body>
+</html>
