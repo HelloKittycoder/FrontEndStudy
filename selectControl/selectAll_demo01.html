@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>全选demo1（自己写的）</title>
+    <style type="text/css">
+        body {
+            margin: 0px;
+            padding: 0px;
+        }
+        .containerDiv {
+            width: 98%;
+            margin: 0 auto; /* 设置div在body中居中 */
+            border: 1px solid red;
+            height: 1500px;
+        }
+        .column_1_1 {
+            width: 100%;
+        }
+        table tr th, td {
+            border: 1px solid black;
+            text-align: center;
+        }
+        table {
+            width: 300px;
+            height: 200px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+<div class="containerDiv">
+    <div id="div1" class="column_1_1">
+        <form id="myForm" action="#">
+            <table cellpadding="0" cellspacing="0">
+                <thead>
+                <tr>
+                    <th>选择<input id="checkControl" type="checkbox"/></th>
+                    <th>序号</th>
+                    <th>姓名</th>
+                    <th>年龄</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><input class="checkItem" type="checkbox"/></td>
+                    <td>1</td>
+                    <td>张三</td>
+                    <td>10</td>
+                </tr>
+                <tr>
+                    <td><input class="checkItem" type="checkbox"/></td>
+                    <td>2</td>
+                    <td>李四</td>
+                    <td>20</td>
+                </tr>
+                <tr>
+                    <td><input class="checkItem" type="checkbox"/></td>
+                    <td>3</td>
+                    <td>王五</td>
+                    <td>30</td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+<!-- 前端库在线引用地址：https://www.bootcdn.cn/ -->
+<script src="https://cdn.bootcss.com/jquery/1.9.1/jquery.js"></script>
+<script type="text/javascript">
+    // 这里采用了两种方式来判断是否全选：1.通过没有未选中项；2.选中项=tbody的行数
+    $(function () {
+        $("#checkControl").click(function () {
+            if ($(".checkItem").not(":checked").length > 0) { // 有未选中项
+                $(".checkItem").prop("checked", true);
+            } else { // 已经处于全选状态
+                $(".checkItem").prop("checked", false);
+            }
+        });
+
+        // 这里没有给每一个checkItem绑定事件，而是采用了冒泡形式进行监听
+        // （参考链接：https://www.jb51.net/article/24740.htm 见5.冒泡）
+        $("#myForm").click(function (e) {
+            var $clicked = $(e.target);
+            if ($clicked.hasClass("checkItem")) { // 如果点击了checkItem，判断当前选中项是否已经全都选中
+                if ($(".checkItem:checked").length == getTableRowCount($clicked)) { // 处于全选状态
+                    $("#checkControl").prop("checked", true);
+                } else {
+                    $("#checkControl").prop("checked", false);
+                }
+            }
+
+            // 根据表格内部元素获取该表格tbody的行数
+            function getTableRowCount($ele) {
+                return $ele.closest("table").find("tbody>tr").length;
+            }
+        });
+    });
+</script>
+</body>
+</html>
