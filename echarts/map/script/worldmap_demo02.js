@@ -252,7 +252,7 @@ var Worldmap_demo01 = function () {
                 {name: 'Uganda', value: 33987.213},
                 {name: 'Ukraine', value: 46050.22},
                 {name: 'Uruguay', value: 3371.982},
-                {name: 'United States', value: 312247.116},
+                {name: 'United States of America', value: 312247.116},
                 {name: 'Uzbekistan', value: 27769.27},
                 {name: 'Venezuela', value: 236.299},
                 {name: 'Vietnam', value: 89047.397},
@@ -271,8 +271,7 @@ var Worldmap_demo01 = function () {
         "China",
         "India",
         "France",
-        // 这个地方有点问题
-        /*"United States",*/
+        "United States of America",
         "Australia",
         "Russia",
         "Canada",
@@ -285,7 +284,7 @@ var Worldmap_demo01 = function () {
         'Canada':'加拿大',
         'Russia':'俄罗斯',
         'China':'中国',
-        'United States':'美国',
+        'United States of America':'美国',
         'Singapore Rep.':'新加坡',
         'Dominican Rep.':'多米尼加',
         'Palestine':'巴勒斯坦',
