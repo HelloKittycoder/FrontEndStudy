@@ -53,7 +53,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr rowid="copt0">
+                    <tr rowid="copt0" style="display: none;">
                         <td>0</td>
                         <td><input type="text" name="sname[-1]"/></td>
                         <td>
@@ -113,7 +113,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr rowid="copt0">
+                    <tr rowid="copt0" style="display: none;">
                         <td>0</td>
                         <td><input type="text" name="sname[-1]"/></td>
                         <td>
@@ -213,6 +213,7 @@
         });
 
         $hasRowIdTrs.last().after($tr0_clone);
+        $tr0_clone.show();
     }
 </script>
 </body>
