@@ -18,6 +18,7 @@ var Worldmap_demo01 = function () {
         });
 
         function getOption(seriesData) {
+            // 说明：series中的nameMap属性不要用，有些国家还是位置偏移了
             return {
                 title: {
                     text : '项目情况分布图',
@@ -269,6 +270,7 @@ var Worldmap_demo01 = function () {
     // 需要显示名称的国家
     var needShowCountry = [
         "China",
+        "United Kingdom",
         "India",
         "France",
         "United States of America",
@@ -344,7 +346,7 @@ var Worldmap_demo01 = function () {
         'Estonia':'爱沙尼亚',
         'Ethiopia':'埃塞俄比亚',
         'Finland':'芬兰',
-        'Fiji':'斐',
+        'Fiji':'斐济',
         'Falkland Islands':'福克兰群岛',
         'France':'法国',
         'Gabon':'加蓬',
