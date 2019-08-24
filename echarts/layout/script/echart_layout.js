@@ -1,8 +1,8 @@
 /* echarts图操作工具方法 */
-var ChartOper = function () {
+var EchartLayoutDemo = function () {
 
     var queryChart1 = function () {
-        loadChartBase('#chart1', function (callback) {
+        $.ddchart.loadChartBase('#chart1', function (callback) {
             /*$.post(chartAjaxDataUrl,{
                 "chartDataType":"test1"
             }, function (responseText) {
@@ -59,7 +59,7 @@ var ChartOper = function () {
     }
 
     var queryChart2 = function () {
-        loadChartBase('#chart2', function (callback) {
+        $.ddchart.loadChartBase('#chart2', function (callback) {
             /*$.post(chartAjaxDataUrl,{
                 "chartDataType":"test1"
             }, function (responseText) {
@@ -116,7 +116,7 @@ var ChartOper = function () {
     }
 
     var queryChart3 = function () {
-        loadChartBase('#chart3', function (callback) {
+        $.ddchart.loadChartBase('#chart3', function (callback) {
             /*$.post(chartAjaxDataUrl,{
                 "chartDataType":"test1"
             }, function (responseText) {
@@ -248,34 +248,6 @@ var ChartOper = function () {
                 }],
             legendData : ["小组1", "小组2", "小组3", "小组4", "小组5"]
         };
-    }
-
-    // 加载图形报表base方法
-    var loadChartBase = function(selector, getDataFunc) {
-        $(selector).each(function () {
-            applyElement(this);
-        });
-
-        // 将图应用到页面元素上
-        function applyElement(domElement) {
-            var myChart = echarts.init(domElement);
-            myChart.showLoading({
-                text: "图表数据正在努力加载...",
-                x: "center",
-                y: "center",
-                textStyle: {
-                    color: "red",
-                    fontSize: 14
-                },
-                effect: "spin"
-            });
-
-            // 调用请求json数据的方法
-            getDataFunc(function (option) {
-                myChart.setOption(option);
-                myChart.hideLoading();
-            });
-        }
     }
 
     return {
