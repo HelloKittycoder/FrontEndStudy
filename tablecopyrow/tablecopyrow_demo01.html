@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>table复制行（自己写的）</title>
+    <link rel="stylesheet" type="text/css" href="css/table.css"/>
+    <style type="text/css">
+        body {
+            margin: 0px;
+            padding: 0px;
+        }
+        .containerDiv {
+            width: 98%;
+            margin: 0 auto; /* 设置div在body中居中 */
+            border: 1px solid red;
+            height: 1500px;
+        }
+        .column_1_1 {
+            width: 100%;
+        }
+        .column_2_1 {
+            width: 50%;
+            float: left;
+        }
+        .column_2_2 {
+            width: 50%;
+            float: left;
+        }
+        .column_2_1 table, .column_2_2 table {
+            margin: auto;
+        }
+        .column_2_1 table>caption, .column_2_2 table>caption {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="containerDiv">
+    <div id="div1" class="column_2_1">
+        <form id="myForm1" action="#">
+            <table class="result-table" cellpadding="0" cellspacing="0">
+                <caption>添加按钮在table中</caption>
+                <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>姓名</th>
+                        <th>性别</th>
+                        <th>年龄</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr rowid="copt0">
+                        <td>0</td>
+                        <td><input type="text" name="sname[-1]"/></td>
+                        <td>
+                            <select name="ssex[-1]">
+                                <option value="1">男</option>
+                                <option value="2">女</option>
+                            </select>
+                        </td>
+                        <td><input type="text" name="sage[-1]"/></td>
+                    </tr>
+                    <tr rowid="copt1">
+                        <td>1</td>
+                        <td><input type="text" name="sname[0]"/></td>
+                        <td>
+                            <select name="ssex[0]">
+                                <option value="1">男</option>
+                                <option value="2">女</option>
+                            </select>
+                        </td>
+                        <td>
+                            <input type="text" name="sage[0]"/>
+                        </td>
+                    </tr>
+                    <tr rowid="copt2">
+                        <td>2</td>
+                        <td><input type="text" name="sname[1]"/></td>
+                        <td>
+                            <select name="ssex[1]">
+                                <option value="1">男</option>
+                                <option value="2">女</option>
+                            </select>
+                        </td>
+                        <td>
+                            <input type="text" name="sage[1]"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <input class="addBtn" type="button" value="添加"/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <div id="div2" class="column_2_2">
+        <form id="myForm2" action="#">
+            <input class="addBtn" type="button" value="添加"/>
+            <table class="result-table" cellpadding="0" cellspacing="0">
+                <caption>添加按钮不在table中</caption>
+                <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>姓名</th>
+                        <th>性别</th>
+                        <th>年龄</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr rowid="copt0">
+                        <td>0</td>
+                        <td><input type="text" name="sname[-1]"/></td>
+                        <td>
+                            <select name="ssex[-1]">
+                                <option value="1">男</option>
+                                <option value="2">女</option>
+                            </select>
+                        </td>
+                        <td><input type="text" name="sage[-1]"/></td>
+                    </tr>
+                    <tr rowid="copt1">
+                        <td>1</td>
+                        <td><input type="text" name="sname[0]"/></td>
+                        <td>
+                            <select name="ssex[0]">
+                                <option value="1">男</option>
+                                <option value="2">女</option>
+                            </select>
+                        </td>
+                        <td>
+                            <input type="text" name="sage[0]"/>
+                        </td>
+                    </tr>
+                    <tr rowid="copt2">
+                        <td>2</td>
+                        <td><input type="text" name="sname[1]"/></td>
+                        <td>
+                            <select name="ssex[1]">
+                                <option value="1">男</option>
+                                <option value="2">女</option>
+                            </select>
+                        </td>
+                        <td>
+                            <input type="text" name="sage[1]"/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+<!-- 前端库在线引用地址：https://www.bootcdn.cn/ -->
+<script src="https://cdn.bootcss.com/jquery/1.9.1/jquery.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#div1 .addBtn").click(function () {
+            addRow.call(this); // 这个this代表添加按钮（原生jsdom对象）
+            // 写成下面这种的话，addRow里的this就是window对象了；解决方法：如果addRow里可以不用this的话，就把当前按钮作为一个参数传进去
+            // addRow(); // 全都采用默认值
+        });
+        // 说明：不能写成，因为这种写法jquery默认会传一个Event对象，也就是trId接到的就是Event对象
+        // $(".containerDiv .addBtn").click(addRow);
+        // 如果addRow没有参数，这样写没有问题
+
+        $("#div2 .addBtn").click(function () {
+            addRow.call(this, $("#div2 table"));
+        });
+    });
+
+    // 添加行
+    function addRow($table, trId, sequenceColNum) {
+        trId = trId ? trId : "copt";
+        sequenceColNum = sequenceColNum ? sequenceColNum : 0;
+
+        var $addBtn = $(this);
+        $table = $table ? $table : $addBtn.closest("table");
+
+        var rowIdArr = [];
+        var $hasRowIdTrs = $table.find("tbody>tr[rowid]");
+        $hasRowIdTrs.each(function () {
+            rowIdArr.push($(this).attr("rowid").replace(trId, ""));
+        });
+        var maxtrnum = Math.max.apply(null, rowIdArr); // 获取当前最大的行数
+
+        // 复制模板
+        var $tr0_clone = $table.find("tbody>tr[rowid='"+trId+"0']").clone(true);
+        // 新行数
+        var newRowCount = maxtrnum + 1;
+
+        // 设置rowid
+        $tr0_clone.attr("rowid", trId + newRowCount);
+
+        // 设置序号列
+        $tr0_clone.find("td:eq("+sequenceColNum+")").html(newRowCount);
+
+        // 设置input（使用“:input”过滤tr中所有能够提交到后台的表单元素）要提交到后台的name
+        $tr0_clone.find(":input").each(function () {
+            var formElement = this;
+            var cellid = formElement.id;
+            if (cellid && cellid.indexOf("-1") > -1) {
+                formElement.id = cellid.replace("-1", newRowCount - 1);
+            }
+            var cellname = formElement.name;
+            if (cellname && cellname.indexOf("[-1]") > -1) {
+                formElement.name = cellname.replace('[-1]', '[' + (newRowCount - 1) + ']');
+            }
+        });
+
+        $hasRowIdTrs.last().after($tr0_clone);
+    }
+</script>
+</body>
+</html>
