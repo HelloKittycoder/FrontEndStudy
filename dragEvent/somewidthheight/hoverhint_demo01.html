@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>鼠标悬浮提示demo01</title>
+    <link rel="stylesheet" type="text/css" href="css/hoverhint_demo.css"/>
+</head>
+<body style="height: 2000px;">
+<div id="hiddenDiv">
+    <div id="remarkContent" style="display:none;" >
+        <ol>
+            <li>直接或间接拥有超过公司25%股权或者表决权的自然人</li>
+            <li>通过人事、财务、投资、协议等其他方式对公司进行控制的自然人</li>
+            <li>执行董事、监事和其他高级管理人员</li>
+            <li>主要人士包含：自然人客户信息可通过企业信用信息公示系统或客户提供的身份证件信息获得。</li>
+        </ol>
+    </div>
+    <div id="content_1" style="display: none;">测试显示内容content_1</div>
+    <div id="content_2" style="display: none;">测试显示内容content_2</div>
+</div>
+<div class="containerDiv">
+    <table class="form-table">
+        <caption>表格1</caption>
+        <tr>
+            <td>A r1c1<img src="images/remark.gif" class="remarkImg" target="remarkContent"/></td>
+            <td><input type="text"/></td>
+            <td>A r1c2</td>
+            <td><input type="text"/><img src="images/remark.gif" class="remarkImg" target="remarkContent"/></td>
+        </tr>
+        <tr>
+            <td>A r2c1</td>
+            <td><input type="text"/></td>
+            <td>A r2c2</td>
+            <td><input type="text"/><img src="images/remark.gif" class="remarkImg" target="remarkContent"/></td>
+        </tr>
+        <tr>
+            <td>A r3c1</td>
+            <td><input type="text"/></td>
+            <td>A r3c2</td>
+            <td><input type="text"/></td>
+        </tr>
+    </table>
+    <table class="form-table">
+        <caption>表格2</caption>
+        <tr>
+            <td>B r1c1</td>
+            <td><input type="text"/><img src="images/remark.gif" class="remarkImg" target="content_1"/></td>
+            <td>B r1c2</td>
+            <td><input type="text"/></td>
+        </tr>
+        <tr>
+            <td>B r2c1</td>
+            <td><input type="text"/></td>
+            <td>B r2c2<img src="images/remark.gif" class="remarkImg" target="content_2"/></td>
+            <td><input type="text"/></td>
+        </tr>
+        <tr>
+            <td>B r3c1</td>
+            <td><input type="text"/></td>
+            <td>B r3c2</td>
+            <td><input type="text"/></td>
+        </tr>
+    </table>
+</div>
+<!-- 前端库在线引用地址：https://www.bootcdn.cn/ -->
+<script src="https://cdn.bootcss.com/jquery/1.9.1/jquery.js"></script>
+<script type="text/javascript" src="script/hoverhint_demo01.js"></script>
+</body>
+</html>

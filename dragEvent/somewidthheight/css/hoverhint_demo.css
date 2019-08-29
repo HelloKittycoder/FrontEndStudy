@@ -1,0 +1,46 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-size: 13px;
+}
+img {
+    cursor: pointer;
+}
+table {
+    height: 300px;
+    width: 800px;
+    margin: 0 auto;
+}
+.containerDiv {
+    margin-top: 10px;
+}
+.form-table {
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    border-collapse: collapse;
+}
+.form-table tr {
+    padding: 5px;
+    height: 12px;
+    line-height: 12px;
+    border-top: 1px dashed #ccc;
+}
+.form-table td {
+    padding: 5px;
+    height: 12px;
+    line-height: 12px;
+    border-top: 1px dashed #ccc;
+}
+.myTitle {
+    position: absolute;
+    left: 0;
+    top: 0;
+    background:rgba(240, 240, 245,0.9);
+    border:1px solid #80bfff;
+    color: #ff1a1a;
+}
+.myTitle ol {
+    margin-left: 25px;
+}
