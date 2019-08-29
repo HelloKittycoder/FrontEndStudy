@@ -20,7 +20,7 @@
             return;
         }
         var target = $(obj).attr("target");
-        鼠标在可见区的坐标
+        // 鼠标在可见区的坐标
         var x = e.clientX;
         var y = e.clientY;
         var $body = $("body").eq(0);
