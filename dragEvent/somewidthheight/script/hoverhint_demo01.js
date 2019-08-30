@@ -36,7 +36,7 @@
         if (navigator.userAgent.indexOf("MSIE") != -1) {
             // 获取ie浏览器下的可见高度（参考链接：https://www.cnblogs.com/Joans/archive/2011/10/28/2227919.html）
             bh = document.documentElement.offsetHeight;
-            bw = document.documentElement.offsetHeight;
+            bw = document.documentElement.offsetWidth;
         } else {
             bh = document.body.clientHeight;
             bw = document.body.clientWidth;
