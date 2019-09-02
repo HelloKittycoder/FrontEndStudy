@@ -47,20 +47,25 @@
                 /*$.getJSON($.ddpage.getUrl("echarts/lib/theme/macarons.json"), function (responseText) {
                     echarts.registerTheme("macarons", responseText);
                 });*/
-                $.ajax({
-                    url : $.ddpage.getUrl("echarts/lib/theme/macarons.json"),
-                    async : false,
-                    success : function (responseText) {
-                        echarts.registerTheme("macarons", responseText);
-                    }
-                });
-                $.ajax({
-                    url : $.ddpage.getUrl("echarts/lib/theme/selfdef01.json"),
-                    async : false,
-                    success : function (responseText) {
-                        echarts.registerTheme("selfdef01", responseText);
-                    }
-                });
+                $.ddchart.registerThemes(["macarons", "selfdef01"]);
+            },
+            // 注册多个echarts主题
+            registerThemes : function(obj) {
+                if ($.ddcommon.isArray(obj)) {
+                    var themePath = "echarts/lib/theme/";
+                    // 注册多个主题
+                    $.each(obj, function () {
+                        var themeName = this;
+                        $.ajax({
+                            url : $.ddpage.getUrl(themePath + themeName + ".json"),
+                            async : false,
+                            data : "json",
+                            success : function (responseText) {
+                                echarts.registerTheme(themeName + "", responseText);
+                            }
+                        });
+                    });
+                }
             },
             loadChartBase : function (selector, getDataFunc, theme) {
                 $(selector).each(function () {
