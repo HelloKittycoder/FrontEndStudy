@@ -3,6 +3,12 @@
  */
 !function ($) {
     $.extend({
+        ddcommon : {
+            // 判断是否为数组（https://www.cnblogs.com/ysk123/p/9995920.html）
+            isArray : function(o) {
+                return Object.prototype.toString.call(o) == '[object Array]';
+            }
+        },
         ddpage : {
             // 根据类型查找给定对象中对应的类型字符串（模拟Map）
             /*
