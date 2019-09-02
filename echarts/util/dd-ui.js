@@ -26,17 +26,37 @@
                 }
                 return "";
             },
+            getUrl : function (url) {
+                var projectRootName = "/FrontEndStudy";
+                return projectRootName + (url.startsWith("/") ? url : "/" + url);
+            }
         },
         // echarts图操作工具方法
         ddchart : {
-            loadChartBase : function (selector, getDataFunc) {
+            // 初始化多套echarts主题，然后随时可以调用
+            // https://www.oschina.net/question/2518638_2160208
+            // https://www.jianshu.com/p/68686eacbfec
+            initEchart : function() {
+                // $.getJSON没有办法控制是否使用异步
+                /*$.getJSON($.ddpage.getUrl("echarts/lib/theme/macarons.json"), function (responseText) {
+                    echarts.registerTheme("macarons", responseText);
+                });*/
+                $.ajax({
+                    url : $.ddpage.getUrl("echarts/lib/theme/macarons.json"),
+                    async : false,
+                    success : function (responseText) {
+                        echarts.registerTheme("macarons", responseText);
+                    }
+                });
+            },
+            loadChartBase : function (selector, getDataFunc, theme) {
                 $(selector).each(function () {
-                    applyElement(this);
+                    applyElement(this, theme);
                 });
 
                 // 将图应用到页面元素上
-                function applyElement(domElement) {
-                    var myChart = echarts.init(domElement);
+                function applyElement(domElement, theme) {
+                    var myChart = echarts.init(domElement, theme);
                     myChart.showLoading({
                         text: "图表数据正在努力加载...",
                         x: "center",

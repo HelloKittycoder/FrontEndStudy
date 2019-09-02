@@ -71,7 +71,7 @@ var EchartLayoutDemo = function () {
             var responseText = getChartData2();
             var option = getOption(responseText.seriesData, responseText.legendData);
             callback(option);
-        });
+        }, "macarons");
 
         function getOption(seriesData, legendData) {
             return {
@@ -128,7 +128,7 @@ var EchartLayoutDemo = function () {
             var responseText = getChartData3();
             var option = getOption(responseText.seriesData, responseText.legendData);
             callback(option);
-        });
+        }, "macarons");
 
         function getOption(seriesData, legendData) {
             return {
@@ -262,3 +262,7 @@ var EchartLayoutDemo = function () {
         }
     }
 }();
+
+$(function () {
+    $.ddchart.initEchart();
+});
