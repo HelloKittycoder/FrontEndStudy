@@ -48,6 +48,13 @@
                         echarts.registerTheme("macarons", responseText);
                     }
                 });
+                $.ajax({
+                    url : $.ddpage.getUrl("echarts/lib/theme/selfdef01.json"),
+                    async : false,
+                    success : function (responseText) {
+                        echarts.registerTheme("selfdef01", responseText);
+                    }
+                });
             },
             loadChartBase : function (selector, getDataFunc, theme) {
                 $(selector).each(function () {

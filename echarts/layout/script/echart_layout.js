@@ -71,7 +71,7 @@ var EchartLayoutDemo = function () {
             var responseText = getChartData2();
             var option = getOption(responseText.seriesData, responseText.legendData);
             callback(option);
-        }, "macarons");
+        }, "selfdef01");
 
         function getOption(seriesData, legendData) {
             return {
