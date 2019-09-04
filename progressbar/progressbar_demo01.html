@@ -89,7 +89,8 @@
         // https://blog.csdn.net/shadow_yi_0416/article/details/89180644
         // http://106.15.38.76:8080/btdemo4/theme/admin_1/components_ion_sliders.html
         // https://segmentfault.com/a/1190000015313127（解决快速拖动元素跟不上的问题）
-        $("#pointer1").mousedown(function (event) {
+        // 方法一：
+        /*$("#pointer1").mousedown(function (event) {
             var dleft = $(this).offset().left; // 相对html文档的位置left
             var rleft = $(this).position().left; // 相对div.pointer_container的位置left
             var _x = event.clientX - dleft;
@@ -99,6 +100,16 @@
                 var _xx = newDleft - dleft;
                 // this.style.left = rleft + _xx + "px";
                 $("#pointer1").css("left", rleft + _xx + "px");
+                return false;
+            });
+            return false;
+        });*/
+
+        // 方法二：（根据pointer的css样式特点可知，当前left=鼠标位置-初始left）
+        var dleft = $("#pointer1").offset().left; // 相对html文档的位置left
+        $("#pointer1").mousedown(function (event) {
+            $(document).mousemove(function (event) {
+                $("#pointer1").css("left", event.clientX - dleft + "px");
                 return false;
             });
             return false;
