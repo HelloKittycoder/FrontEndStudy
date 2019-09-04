@@ -85,28 +85,26 @@
         $("#displayer").html("top："+$("#pointer1").offset().top
             +"，left："+$("#pointer1").offset().left);
 
-        // 声明变量，用于计算鼠标按下位置到div位置长度距离
-        var disX = 0;
-        var pointerDiv = $("#pointer1");
-        var permitDrag = false;
-
         // 参考链接：https://www.cnblogs.com/ytraister/p/10982247.html
         // https://blog.csdn.net/shadow_yi_0416/article/details/89180644
         // http://106.15.38.76:8080/btdemo4/theme/admin_1/components_ion_sliders.html
         $("#pointer1").mousedown(function (event) {
-            // disX = event.clientX - pointerDiv.offset().left;
-            permitDrag = true;
-            // disY = event.pageY - pointerDiv.offset().top;
+            var dleft = $(this).offset().left; // 相对html文档的位置left
+            var rleft = $(this).position().left; // 相对div.pointer_container的位置left
+            var _x = event.clientX - dleft;
 
-            $(document).mousemove(function (e) {
-                if (permitDrag) {
-                    pointerDiv.css({"left": e.offsetX - disX + 'px'});
-                }
+            $("#pointer1").mousemove(function (event) {
+                var newDleft = event.clientX - _x; // 移动后，相对html文档的位置left
+                var _xx = newDleft - dleft;
+                this.style.left = rleft + _xx + "px";
+                return false;
             });
+            return false;
         });
 
-        $("#pointer1").mouseup(function (event) {
-            permitDrag = false;
+        $("#pointer1").mouseup(function () {
+            $(this).unbind("mousemove");
+            return false;
         });
     });
 </script>
