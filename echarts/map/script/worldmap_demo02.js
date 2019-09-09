@@ -1,5 +1,5 @@
 // echarts3.x API 参考链接：https://echarts.baidu.com/option3.html#series-map.label.normal.formatter
-var Worldmap_demo01 = function () {
+var Worldmap_demo02 = function () {
 
     var queryChart1 = function () {
 
