@@ -204,22 +204,22 @@ var EchartLayoutDemo = function () {
                 name : "团队1",
                 value : 20
             },
-                {
-                    name : "团队2",
-                    value : 30
-                },
-                {
-                    name : "团队3",
-                    value : 10
-                },
-                {
-                    name : "团队4",
-                    value : 50
-                },
-                {
-                    name : "团队5",
-                    value : 40
-                }],
+            {
+                name : "团队2",
+                value : 30
+            },
+            {
+                name : "团队3",
+                value : 10
+            },
+            {
+                name : "团队4",
+                value : 50
+            },
+            {
+                name : "团队5",
+                value : 40
+            }],
             legendData : ["团队1", "团队2", "团队3", "团队4", "团队5"]
         };
     }
@@ -230,22 +230,22 @@ var EchartLayoutDemo = function () {
                 name : "小组1",
                 value : 50
             },
-                {
-                    name : "小组2",
-                    value : 40
-                },
-                {
-                    name : "小组3",
-                    value : 20
-                },
-                {
-                    name : "小组4",
-                    value : 10
-                },
-                {
-                    name : "小组5",
-                    value : 30
-                }],
+            {
+                name : "小组2",
+                value : 40
+            },
+            {
+                name : "小组3",
+                value : 20
+            },
+            {
+                name : "小组4",
+                value : 10
+            },
+            {
+                name : "小组5",
+                value : 30
+            }],
             legendData : ["小组1", "小组2", "小组3", "小组4", "小组5"]
         };
     }
