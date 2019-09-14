@@ -1,4 +1,3 @@
-/* echarts图操作工具方法 */
 var BarDemo = function () {
 
     var pageEchartsElements = new MyArray({
