@@ -69,7 +69,7 @@
             },
             loadChartBase : function (selector, getDataFunc, theme) {
                 $(selector).each(function () {
-                    applyElement(this, theme);
+                    applyElement(this, theme)
                 });
 
                 // 将图应用到页面元素上
@@ -90,6 +90,7 @@
                     getDataFunc(function (option) {
                         myChart.setOption(option);
                         myChart.hideLoading();
+                        return myChart;
                     });
                 }
             }

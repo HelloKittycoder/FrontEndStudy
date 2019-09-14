@@ -1,6 +1,8 @@
 /* echarts图操作工具方法 */
 var BarDemo = function () {
 
+    var pageEchartsElements = [];
+
     var queryChart1 = function () {
         $.ddchart.loadChartBase('#chart1', function (callback) {
             /*$.post(chartAjaxDataUrl,{
@@ -13,7 +15,7 @@ var BarDemo = function () {
             });*/
             var responseText = getChartData1();
             var option = getOption(responseText.axisData, responseText.seriesData, responseText.legendData);
-            callback(option);
+            pageEchartsElements.push(callback(option));
         });
 
         function getOption(axisData, seriesData, legendData) {
@@ -72,7 +74,7 @@ var BarDemo = function () {
         $.ddchart.loadChartBase('#chart2', function (callback) {
             var responseText = getChartData2();
             var option = getOption(responseText.axisData, responseText.seriesData, responseText.legendData);
-            callback(option);
+            pageEchartsElements.push(callback(option));
         });
 
         function getOption(axisData, seriesData, legendData) {
@@ -187,6 +189,9 @@ var BarDemo = function () {
         },
         queryChart2 : function () {
             queryChart2();
+        },
+        getPageEchartsElements : function () {
+            return pageEchartsElements;
         }
     }
 }();

@@ -21,6 +21,7 @@
     </style>
 </head>
 <body>
+<input id="copyPic2" type="button" value="复制图2"/>
 <!--<div id="chart1" style="width: 700px; height: 400px; float: left;"></div>
 <div id="chart2" style="width: 700px; height: 400px; float: left;"></div>-->
 <div class="containerDiv">
@@ -51,6 +52,9 @@
     $(function () {
         BarDemo.queryChart1();
         BarDemo.queryChart2();
+        $("#copyPic2").click(function () {
+            $("body").append($("<img/>", {src:BarDemo.getPageEchartsElements()[1].getDataURL()}));
+        });
     });
 </script>
 </body>
