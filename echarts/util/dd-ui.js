@@ -90,6 +90,10 @@
                     getDataFunc(function (option) {
                         myChart.setOption(option);
                         myChart.hideLoading();
+                        // 也可以在这里将所有的echarts绑定和window的resize事件绑定
+                        // $(window).resize(myChart.resize);
+                        // 如果不需要全局性的操作，不建议这样写；
+                        // 可以写成bar_demo.js中MyArray的方式，需要的时候就进行绑定
                         return myChart;
                     });
                 }
@@ -97,3 +101,38 @@
         }
     });
 }(jQuery);
+
+/**
+ * 自定义数组
+ * @param option 选项
+ * @constructor
+ *
+ * 使用示例：
+     var a = new MyArray({
+            push : function() {
+                console.log("添加一个元素：" + this);
+            }
+        });
+     a.push("111");
+     a.push("测试数据");
+     a.getArr();
+ *
+ * 如何监听数组的添加操作，或者说监听数组的变动？
+ * 参考链接：
+ * https://www.cnblogs.com/yayaxuping/p/9925675.html
+ * https://blog.csdn.net/lookbackward/article/details/78365737
+ * http://www.51xuediannao.com/javascript/javascriptjtszbh_1258.html
+ */
+function MyArray(option) {
+    this.arr = [];
+    // 每次创建好一个MyArray实例，只要向这个数组中添加元素，就会调用已经绑定的push方法的回调函数
+    this.push = function (ele) {
+        this.arr.push(ele);
+        option ? option["push"].call(ele) : "";
+    };
+}
+
+// prototype的方法不是在某个具体的实例上，而是在这一类的对象上（比如：MyArray）
+MyArray.prototype.getArr = function () {
+    return this.arr;
+}

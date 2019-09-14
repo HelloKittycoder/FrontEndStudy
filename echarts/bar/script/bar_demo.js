@@ -1,7 +1,19 @@
 /* echarts图操作工具方法 */
 var BarDemo = function () {
 
-    var pageEchartsElements = [];
+    var pageEchartsElements = new MyArray({
+        push : function () {
+            // 如何给绑定事件传入数据？
+            // 参考链接：https://zhidao.baidu.com/question/396453758295149125.html
+            // http://jquery.cuishifeng.cn/resize.html
+
+            // console.log("添加了一个元素" + this);
+            // resize里传的this和上面打印的this是一样的，都是在调用push方法时添加的echarts元素
+            $(window).resize(this, function (d) {
+                d.data.resize();
+            });
+        }
+    });
 
     var queryChart1 = function () {
         $.ddchart.loadChartBase('#chart1', function (callback) {
