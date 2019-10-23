@@ -35,6 +35,31 @@
             getUrl : function (url) {
                 var projectRootName = "/FrontEndStudy";
                 return projectRootName + (url.startsWith("/") ? url : "/" + url);
+            },
+            /**
+             * 获取url中的指定参数
+             * 使用：
+             * 例如页面网址为： http://localhost:8080/FrontStudy/bar_demo01.html?myparam=111&chart.type=bar
+             * $.ddpage.getUrlParamByName("myparam"); // 111
+             * $.ddpage.getUrlParamByName("chart.type"); // bar
+             * @param paramName
+             */
+            getUrlParamByName : function (paramName) {
+                // 获取url参数
+                return $.ddpage.getUrlParams()[paramName];
+            },
+            // 获取url中的全部参数
+            getUrlParams : function () {
+                var url = location.search;
+                var _params = {};
+                if (url.indexOf("?") != -1) {
+                    var str = url.substr(1);
+                    var strs = str.split("&");
+                    for (var i = 0; i < strs.length; i++) {
+                        _params[strs[i].split("=")[0]] = strs[i].split("=")[1];
+                    }
+                }
+                return _params;
             }
         },
         // echarts图操作工具方法
