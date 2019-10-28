@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>测试选择item</title>
+    <style type="text/css">
+        #infoTable {
+            width: 98%;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <form action="#">
+        <input id="studentId" type="hidden" name="student.id"/>
+        <table id="infoTable">
+            <tr>
+                <td style="width: 15%; text-align: right;">
+                    学生：
+                </td>
+                <td style="width: 35%; text-align: left;">
+                    <select id="studentSelect" style="width: 140px;height: 60px;" size="6"></select>
+                    <input type="button" value="添加"/>
+                    <input type="button" value="删除"/>
+                </td>
+                <td style="width: 15%; text-align: right;"></td>
+                <td style="width: 35%; text-align: left;"></td>
+            </tr>
+        </table>
+    </form>
+</body>
+<!-- 前端库在线引用地址：https://www.bootcdn.cn/ -->
+<script src="https://cdn.bootcss.com/jquery/1.9.1/jquery.js"></script>
+<script type="text/javascript" src="../common/script/dd-ui.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#studentSelect~[type='button']").filter("[value='添加']").click(function () {
+            window.open('smallpage/student_list.html', '', 'width=400px,height=400px');
+        });
+        $("#studentSelect~[type='button']").filter("[value='删除']").click(function () {
+            $.ddpage.removeSelectedItem('#studentSelect','#studentId');
+        });
+    });
+</script>
+</html>

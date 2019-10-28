@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>学生列表</title>
+    <style type="text/css">
+        #studentTable {
+            margin: 0 auto;
+            border-collapse: collapse;
+        }
+        #studentTable th, #studentTable td {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <table id="studentTable">
+        <caption align="top">学生列表</caption>
+        <thead>
+            <tr>
+                <th></th>
+                <th>序号</th>
+                <th>姓名</th>
+                <th>性别</th>
+                <th>年龄</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><input type="checkbox" name="student.id" sname="张三" value="101"/></td>
+                <td>1</td>
+                <td>张三</td>
+                <td>男</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td><input type="checkbox" name="student.id" sname="李四" value="102"/></td>
+                <td>2</td>
+                <td>李四</td>
+                <td>男</td>
+                <td>20</td>
+            </tr>
+            <tr>
+                <td><input type="checkbox" name="student.id" sname="王五" value="103"/></td>
+                <td>3</td>
+                <td>王五</td>
+                <td>男</td>
+                <td>30</td>
+            </tr>
+            <tr>
+                <td><input type="checkbox" name="student.id" sname="小红" value="104"/></td>
+                <td>4</td>
+                <td>小红</td>
+                <td>女</td>
+                <td>25</td>
+            </tr>
+        </tbody>
+    </table>
+    <div>
+        <input type="button" value="确定" onclick="selectItem();"/>
+    </div>
+</body>
+<!-- 前端库在线引用地址：https://www.bootcdn.cn/ -->
+<script src="https://cdn.bootcss.com/jquery/1.9.1/jquery.js"></script>
+<script type="text/javascript" src="../../common/script/dd-ui.js"></script>
+<script type="text/javascript">
+    function selectItem() {
+        var selectIds = [];
+        var selectNames = [];
+        // 获取所有选中的id和names
+        $("#studentTable").find("input[type='checkbox']:checked").each(function () {
+            selectIds.push($(this).val());
+            selectNames.push($(this).attr("sname"));
+        });
+
+        if (selectIds.length == 0) {
+            alert('请选择一个学生。');
+            return;
+        }
+        // 回写数据
+        $.ddpage.writeBackItemDataInSelect(selectIds, selectNames, "#studentId", "#studentSelect");
+        window.close();
+    }
+</script>
+</html>

@@ -83,6 +83,63 @@
                 var projectRootName = "/FrontEndStudy";
                 return projectRootName + (url.startsWith("/") ? url : "/" + url);
             },
+            // 移除多行select中的选中项
+            removeSelectedItem : function (s_selector, ids_selector, notRemoveLastComma) {
+                // 获取选中项
+                var $selectedOption = $(s_selector).find("option:selected");
+                if ($selectedOption.length != 0) {
+                    var optionVal = $(s_selector).val();
+
+                    // 需要进行比对的id隐藏域
+                    var $idsInput = $(ids_selector);
+                    var idsVal = $idsInput.val();
+
+                    var newIdsVal = $.ddcommon.removeStrInCommaStr(idsVal, optionVal, notRemoveLastComma);
+                    $(ids_selector).val(newIdsVal);
+                    $selectedOption.remove();
+                }
+            },
+            /**
+             * 选择页面进行数据回写，写到select里
+             * @param selectedIds 选中项对应的ids
+             * @param selectedNames 选中项对应的names
+             * @param openerId opener的id部分的选择器
+             * @param openerSelect opener的select部分的选择器
+             */
+            writeBackItemDataInSelect : function (selectedIds, selectedNames, openerId, openerSelect) {
+                // 和opener页面对比，有哪些是opener里没有的，如果是没有的，就加上
+                var $openerSelect = window.opener.$(openerSelect);
+                var optionHtml = "";
+                var appendIds = "";
+                for (var i = 0; i < selectedIds.length; i++) {
+                    var existed = false;
+                    $("option", $openerSelect).each(function () {
+                        if ($(this).val() === selectedIds[i]) {
+                            existed = true;
+                            return false; // 如果找到有重复的，立即退出循环
+                        }
+                    });
+                    if (!existed) {
+                        optionHtml += "<option value='" + selectedIds[i] + "'>" + selectedNames[i] + "</option>";
+                        appendIds += selectedIds[i] + ",";
+                    }
+                }
+
+                if (appendIds) { // 如果需要追加
+                    $openerSelect.append(optionHtml);
+
+                    var $openerId = window.opener.$(openerId);
+                    var openerIdVal = $openerId.val(); // 获取页面原有的ids
+                    if (openerIdVal) { // 原有ids非空
+                        openerIdVal.endsWith(",") ?
+                            $openerId.val(openerIdVal + appendIds) :
+                            // 原来如果末尾不带逗号，则拼上去的结果还是末尾不带逗号
+                            $openerId.val(openerIdVal + "," + $.ddcommon.removeLastComma(appendIds));
+                    } else { // 原有ids为空
+                        $openerId.val($.ddcommon.removeLastComma(appendIds));
+                    }
+                }
+            },
             /**
              * 获取url中的指定参数
              * 使用：
