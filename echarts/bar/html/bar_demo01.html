@@ -53,7 +53,7 @@
         BarDemo.queryChart1();
         BarDemo.queryChart2();
         $("#copyPic2").click(function () {
-            $("body").append($("<img/>", {src:BarDemo.getPageEchartsElements()[1].getDataURL()}));
+            $("body").append($("<img/>", {src:BarDemo.getPageEchartsElements().getArr()[1].getDataURL()}));
         });
     });
 </script>
