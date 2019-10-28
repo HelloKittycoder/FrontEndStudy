@@ -25,6 +25,28 @@
                 }
                 return flag;
             },
+            // 移除逗号分隔字符串中的某个部分（目前inStr不能是多个逗号分隔的），默认会移除最后一个逗号
+            // $.ddcommon.removeStrInCommaStr("11,22,44,33","33") 结果为：11,22,44
+            removeStrInCommaStr : function (originalStr, inStr, notRemoveLastComma) {
+                if (originalStr) {
+                    // 如果originalStr不是以
+                    if (originalStr.substr(originalStr.length - 1, originalStr.length) != ",") {
+                        originalStr += ",";
+                    }
+
+                    var removeStr = inStr + ",";
+                    var p = originalStr.indexOf(removeStr);
+                    if (p != -1) {
+                        originalStr = originalStr.substr(0, p) + originalStr.substr(p + removeStr.length);
+                    }
+
+                    // 如果不要移除最后一个逗号
+                    if (!notRemoveLastComma) {
+                        originalStr = $.ddcommon.removeLastComma(originalStr);
+                    }
+                }
+                return originalStr;
+            },
             /**
              * 去除字符串最后一个逗号
              * 如：$.ddcommon.removeLastComma("11,22,33,")结果为 11,22,33
