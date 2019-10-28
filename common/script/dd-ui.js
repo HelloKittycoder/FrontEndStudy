@@ -7,6 +7,14 @@
             // 判断是否为数组（https://www.cnblogs.com/ysk123/p/9995920.html）
             isArray : function(o) {
                 return Object.prototype.toString.call(o) == '[object Array]';
+            },
+            /**
+             * 去除字符串最后一个逗号
+             * 如：$.ddcommon.removeLastComma("11,22,33,")结果为 11,22,33
+             * @param str
+             */
+            removeLastComma : function (str) {
+                return str.replace(/,$/gi,"");
             }
         },
         ddpage : {
