@@ -8,6 +8,23 @@
             isArray : function(o) {
                 return Object.prototype.toString.call(o) == '[object Array]';
             },
+            // 判断一个逗号分隔字符串中是否已经包含另一个逗号分隔字符串
+            // 如："11,22,44,33"中包含"33,22"
+            // $.ddcommon.isInAnotherCommaStr("11,22,44,33","33,22")
+            isInAnotherCommaStr : function (originalStr, inStr) {
+                var flag = true;
+
+                var inStrArr = inStr.split(",");
+                var originalStrArr = originalStr.split(",");
+
+                for (var i = 0; i < inStrArr.length; i++) {
+                    if ($.inArray(inStrArr[i], originalStrArr) == -1) {
+                        flag = false;
+                        break;
+                    }
+                }
+                return flag;
+            },
             /**
              * 去除字符串最后一个逗号
              * 如：$.ddcommon.removeLastComma("11,22,33,")结果为 11,22,33
