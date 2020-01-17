@@ -164,6 +164,20 @@
                     }
                 }
                 return _params;
+            },
+            // 获取表格的总列数
+            getTotalColumns : function (tableId) {
+                // $("#table2>thead>tr:eq(0)").find("th[colspan],td[colspan]")
+                var tr0 = $("#" + tableId + ">thead>tr:eq(0)"); // 获取表头对应的行
+                var hasColspanTds = tr0.find("th[colspan],td[colspan]"); // 获取带colspan的td
+                var notHasColspanTds = tr0.find("th,td").not("[colspan]"); // 获取不带colspan的td
+
+                var colspanColumnNum = 0;
+                hasColspanTds.each(function () {
+                    colspanColumnNum += parseInt($(this).attr("colspan"));
+                });
+
+                return colspanColumnNum + notHasColspanTds.length;
             }
         },
         // echarts图操作工具方法
