@@ -5,14 +5,18 @@
 
     var gameStatus = 0; // 0 未开始；1 进行中；2 已结束
     var gridNum = 13; // 棋盘的格子数量
+
     // 初始化棋盘数据
-    var data = function (n) {
+    var generateData = function (n) {
         var arr = [];
         for (var i = 0; i < (n + 1); i++) {
             arr.push(new Array(n + 1));
         }
         return arr;
-    }(gridNum);
+    }
+    var data = generateData(gridNum);
+
+    var undoStack = []; // 记录已经走过的路径
     var player = "red"; // 红子先行（红1；蓝2；空 undefined），同时记录当前在下棋的player
     var stepNum = 0;
 
@@ -20,6 +24,18 @@
     var init = function() {
         createChessBoard(gridNum);
         createSerialNum(gridNum);
+        bindEvent();
+    }
+
+    var bindEvent = function () {
+        var undoChessBtn = document.getElementById("undoChessBtn");
+        var restartChessBtn = document.getElementById("restartChessBtn");
+        undoChessBtn.addEventListener("click", function (ev) {
+            undoChess();
+        });
+        restartChessBtn.addEventListener("click", function (ev) {
+            restartChess();
+        });
     }
 
     /**
@@ -74,26 +90,38 @@
             var target = ev.target;
             if (gameStatus == 0) { // 如果是“未开始”状态，就改成“进行中”
                 gameStatus = 1;
-                document.getElementById("statusText").innerText = "进行中";
+                setGameStatus(gameStatus);
             }
             if (gameStatus == 2) { // 如果是“已结束”状态，就直接返回
                 return;
             }
             checkPiece(target, player);
+            // 记录走过的路径
+            undoStack.push(getCoordinate(target));
             recordPieceData(target, player);
             // 正在进行，且已经达到赢的条件，则更改游戏状态
             if (gameStatus == 1 && checkWin(target, player)) {
                 gameStatus = 2;
-                document.getElementById("statusText").innerText = "游戏结束," + strToPagetext(player) + "胜利！";
+                setGameStatus(gameStatus);
                 return;
             }
             // 控制顺序为红、蓝、红、蓝、...
-            if (player == "red") {
-                player = "blue";
-            } else {
-                player = "red";
-            }
+            player = getPlayer(player);
         });
+    }
+
+    // 设置游戏状态
+    var setGameStatus = function (status) {
+        var statusText = document.getElementById("statusText");
+        if (status == 0) {
+            statusText.innerText = "未开始";
+        }
+        if (status == 1) {
+            statusText.innerText = "进行中";
+        }
+        if (status == 2) {
+            statusText.innerText = "游戏结束," + strToPagetext(player) + "胜利！";
+        }
     }
 
     // 放置棋子
@@ -109,12 +137,50 @@
         }
     }
 
+    // 获取player
+    var getPlayer = function (currentPlayer) {
+        if (currentPlayer == "red") {
+            return "blue";
+        }
+        if (currentPlayer == "blue") {
+            return "red";
+        }
+    }
+
     // 悔棋
-    var undoChess = function (data) {
+    var undoChess = function () {
+        if (undoStack.length == 0) {
+            return;
+        } else {
+            var pos = undoStack.pop();
+            // 移除指定坐标的棋子
+            var gridDiv = document.querySelector('[xpoint="'+pos.x+'"][ypoint="'+pos.y+'"]');
+            gridDiv.getElementsByClassName("piece")[0].remove();
+
+            // 删除运行数据
+            delete data[pos.x - 1][pos.y - 1];
+            if (gameStatus == 1) { // 如果是在“运行中”，需要更换player；如果是“已结束”，不用更改player
+                player = getPlayer(player);
+            }
+            gameStatus = 1;
+            setGameStatus(gameStatus);
+
+            stepNum -= 1;
+        }
     }
 
     // 重新开始
-    var restartChess = function (data) {
+    var restartChess = function () {
+        data = generateData(gridNum);
+        player = "red";
+        gameStatus = 0;
+        setGameStatus(gameStatus);
+        stepNum = 0;
+        // 获取所有的棋子并移除
+        var pieceCollection = document.getElementsByClassName("piece");
+        for (var i = pieceCollection.length - 1; i >= 0; i--) {
+            pieceCollection[i].remove();
+        }
     }
 
     // 获取目标div的坐标（(3,4)存放在数组的data[2][3]里）
