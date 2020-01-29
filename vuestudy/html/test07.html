@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>事件处理</title>
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+<!-- 监听事件 -->
+<div id="app">
+    <button v-on:click="counter += 1">Add 1</button>
+    <p>The button above has been clicked {{counter}} times.</p>
+</div>
+
+<!-- 事件处理方法 -->
+<div id="app-2">
+    <button v-on:click="greet">Greet</button>
+    <button v-on:click="say('hi')">Say hi</button>
+    <button v-on:click="warn('Form cannot be submitted yet.', $event)">Submit</button>
+</div>
+
+<script type="text/javascript" src="../script/test07.js"></script>
+</body>
+</html>
