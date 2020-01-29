@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Class与Style绑定</title>
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+<!-- 绑定HTML Class -->
+<!-- 对象语法 -->
+<div id="app">
+    <div class="static"
+         v-bind:class="{active:isActive,'text-danger':hasError}">hehe</div>
+    <div v-bind:class="classObject">xxx</div>
+</div>
+
+<!-- 数组语法 -->
+<div id="app-2">
+    <div v-bind:class="[activeClass,errorClass]">arr</div>
+    <div v-bind:class="[isActive ? activeClass : '', errorClass]"></div>
+</div>
+
+<!-- 绑定内联样式 -->
+<!-- 对象语法 -->
+<div id="app-3">
+    <div v-bind:style="{color:activeColor,fontSize:fontSize+'px'}">inline</div>
+    <div v-bind:style="styleObject">inline2</div>
+</div>
+
+<!-- 数组语法 -->
+<div id="app-4">
+    <div v-bind:style="[baseStyles, overridingStyles]">inline arr</div>
+</div>
+
+<script type="text/javascript" src="../script/test04.js"></script>
+</body>
+</html>
