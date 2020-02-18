@@ -56,6 +56,49 @@
                 return str.replace(/,$/gi,"");
             }
         },
+        // 常用正则
+        ddreg : {
+            /**
+             * 校验密码
+             * 要求：长度必须在8-16位且至少同时包含数字、大写字母、小写字母及特殊字符中的三种字符
+             * 参考链接：https://blog.csdn.net/u012967849/article/details/84037792
+             *
+             * $.ddreg.checkPassword("aaaa1234", console.log); // false
+             * $.ddreg.checkPassword("aaa?123A", console.log); // true
+             * @param passwordStr
+             * @param callback
+             */
+            checkPassword : function (passwordStr, callback) {
+                var reg = /^(?![a-zA-Z]+$)(?![A-Z0-9]+$)(?![A-Z\W_]+$)(?![a-z0-9]+$)(?![a-z\W_]+$)(?![0-9\W_]+$)[a-zA-Z0-9\W_]{8,16}$/;
+                // 或者写成（参考：https://www.xp.cn/b.php/33838.html）
+                // var reg = new RegExp("^(?![a-zA-Z]+$)(?![A-Z0-9]+$)(?![A-Z\\W_]+$)(?![a-z0-9]+$)(?![a-z\\W_]+$)(?![0-9\\W_]+$)[a-zA-Z0-9\\W_]{8,16}$");
+                var result = reg.test(passwordStr);
+                if (callback) callback(result);
+            },
+            /**
+             * 校验密码（可以指定长度的范围）
+             * 要求：长度必须在[a,b]位且至少同时包含数字、大写字母、小写字母及特殊字符中的三种字符
+             * 参考链接：https://www.cnblogs.com/daizhonghai1314/articles/2951572.html
+             *
+             * $.ddreg.checkPasswordNum("aaaa1234", 8, 16 ,console.log); // false
+             * $.ddreg.checkPasswordNum("aaa?123A", 8, 16 ,console.log); // true
+             * $.ddreg.checkPasswordNum("a?A", 2, "", console.log); // true
+             * $.ddreg.checkPasswordNum("a?Aa", "", 4, console.log); // true
+             *
+             * @param passwordStr
+             * @param start
+             * @param end
+             * @param callback
+             */
+            checkPasswordNum : function (passwordStr, start, end, callback) {
+                if (start == undefined || start == "") {
+                    start = 0;
+                }
+                var reg = new RegExp("^(?![a-zA-Z]+$)(?![A-Z0-9]+$)(?![A-Z\\W_]+$)(?![a-z0-9]+$)(?![a-z\\W_]+$)(?![0-9\\W_]+$)[a-zA-Z0-9\\W_]{"+start+","+end+"}$");
+                var result = reg.test(passwordStr);
+                if (callback) callback(result);
+            }
+        },
         ddpage : {
             // 根据类型查找给定对象中对应的类型字符串（模拟Map）
             /*
