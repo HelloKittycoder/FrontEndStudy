@@ -97,6 +97,47 @@
                 var reg = new RegExp("^(?![a-zA-Z]+$)(?![A-Z0-9]+$)(?![A-Z\\W_]+$)(?![a-z0-9]+$)(?![a-z\\W_]+$)(?![0-9\\W_]+$)[a-zA-Z0-9\\W_]{"+start+","+end+"}$");
                 var result = reg.test(passwordStr);
                 if (callback) callback(result);
+            },
+            /**
+             * 是否为整数
+             * 参考链接：https://www.cnblogs.com/xianfengzhike/p/9525814.html
+             *
+             * $.ddreg.isInt(12, console.log); // true
+             * $.ddreg.isInt('12a', console.log); // false
+             * $.ddreg.isInt(-12, console.log); // true
+             * $.ddreg.isInt('-12a', console.log); // false
+             * @param str
+             * @param callback
+             */
+            isInt : function(str, callback) {
+                var reg = /^-?[1-9]\d*$/;
+                var result = reg.test(str);
+                if (callback) callback(result);
+            },
+            /**
+             * 是否为正整数
+             *
+             * $.ddreg.isPositiveInt(12, console.log); // true
+             * $.ddreg.isPositiveInt(-12, console.log); // false
+             * @param str
+             * @param callback
+             */
+            isPositiveInt : function(str, callback) {
+                var reg = /^[1-9]\d*$/;
+                var result = reg.test(str);
+                if (callback) callback(result);
+            },
+            /**
+             * 判断是否为数字
+             *
+             * $.ddreg.isNum(str, console.log); // str依次放入（-1，+5，5，0.5）中的数字均为true
+             * @param str
+             * @param callback
+             */
+            isNum : function (str, callback) {
+                var reg = /^(-|\+)?\d+.?[0-9]*$/;
+                var result = reg.test(str);
+                if (callback) callback(result);
             }
         },
         ddpage : {
