@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>列表渲染</title>
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+<!-- 用v-for把一个数组对应为一组元素 -->
+<div id="app">
+    <ul id="eg1">
+        <li v-for="item in items">
+            {{item.message}}
+        </li>
+    </ul>
+    <ul id="eg2">
+        <li v-for="(item, index) in items">
+            {{parentMessage}} - {{index}} - {{item.message}}
+        </li>
+    </ul>
+</div>
+
+<!-- 在v-for里使用对象 -->
+<div id="app2">
+    <ul id="eg2_1">
+        <li v-for="value in object">
+            {{value}}
+        </li>
+    </ul>
+    <ul id="eg2_2">
+        <li v-for="(value, name) in object">
+            {{name}}:{{value}}
+        </li>
+    </ul>
+    <ul id="eg2_3">
+        <li v-for="(value, name, index) in object">
+            {{index}}:{{name}}:{{value}}
+        </li>
+    </ul>
+</div>
+
+<script type="text/javascript" src="../script/test06.js"></script>
+</body>
+</html>

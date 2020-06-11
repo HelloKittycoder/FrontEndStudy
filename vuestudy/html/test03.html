@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>计算属性和侦听器</title>
+    <script type="text/javascript" src="../js/vue.js"></script>
+    <!-- 因为 AJAX 库和通用工具的生态已经相当丰富，Vue 核心代码没有重复 -->
+    <!-- 提供这些功能以保持精简。这也可以让你自由选择自己更熟悉的工具。 -->
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
+</head>
+<body>
+<div id="app">
+    <p>Original message: {{message}}</p>
+    <!-- 计算属性 -->
+    <p>Computed reversed message: {{reversedMessage}}</p>
+    <!-- 调用方法返回计算结果 -->
+    <p>reversed message: {{reversedMessage2()}}</p>
+</div>
+
+<!-- 使用watch来侦听属性 -->
+<div id="app-2">
+    <div>firstName: {{firstName}}</div>
+    <div>lastName: {{lastName}}</div>
+    <div>fullName: {{fullName}}</div>
+</div>
+
+<!-- 使用计算属性 -->
+<div id="app-3">
+    <div>firstName: {{firstName}}</div>
+    <div>lastName: {{lastName}}</div>
+    <div>fullName: {{fullName}}</div>
+</div>
+
+<!-- 计算属性的setter -->
+<div id="app-4">
+    <div>firstName: {{firstName}}</div>
+    <div>lastName: {{lastName}}</div>
+    <div>fullName: {{fullName}}</div>
+</div>
+
+<div id="watch-example">
+    <p>
+        Ask a yes/no question:
+        <input v-model="question"/>
+    </p>
+    <p>{{answer}}</p>
+</div>
+
+<script type="text/javascript" src="../script/test03.js"></script>
+</body>
+</html>

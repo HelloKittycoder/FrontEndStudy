@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>表单输入绑定</title>
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <div id="eg-1">
+        <input v-model="message" placeholder="edit me"/>
+        <p>Message is: {{message}}</p>
+        <textarea v-model="message2" placeholder="add multiple lines"></textarea>
+        <p>Message is: {{message2}}</p>
+    </div>
+
+    <!-- 复选框 -->
+    <div style="margin-top: 20px;">
+        <input type="checkbox" id="jack" value="Jack" v-model="checkedNames">
+        <label for="jack">Jack</label>
+        <input type="checkbox" id="john" value="John" v-model="checkedNames">
+        <label for="john">John</label>
+        <input type="checkbox" id="mike" value="Mike" v-model="checkedNames">
+        <label for="mike">Mike</label>
+        <br>
+        <span>Checked names: {{ checkedNames }}</span>
+    </div>
+
+    <!-- 单选按钮 -->
+    <div style="margin-top: 20px;">
+        <input type="radio" id="one" value="One" v-model="picked"/>
+        <label for="one">One</label>
+        <br/>
+        <input type="radio" id="two" value="Two" v-model="picked"/>
+        <label for="one">Two</label>
+        <br/>
+        <span>Picked: {{ picked }}</span>
+    </div>
+
+    <button type="button" @click="submit">提交</button>
+</div>
+
+<script type="text/javascript" src="../script/test08.js"></script>
+</body>
+</html>

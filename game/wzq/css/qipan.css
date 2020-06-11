@@ -1,0 +1,74 @@
+.grid {
+    width: 50px;
+    height: 50px;
+    background: url(../images/gezi.png) no-repeat -105px -92px;
+}
+.qipan {
+    /* 10*50=500px，一行10张图，9个格子
+     14*50=700px，一行14张图，13个格子
+     */
+    width: 700px;
+    height: 700px;
+    margin: 0 auto;
+}
+.qipan .grid {
+    float: left;
+}
+.piece {
+    width: 46px;
+    height: 46px;
+    background: red;
+    border-radius: 23px;
+}
+.stepNum {
+    margin: 0 auto;
+    text-align: center;
+    line-height: 46px;
+    color: white;
+    font-weight: bold;
+}
+.status {
+    text-align: center;
+}
+.qipanContainer {
+    box-sizing: border-box;
+    margin: 0 auto;
+    /*border: 1px solid black;*/
+    width: 900px;
+    height: 800px;
+    padding-top: 25px;
+}
+.qipanContent {
+    margin: 0 auto;
+    width: 800px;
+    height: 750px;
+}
+.qipanContent .topNum, .qipanContent .bottomNum {
+    width: 700px;
+    /*border: 1px solid black;*/
+}
+.qipanContent .leftNum, .qipanContent .rightNum {
+    width: 50px;
+    text-align: center;
+    /* border: 1px solid black; */
+    padding-top: 25px;
+}
+.qipanNum {
+    float: left;
+}
+.topNum .qipanNum, .bottomNum .qipanNum {
+    width: 50px;
+    text-align: center;
+}
+.leftNum .qipanNum, .rightNum .qipanNum {
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+}
+.tools {
+    width: 900px;
+    margin: 0 auto;
+}
+.tools .buttonGroup {
+    float: right;
+}

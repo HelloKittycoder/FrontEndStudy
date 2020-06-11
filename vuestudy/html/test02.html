@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>模板语法</title>
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <p>Message: {{msg}}</p>
+    <span v-once>这个将不会改变: {{msg}}</span>
+</div>
+<!-- 显示原始html -->
+<div id="app-2">
+    <p>Using mustaches: {{rawHtml}}</p>
+    <p>Using v-html directive: <span v-html="rawHtml"></span></p>
+</div>
+
+<!-- mustache语法不能作用在HTML attribute上，此时应该使用v-bind指令 -->
+<div id="app-3">
+    <div v-bind:id="dynamicId"></div>
+    <button v-bind:disabled="isButtonDisabled">Button</button>
+</div>
+
+<!-- JavaScript表达式 -->
+<div id="app-4">
+    <div>5+1={{number + 1}}</div>
+    <div>Is it OK?{{ok ? 'YES' : 'NO'}}</div>
+    <div>zhangsan倒过来：{{message.split('').reverse().join('')}}</div>
+</div>
+
+<!-- 参数 -->
+<div id="app-5">
+    <a v-bind:href="url">百度</a><br/>
+    <!-- <a :href="url">百度</a><br/> -->
+    <a v-on:click="dosth" href="javascript:void(0)">点击后，控制台打印</a>
+    <!-- <a @click="dosth" href="javascript:void(0)">点击后，控制台打印</a> -->
+</div>
+<script type="text/javascript" src="../script/test02.js"></script>
+</body>
+</html>
