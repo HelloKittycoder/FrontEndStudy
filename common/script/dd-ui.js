@@ -54,6 +54,31 @@
              */
             removeLastComma : function (str) {
                 return str.replace(/,$/gi,"");
+            },
+            /**
+             * 删除数组中的多个元素
+             * @param originalArr 原始数组
+             * @param elements 需要删除的元素（多个的话以逗号进行分隔）
+             * @returns 删除元素后的数组（这里直接操作了原始数组originalArr，因为数组是引用类型
+             * ，可以直接取originalArr；这个函数可以不返回originalArr）
+             *
+             * 使用示例：
+             * $.ddcommon.removeArrayElements([1,2,3,4,5], '55,3,2'); // [1,4,5]
+             * $.ddcommon.removeArrayElements(['aa','bb','cc','dd','ee'], 'ee,cc,dd,kkk'); // ['aa','bb']
+             */
+            removeArrayElements : function (originalArr, elements) {
+                if (!$.ddcommon.isArray(originalArr)) {
+                    throw "originalArr is not Array";
+                }
+                var ele;
+                var excludeElementsArr = elements ? elements.split(",") : [];
+                for (var i = originalArr.length - 1; i >= 0; i--) {
+                    ele = originalArr[i] + "";
+                    if ($.inArray(ele, excludeElementsArr) > -1) {
+                        originalArr.splice(i, 1);
+                    }
+                }
+                return originalArr;
             }
         },
         // 常用正则
