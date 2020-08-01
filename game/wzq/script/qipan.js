@@ -237,96 +237,62 @@
         var gridNum = data.length;
         var colorNum = colorToNum(color); // 颜色对应的数字
 
-        // 左上
-        var count = 0;
-        for (var i = xPoint, j = yPoint; (i >= 0 && i > xPoint - 5) && (j >= 0 && j > yPoint - 5);
-            i--, j--) {
-            if (data[i][j] == colorNum) {
-                count++;
+        var i1, j1, i2, j2;
+
+        // 向左右两边同时遍历
+        var count1 = 0, count2 = 0;
+        for (var increment = 1; increment <= 4; increment++) {
+            if ((j1 = yPoint - increment) > 0 && data[xPoint][j1] == colorNum) { // 左
+                count1++;
             }
-        }
-        if (count == 5) {
-            return true;
+            if ((j2 = (yPoint + increment)) < gridNum && data[xPoint][j2] == colorNum) { // 右
+                count2++;
+            }
+            if (count1 + count2 == 4) {
+                return true;
+            }
         }
 
-        // 上
-        count = 0;
-        for (var i = xPoint; i >= 0 && i > xPoint - 5; i--) {
-            if (data[i][yPoint] == colorNum) {
-                count++;
+        // 向左上、右下两边同时遍历
+        count1 = 0, count2 = 0;
+        for (var increment = 1; increment <= 4; increment++) {
+            if ((i1 = xPoint - increment) > 0 && (j1 = yPoint - increment) > 0 && data[i1][j1] == colorNum) { // 左上
+                count1++;
             }
-        }
-        if (count == 5) {
-            return true;
+            if ((i2 = xPoint + increment) < gridNum && (j2 = yPoint + increment) < gridNum && data[i2][j2] == colorNum) { // 右下
+                count2++;
+            }
+            if (count1 + count2 == 4) {
+                return true;
+            }
         }
 
-        // 左下
-        count = 0;
-        for (var i = xPoint, j = yPoint; (i < gridNum && i < xPoint + 5) && (j >= 0 && j > yPoint - 5);
-              i++, j--) {
-            if (data[i][j] == colorNum) {
-                count++;
+        // 向上、下两边同时遍历
+        count1 = 0, count2 = 0;
+        for (var increment = 1; increment <= 4; increment++) {
+            if ((i1 = xPoint - increment) > 0 && data[i1][yPoint] == colorNum) { // 上
+                count1++;
             }
-        }
-        if (count == 5) {
-            return true;
+            if ((i2 = xPoint + increment) < gridNum && data[i2][yPoint] == colorNum) { // 下
+                count2++;
+            }
+            if (count1 + count2 == 4) {
+                return true;
+            }
         }
 
-        // 右
-        count = 0;
-        for (var j = yPoint; j < gridNum && j < yPoint + 5; j++) {
-            if (data[xPoint][j] == colorNum) {
-                count++;
+        // 向右上、左下两边同时遍历
+        count1 = 0, count2 = 0;
+        for (var increment = 1; increment <= 4; increment++) {
+            if ((i1 = xPoint - increment) > 0 && (j1 = yPoint + increment) < gridNum && data[i1][j1] == colorNum) { // 右上
+                count1++;
             }
-        }
-        if (count == 5) {
-            return true;
-        }
-
-        // 右下
-        count = 0;
-        for (var i = xPoint, j = yPoint; (i < gridNum && i < xPoint + 5) && (j < gridNum && j < yPoint + 5);
-             i++, j++) {
-            if (data[i][j] == colorNum) {
-                count++;
+            if ((i1 = xPoint + increment) < gridNum && (j1 = yPoint - increment) < 0 && data[i2][j2] == colorNum) { // 左下
+                count2++;
             }
-        }
-        if (count == 5) {
-            return true;
-        }
-
-        // 下
-        count = 0;
-        for (var i = xPoint; i < gridNum && i < xPoint + 5; i++) {
-            if (data[i][yPoint] == colorNum) {
-                count++;
+            if (count1 + count2 == 4) {
+                return true;
             }
-        }
-        if (count == 5) {
-            return true;
-        }
-
-        // 右上
-        count = 0;
-        for (var i = xPoint, j = yPoint; (i >= 0 && i > xPoint - 5) && (j < gridNum && j < yPoint + 5);
-             i--, j++) {
-            if (data[i][j] == colorNum) {
-                count++;
-            }
-        }
-        if (count == 5) {
-            return true;
-        }
-
-        // 左
-        count = 0;
-        for (var j = yPoint; j > 0 && j > yPoint - 5; j--) {
-            if (data[xPoint][j] == colorNum) {
-                count++;
-            }
-        }
-        if (count == 5) {
-            return true;
         }
 
         return false;
