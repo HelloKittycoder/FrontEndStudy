@@ -260,7 +260,7 @@
             return true;
         }
 
-        // 右上
+        // 左下
         count = 0;
         for (var i = xPoint, j = yPoint; (i < gridNum && i < xPoint + 5) && (j >= 0 && j > yPoint - 5);
               i++, j--) {
@@ -306,7 +306,7 @@
             return true;
         }
 
-        // 左下
+        // 右上
         count = 0;
         for (var i = xPoint, j = yPoint; (i >= 0 && i > xPoint - 5) && (j < gridNum && j < yPoint + 5);
              i--, j++) {
