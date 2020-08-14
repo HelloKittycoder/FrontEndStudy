@@ -350,6 +350,21 @@
                     });
                 }
             }
+        },
+        // 数组操作工具方法
+        ddarray : {
+            /**
+             * 向数组中批量添加元素（要批量添加的元素放在数组里）
+             * 参考链接：https://javascript.ruanyifeng.com/oop/this.html#toc8
+             *
+             * 使用：
+             * var a = [{aa:11}];
+             * $.ddarray.push(a, [{bb:22},{cc:33}]); // 结果为 [{aa:11},{bb:22},{cc:33}]
+             * 上面这种写法等同于 Array.prototype.push.apply(a, [{bb:22},{cc:33}]);
+             * 等同于 Array.prototype.push.call(a,{bb:22},{cc:33});
+             * 等同于 a.push({bb:22},{cc:33});
+             */
+            push : Function.prototype.apply.bind(Array.prototype.push)
         }
     });
 }(jQuery);
