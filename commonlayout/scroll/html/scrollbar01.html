@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>水平滚动条</title>
+    <style type="text/css">
+        body {
+            margin: 0px;
+            padding: 0px;
+        }
+        .containerDiv {
+            width: 98%;
+            margin: 0 auto; /* 设置div在body中居中 */
+            border: 1px solid red;
+            height: 500px;
+        }
+        table {
+            border: 1px solid;
+            width: 900px;
+            height: 300px;
+            border-collapse: collapse;
+        }
+        table th, table td {
+            border: 1px solid;
+        }
+    </style>
+</head>
+<body>
+<div class="containerDiv">
+    <div>
+        <!-- 说明：
+        这里的关键点：
+        （1）table本身需要超出正常大小100%，比如：这里将width设置为150%，
+        （2）table的外部需要增加一个容器来限制table水平方向能看到的部分，
+        因为table位于div内部，能够完全显示，设置成100%就好了；因为设置成150%，肯定有一部分超出了div的水平边界，
+        这里设置成overflow-x: scroll，就表示当div内部的table超出边界时，只能通过水平滚动来看到剩余的部分
+        -->
+        <h3>创建可在内部进行拖动的table</h3>
+        <div style="overflow-x: scroll; width: 50%">
+            <table style="width: 150%;">
+                <thead>
+                    <tr>
+                        <th width="10%">序号</th>
+                        <th width="10%">姓名</th>
+                        <th width="10%">年龄</th>
+                        <th width="10%">Column1</th>
+                        <th width="10%">Column2</th>
+                        <th width="10%">Column3</th>
+                        <th width="10%">Column4</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>张三</td>
+                        <td>10</td>
+                        <td>a1</td>
+                        <td>a2</td>
+                        <td>a3</td>
+                        <td>a4</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>李四</td>
+                        <td>20</td>
+                        <td>b1</td>
+                        <td>b2</td>
+                        <td>b3</td>
+                        <td>b4</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>王五</td>
+                        <td>30</td>
+                        <td>c1</td>
+                        <td>c2</td>
+                        <td>c3</td>
+                        <td>c4</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>
