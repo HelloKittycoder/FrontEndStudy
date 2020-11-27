@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>jquery或JS拖动DIV左右移动</title>
+	<!-- 参考链接： https://zhidao.baidu.com/question/808322523129086492.html -->
+	<!-- 前端库在线引用地址：https://www.bootcdn.cn/ -->
+	<script src="https://cdn.bootcss.com/jquery/1.9.1/jquery.js"></script>
+	<style type="text/css">
+	    body {background-color: #fff; }
+	    .win {position: absolute; top: 0px; left: 0px;width: 300px;height: 222px;}
+	    .title {height: 20px;width: 300px;  position: absolute;background-color: #0094ff; float: inherit; top: 0px; left: 0px; }
+	    .winCon { height: 200px;width: 298px; position: absolute; border: solid; 
+	              border-width: 1px; border-color: #0094ff; border-top: none;  float: inherit; left: 0px; top: 21px; }
+	</style>
+</head>
+<body onload="showDiv(this,'test1');">
+</body>
+<script type="text/javascript">
+    function showDiv(element, str) {
+        $(document.body).append("<div class='win' id='win" + str + "'><div class='title' id='" + str + "'></div><div class='winCon'> 清新自在</div></div>");
+        $("#" + str).mousedown(function (event) {
+            var offset = $(this).offset();
+            var _x = event.clientX - offset.left;
+            var _y = event.clientY + 20 - offset.top;
+            $("#win" + str).css({ "top": offset.top - 20 + "px" });
+            $("#win" + str).mousemove(function (event) {
+                var _xx = event.clientX - _x;
+                var _yy = event.clientY - _y;
+                this.style.left = _xx + "px";
+                this.style.top = _yy + "px";
+                this.style.zIndex = "100";
+                return false;
+            });
+            return false;
+        });
+        $("#win" + str).mouseup(function () {
+            $(this).unbind("mousemove");
+            $(this).css({ "z-index": "-1" });
+            return false;
+        });
+    }
+</script>
+</html>
