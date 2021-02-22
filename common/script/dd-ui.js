@@ -79,6 +79,24 @@
                     }
                 }
                 return originalArr;
+            },
+            /**
+             * 判断数组中是否有重复数据（https://zhidao.baidu.com/question/430438748927025572.html）
+             * @param arr 原始数组
+             * @returns 是否有重复数据，有则返回true，否则返回false
+             *
+             * 使用示例：
+             * $.ddcommon.checkIsRepeat([1,2,3,3,4]); // true
+             * $.ddcommon.checkIsRepeat([1,2,3,4]); // false
+             */
+            checkIsRepeat: function (arr) {
+                var hash = {};
+                for(var i in arr) {
+                    if(hash[arr[i]])
+                        return true;
+                    hash[arr[i]] = true;
+                }
+                return false;
             }
         },
         // 常用正则
