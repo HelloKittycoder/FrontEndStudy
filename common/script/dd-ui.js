@@ -421,3 +421,34 @@ function MyArray(option) {
 MyArray.prototype.getArr = function () {
     return this.arr;
 }
+
+// 一些扩展
+// indexOf、remove参考了 https://www.jb51.net/article/134312.htm
+/**
+ * 查找某个元素在数组中第一次出现的位置
+ * @return 返回元素在数组中第一次出现的索引；如果找不到，则返回-1
+ * 使用示例：[1,2,2,3].indexOf(2)=>1
+ *
+ * jQuery中$.inArray也实现了同样的功能，使用示例为：
+ * $.inArray(2,[1,2,2,3])=>1
+ */
+Array.prototype.indexOf = Array.prototype.indexOf || function (val) {
+    for (var i = 0; i < this.length; i++) {
+        if (this[i] == val) return i;
+    }
+    return -1;
+}
+
+/**
+ * 删除数组中的某个元素，只删它第一次出现的位置，不会产生缝隙
+ * @return 如果有元素被删除，则返回刚刚被删除的元素；否则返回空数组
+ * 使用示例：[1,2,2,3].remove(2)=>[1,2,3]
+ */
+Array.prototype.remove = function (val) {
+    var index = this.indexOf(val);
+    if (index > -1) {
+        return this.splice(index, 1);
+    } else {
+        return [];
+    }
+}
