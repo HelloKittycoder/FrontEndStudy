@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Basic Calendar - jQuery EasyUI Demo</title>
+    <link rel="stylesheet" type="text/css" href="../../lib/jquery-easyui-1.5.1/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../lib/jquery-easyui-1.5.1/themes/icon.css">
+    <script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/jquery.easyui.min.js"></script>
+    <script type="text/javascript">
+        // 参考链接：https://blog.csdn.net/cillent_boy/article/details/91981819
+        $(function () {
+            var $food = $("#food");
+
+            $food.combobox({
+                data: [{
+                    "id":1,
+                    "text":"苹果",
+                    "group":"水果"
+                },{
+                    "id":2,
+                    "text":"桔子",
+                    "group":"水果"
+                },{
+                    "id":3,
+                    "text":"香蕉",
+                    "group":"水果"
+                },{
+                    "id":4,
+                    "text":"白菜",
+                    "group":"蔬菜"
+                },{
+                    "id":5,
+                    "text":"青菜",
+                    "group":"蔬菜"
+                }],
+                groupFormatter: function(group){
+                    return '<div style="padding-bottom: 5px;border-bottom: 2px solid #ccc;">' + group + '</div>';
+                },
+                onSelect: function(result) {
+                    var oldValue = $food.combobox("getValue");
+                    var oldText;
+                    var foodData = $food.combobox("getData");
+                    for (var i = 0; i < foodData.length; i++) {
+                        if (foodData[i].id == oldValue) {
+                            oldText = foodData[i].text;
+                        }
+                    }
+                    var oldSelectedItem = oldText + "(" + oldValue + ")"; // 之前的选中项
+                    var selectedItem = result.text + "(" + result.id + ")"; // 当前的选中项
+
+                    $("#contentDiv").text("之前选中的项为：" + oldSelectedItem + "====刚刚选中的项：" + selectedItem);
+                },
+                valueField: 'id',
+                textField: 'text',
+                panelHeight: 'auto',
+                groupField: 'group',
+                editable: false
+            });
+        });
+    </script>
+</head>
+<body>
+    <h2>combobox with group</h2>
+    <select id="food" class="easyui-combobox" style="width: 100px"></select>
+    <div id="contentDiv" style="margin:20px 0"></div>
+</body>
+</html>
