@@ -735,6 +735,10 @@
         "attributes":{
           "url":""
         }},{
+        "text":"分组下拉框",
+        "attributes":{
+          "url":"combobox/combobox_demo.html"
+        }},{
         "text":"下拉框多选",
         "attributes":{
           "url":""
