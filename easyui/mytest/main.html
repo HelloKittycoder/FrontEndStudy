@@ -19,6 +19,25 @@
                     }
                 }
             });
+
+            $("#tabs").tabs({
+                // tab页签的右键菜单事件
+                onContextMenu: function (e, title, index) {
+                    // 阻止打开默认右键菜单
+                    e.preventDefault();
+                    // 右键菜单点击某一项后的事件处理器
+                    $("#contextMenuDiv").menu({
+                        onClick:function (item) {
+                            menuHandler(item, title);
+                        }
+                    });
+                    // 显示右键菜单
+                    $("#contextMenuDiv").menu("show", {
+                        left:e.pageX,
+                        top:e.pageY
+                    });
+                }
+            });
         });
 
         function openTab(text, url) {
@@ -31,6 +50,25 @@
                     closable:true,
                     content:content
                 });
+            }
+        }
+
+        // 刷新被激活的页签
+        function refreshActiveTab() {
+            var $selectedTab = $("#tabs").tabs("getSelected");
+            var content = $selectedTab.panel("options").content;
+            $("#tabs").tabs("update", {
+                tab:$selectedTab,
+                options:{
+                    content: content
+                }
+            });
+        }
+
+        function menuHandler(item, title) {
+            var operationName = item.name;
+            if (title != "首页" && operationName == "refresh") {
+                refreshActiveTab();
             }
         }
     </script>
@@ -58,6 +96,11 @@
 </div>
 <div region="south" style="height: 25px; padding: 2px" align="center">
     版权所有，侵权必究
+</div>
+
+<div id="contextMenuDiv" class="easyui-menu" style="width: 120px;">
+    <div data-options="name:'refresh',iconCls:'icon-reload'">刷新</div>
+    <div data-options="name:'closeOtherTab'">关闭其他标签</div>
 </div>
 </body>
 </html>
