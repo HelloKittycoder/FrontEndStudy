@@ -121,7 +121,19 @@ function addItem() {
         row, rowCodeKey = "itemid", rowValueKey = "productname",
         projectSelectCode, projectSelectValue;
     var totalSelectedCode = selectedCodes["totalSelectedCode"];
+
+    // 当前“已选择”里的数量
+    var length = totalSelectedCode.length;
+    // 当前所有列表中勾选的数量
+    var currentSelectItemLength = dgRows.length + dg2Rows.length + dg3Rows.length;
+    // 总共勾选的数量
+    var totalLength = length + currentSelectItemLength;
     var selectHtml = "";
+
+    if (length == 5 || totalLength > 5) {
+        $.messager.alert('操作提示', 'benchmark最多添加5个！', 'info')
+        return;
+    }
 
     if (projectSelectType == "1") {
         iterateRows = dgRows; // 待循环的行
