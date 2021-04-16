@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Basic DataGrid - jQuery EasyUI Demo</title>
+    <link rel="stylesheet" type="text/css" href="../../lib/jquery-easyui-1.5.1/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../lib/jquery-easyui-1.5.1/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="../../mytest/demo.css">
+    <style type="text/css">
+        .operationDiv {
+            margin-top: 30px;
+        }
+        .operationDiv>.operationButtonDiv {
+            margin: 10px 20px;
+        }
+        #tempSelect {
+            width: 150px;
+            height: 140px;
+        }
+        #tempSelect::-webkit-scrollbar {
+            display: none;
+        }
+        #tempSelect[multiple] option:checked {
+            background: white linear-gradient(0deg, #a4a4a4 0%, #a4a4a4 100%);
+        }
+    </style>
+</head>
+<body>
+    <h2>基本数据表格</h2>
+    <div class="demo-info">
+        <table>
+            <tr>
+                <td>类型：</td>
+                <td>
+                    <select class="easyui-combobox" id="projectSelectType" style="width: 150px;" data-options="panelHeight: 'auto'">
+                        <option value="1">产品列表1</option>
+                        <option value="2">产品列表2</option>
+                        <option value="3">产品列表3</option>
+                    </select>
+                </td>
+            </tr>
+            <tr id="othertr">
+                <td colspan="4" align="left">
+                    <a class="easyui-linkbutton" href="javascript:void(0)" onclick="queryProductList()">查询</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div style="margin: 10px 0;"></div>
+
+    <div id="productContainer" style="float: left">
+        <div id="dgContainer">
+            <div id="dg"></div>
+        </div>
+        <div id="dg2Container">
+            <div id="dg2"></div>
+        </div>
+        <div id="dg3Container">
+            <div id="dg3"></div>
+        </div>
+    </div>
+
+    <div style="float:left;">
+        <div class="operationDiv">
+            <div class="operationButtonDiv">
+                <a class="easyui-linkbutton" href="javascript:void(0)" onclick="addItem()">> 添加</a>
+            </div>
+            <div class="operationButtonDiv">
+                <a class="easyui-linkbutton" href="javascript:void(0)" onclick="removeItem('selected')">< 移除</a>
+            </div>
+            <div class="operationButtonDiv">
+                <a class="easyui-linkbutton" href="javascript:void(0)" onclick="clearItem()">清空</a>
+            </div>
+        </div>
+    </div>
+
+    <div style="float: left">
+        <select id="tempSelect" multiple="multiple"></select>
+    </div>
+    <script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="../../../common/script/dd-ui.js"></script>
+    <script type="text/javascript" src="basic_datagrid_app1.js"></script>
+</body>
+</html>
