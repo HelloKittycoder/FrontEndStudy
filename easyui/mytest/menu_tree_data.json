@@ -555,7 +555,7 @@
       "children":[{
         "text":"基本消息组件",
         "attributes":{
-          "url":""
+          "url":"messager/basic.html"
         }},{
         "text":"提醒消息组件",
         "attributes":{
