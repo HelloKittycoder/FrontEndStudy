@@ -21,6 +21,7 @@
         <a href="#" class="easyui-linkbutton" onclick="slide()">滑动消息显示</a>
         <a href="#" class="easyui-linkbutton" onclick="fade()">淡出消息显示</a>
         <a href="#" class="easyui-linkbutton" onclick="progress()">进度条显示</a>
+        <a href="#" class="easyui-linkbutton" onclick="alertCallback()">提示关闭后回调</a>
     </div>
 
     <script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/jquery.min.js"></script>
@@ -60,6 +61,12 @@
             setTimeout(function () {
                 $.messager.progress("close");
             }, 5000);
+        }
+
+        function alertCallback() {
+            $.messager.alert('消息', "这是一个测试消息", 'info', function () {
+                console.log("触发回调");
+            });
         }
     </script>
 </body>
