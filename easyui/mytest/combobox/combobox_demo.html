@@ -62,10 +62,45 @@
             $("#foodSelect").combobox(options);
 
             $("#foodInput").combobox(options);
+
+            /*$("#animalSelect").combobox({
+                data: [{"id":"1","text":"狮子"},
+                    {"id":"2","text":"老虎"},
+                    {"id":"3","text":"大象"},
+                    {"id":"4","text":"熊猫"}],
+                valueField: "id",
+                textField: "text",
+                editable: false,
+                panelHeight: 'auto'
+            });
+            $("#animalSelect").combobox("setValue", "3");*/
+
+            /**
+             * 有时，在初始化combobox的选项后，直接设置选项值是不行的（可能combobox还没准备好，
+             * 比如：通过dialog打开一个远程请求的页面，里面有combobox）
+             * 不建议用上面的写法
+             *
+             * 参考链接：https://bbs.csdn.net/topics/391986599
+             */
+            $("#animalSelect").combobox({
+                data: [{"id":"1","text":"狮子"},
+                    {"id":"2","text":"老虎"},
+                    {"id":"3","text":"大象"},
+                    {"id":"4","text":"熊猫"}],
+                valueField: "id",
+                textField: "text",
+                editable: false,
+                panelHeight: 'auto',
+                onLoadSuccess: function () {
+                    $("#animalSelect").combobox("setValue", "3");
+                }
+            });
         });
     </script>
 </head>
 <body>
+    <h2>combobox basic</h2>
+    <select id="animalSelect" class="easyui-combobox" style="width: 100px"></select>
     <h2>combobox with group</h2>
     <select id="foodSelect" class="easyui-combobox" style="width: 100px"></select>
     <input id="foodInput" class="easyui-combobox" style="width: 100px"/>
