@@ -97,6 +97,45 @@
                     hash[arr[i]] = true;
                 }
                 return false;
+            },
+            /**
+             * 日期格式化
+             * @param date Date类型的对象
+             * @param format 如果不传，默认值为 yyyy-MM-dd hh:mm:ss
+             * @return 格式化后的日期字符串
+             * 参考链接：https://www.cnblogs.com/tugenhua0707/p/3776808.html
+             *
+             * 使用示例：
+             * // 比如：今天是2021-06-15 18:10:05
+             * $.ddcommon.dateFormat(new Date()); // 2021-06-15 18:10:05
+             * $.ddcommon.dateFormat(new Date(), "yyyyMMdd"); // 20210615
+             */
+            dateFormat: function (date, format) {
+                if (!date || !(date instanceof Date)) {
+                    throw "date必须是Date类型";
+                }
+                if (!format) {
+                    format = "yyyy-MM-dd hh:mm:ss";
+                }
+
+                var o = {
+                    "M+" : date.getMonth()+1,                 //月份
+                    "d+" : date.getDate(),                    //日
+                    "h+" : date.getHours(),                   //小时
+                    "m+" : date.getMinutes(),                 //分
+                    "s+" : date.getSeconds(),                 //秒
+                    "q+" : Math.floor((date.getMonth()+3)/3), //季度
+                    "S"  : date.getMilliseconds()             //毫秒
+                };
+                if(/(y+)/.test(format)) {
+                    format=format.replace(RegExp.$1, (date.getFullYear()+"").substr(4 - RegExp.$1.length));
+                }
+                for(var k in o) {
+                    if(new RegExp("("+ k +")").test(format)){
+                        format = format.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+                    }
+                }
+                return format;
             }
         },
         // 常用正则

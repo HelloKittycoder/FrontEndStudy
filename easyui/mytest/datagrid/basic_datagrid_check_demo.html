@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Basic DataGrid - jQuery EasyUI Demo</title>
+    <link rel="stylesheet" type="text/css" href="../../lib/jquery-easyui-1.5.1/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../lib/jquery-easyui-1.5.1/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="../../mytest/demo.css">
+    <script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript">
+        $(function () {
+
+            var checkCallback = function(rows, eventName) {
+                var html = "<div>触发" + eventName + "事件，编号为";
+                var itemidArr = [];
+                $.each(rows, function (index, row) {
+                    itemidArr.push(row.itemid);
+                });
+                html += itemidArr + "</div>";
+                $("#content").append(html);
+            }
+
+            $("#dg").datagrid({
+                title:'基本数据表格',
+                url:'datagrid_data1.json',
+                width: '700',
+                height: '250',
+                collapsible: true,
+                rownumbers : true,
+                columns:[[
+                    {field:'cb',checkbox: true,width:10},
+                    {field:'itemid',title:'编号',width:80},
+                    {field:'productid',title:'产品编号',width:100},
+                    {field:'listprice',title:'市场价',width:80,align:'right'},
+                    {field:'unitcost',title:'成本价',width:80,align:'right'},
+                    {field:'attr1',title:'描述',width:250},
+                    {field:'status',title:'状态',width:60,align:'center'},
+                ]],
+                // 已选中的行，显示红底白字
+                rowStyler: function(index,row) {
+                    if ((index + 1) % 2 == 1) { // 奇数行
+                        return 'background-color:red;color:#fff;font-weight:bold;';
+                    }
+                },
+                // 选中行事件（这个会触发 onClickRow、onCheck）
+                onClickRow: function (index, row) {
+                    $("#content").append("<div>触发onClickRow事件，编号为" + row.itemid + "</div>");
+                },
+                // 勾选单个事件
+                onCheck: function (index, row) {
+                    $("#content").append("<div>触发onCheck事件，编号为" + row.itemid + "</div>");
+                },
+                // 勾选全部事件
+                onCheckAll: function (rows) {
+                    checkCallback(rows, "onCheckAll");
+                },
+                // 取消勾选全部事件
+                onUncheckAll: function (rows) {
+                    checkCallback(rows, "onUncheckAll");
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <h2>基本数据表格</h2>
+    <div class="demo-info">
+        <div class="demo-tip icon-tip"></div>
+        <div>数据表格使用标签创建，不需要JavaScript代码</div>
+    </div>
+    <div style="margin: 10px 0;"></div>
+
+    <!-- 说明下面写成 table或者div都可以 -->
+    <div id="dg"></div>
+    <br/>
+
+    <div id="content"></div>
+</body>
+</html>

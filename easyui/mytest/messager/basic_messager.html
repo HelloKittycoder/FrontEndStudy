@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Alert Messager - jQuery EasyUI Demo</title>
+    <link rel="stylesheet" type="text/css" href="../../lib/jquery-easyui-1.5.1/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../lib/jquery-easyui-1.5.1/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="../../mytest/demo.css">
+    <script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/locale/easyui-lang-zh_CN.js"></script>
+</head>
+<body>
+    <h2>基本消息组件</h2>
+    <div class="demo-info">
+        <div class="demo-tip icon-tip"></div>
+        <div>点击每个按钮查看不同的消息框.</div>
+    </div>
+    <div style="margin:10px 0;">
+        <a href="#" class="easyui-linkbutton" onclick="show()">普通消息显示</a>
+        <a href="#" class="easyui-linkbutton" onclick="slide()">滑动消息显示</a>
+        <a href="#" class="easyui-linkbutton" onclick="fade()">淡出消息显示</a>
+        <a href="#" class="easyui-linkbutton" onclick="progress()">进度条显示</a>
+        <a href="#" class="easyui-linkbutton" onclick="alertCallback()">提示关闭后回调</a>
+    </div>
+
+    <script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript">
+        function show() {
+            $.messager.show({
+                title: "我的标题",
+                msg: "消息4秒后自动关闭.",
+                showType: "show"
+            });
+        }
+        function slide() {
+            $.messager.show({
+                title: "我的标题",
+                msg: "消息5秒后自动关闭",
+                timeout: 5000,
+                showType: "slide"
+            });
+        }
+
+        function fade() {
+            $.messager.show({
+                title: "我的标题",
+                msg: "消息不会自动关闭.",
+                timeout: 0,
+                showType: "fade",
+            });
+        }
+
+        function progress() {
+            var win = $.messager.progress({
+                title: "请稍等...",
+                msg: "加载数据中..."
+            });
+            setTimeout(function () {
+                $.messager.progress("close");
+            }, 5000);
+        }
+
+        function alertCallback() {
+            $.messager.alert('消息', "这是一个测试消息", 'info', function () {
+                console.log("触发回调");
+            });
+        }
+    </script>
+</body>
+</html>
