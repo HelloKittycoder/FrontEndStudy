@@ -63,8 +63,45 @@
             }, 5000);
         }
 
+        var myAlert = function (title, msg, icon, fn) {
+            return $.messager.alert(title, msg, icon).window({modal:true, onBeforeClose: fn});
+        }
+
+        $(function () {
+            /**
+             * 参考链接：https://www.cnblogs.com/liqipeng/p/write-a-easyui-plugin.html
+             * 由于这里$.messager不是采用$.fn的形式写的，只能通过下面这种方式来直接扩展已有的方法
+             */
+            $.messager.alert2 = function (title, msg, icon, fn) {
+                return $.messager.alert(title, msg, icon).window({modal:true, onBeforeClose: fn});
+            };
+        });
+
         function alertCallback() {
-            $.messager.alert('消息', "这是一个测试消息", 'info', function () {
+            /**
+             * 参考链接：https://blog.csdn.net/li_stone_123/article/details/97273854
+             * 之前尝试过按上面这个改，但是博客里提供的方法点确定后，callback会调用两遍，这不是我想要的；
+             * 我想弄的是：点关闭，调用1次callback，点确定，调用1次callback
+             * 另外，上面博客里的方案是直接改easyui的源码，侵入性太强
+             *
+             * 下面这个链接
+             * https://blog.csdn.net/longhongkai/article/details/88630718的评论里给的方案
+             * 已经非常接近我想要的了，不过callback还是调了两遍
+             * 我已经改成下面的写法了，是我想要的效果
+             */
+            // 写法1：直接调用
+            /*$.messager.alert('消息', "这是一个测试消息", 'info')
+                .window({modal:true, onBeforeClose: function () {
+                        console.log("触发回调");
+                    }
+                });*/
+
+            // 写法2：自己先封装一层，然后再调用
+            /*myAlert('消息', "这是一个测试消息", 'info', function () {
+                console.log("触发回调");
+            });*/
+            // 写法3：直接扩展easyui的方法
+            $.messager.alert2('消息', "这是一个测试消息", 'info', function () {
                 console.log("触发回调");
             });
         }
