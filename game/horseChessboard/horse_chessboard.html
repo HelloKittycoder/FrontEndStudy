@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>马踏棋盘小游戏</title>
+    <style type="text/css">
+        .chessboard {
+            border-collapse: collapse;
+        }
+        .chessboard, .chessboard tr td {
+            border: 1px solid black;
+        }
+
+        .chessboard td {
+            width: 30px;
+            height: 30px;
+            font-size: 20px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .chessboard .current_position {
+            display: block;
+            width: 30px;
+            height: 30px;
+            background: red;
+            border-radius: 50%;
+            margin: 0 auto;
+            font-weight: bold;
+            color: white;
+        }
+
+        .chessboard .has_travel {
+            background: #692e04;
+            width: 30px;
+            height: 30px;
+            display: block;
+            color: white;
+            margin: 0 auto;
+        }
+
+        .chessboard .possible_position {
+            display: block;
+            width: 30px;
+            height: 30px;
+            background: url(images/possible_position.png) no-repeat -5px -1px;
+            opacity: 0.6;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+<div style="margin-bottom: 10px;">
+    <button>开始游戏</button>
+    棋盘行列数：<input type="text" style="width: 30px;" id="chessboardSize" value="8"/>
+</div>
+<table class="chessboard">
+    <!--<tr>
+        <td>
+            <span class="current_position">1</span>
+        </td>
+        <td>
+            <span class="possible_position"></span>
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>
+            <span class="has_travel">15</span>
+        </td>
+        <td></td>
+        <td></td>
+    </tr>-->
+</table>
+<script src="https://cdn.bootcss.com/jquery/1.9.1/jquery.js"></script>
+<script type="text/javascript">
+
+    // TODO：后续可以写一个自动计算行走路线的算法，点击按钮直接展示出行走路线
+    var chessboardSize = 8; // 这里棋盘大小可以自己设置
+    var finished = false;
+    var $table = $(".chessboard");
+
+    // 参考链接：https://www.cnblogs.com/rmbteam/archive/2011/07/23/2115101.html
+    /*$.fn.isChildOf = function (b) {
+        return this.parents(b).length > 0;
+    }
+
+    $.fn.hasChild = function (b) {
+        return this.parents(b).length > 0;
+    }*/
+
+    // 这种写法与上面的写法等价
+    $.fn.extend({
+        // 判断当前元素是否是被筛选元素的后代元素
+        isChildOf: function (b) {
+            return this.parents(b).length > 0;
+        },
+        // 判断被筛选元素是否为当前元素的后代元素
+        hasChild: function (b) {
+            return this.find(b).length > 0;
+        }
+    });
+
+    $(function () {
+        // 初始化棋盘
+        for (var i = 0; i < chessboardSize; i++) {
+            var $tr = $("<tr></tr>");
+            for (var j = 0; j < chessboardSize; j++) {
+                // 设置每个单元格的行、列
+                var $td = $("<td/>").attr({
+                    "data-row": i,
+                    "data-col": j
+                });
+
+                // 每个单元格初始设置为“未访问”状态
+                $td.data("visited", false);
+                $tr.append($td);
+            }
+            $table.append($tr);
+        }
+
+        var currentNum = 0;
+        /**
+         * 通过事件委托来进行事件绑定
+         * https://www.cnblogs.com/aaronjs/p/3440647.html
+         */
+        $table.on("click", "td", function () {
+            var $currentTd = $(this);
+            if (!$table.hasChild(".current_position")) {
+                // 此时棋盘还没开始点（也可以写currentNum == 0）
+                currentNum++;
+                $currentTd.append("<span class='current_position'>" + currentNum + "</span>");
+                $currentTd.data("visited", true);
+                setPossiblePoint($currentTd);
+            } else if ($table.hasChild(".possible_position")) {
+                // 此时已经点过棋盘了，且页面上点的刚好是可以点的位置
+                if ($currentTd.hasChild(".possible_position")) {
+                    // 将上一个当前点标记为已访问的样式
+                    $table.find(".current_position").attr("class", "has_travel");
+
+                    currentNum++;
+                    // 将当前点击的位置标红展示，并将状态置为“已访问”
+                    $currentTd.empty();
+                    $currentTd.data("visited", true);
+                    $currentTd.append("<span class='current_position'>" + currentNum + "</span>");
+                    // 移除没被点过的可能位置
+                    $table.find(".possible_position").remove();
+                    // 重新计算并标记可能走的位置
+                    setPossiblePoint($currentTd);
+                }
+            }
+
+            // 如果页面上已经没有可以点的位置，说明游戏结束
+            if (!$table.hasChild(".possible_position") && !finished) {
+                // 页面没有可以点的位置了
+                finished = true;
+                console.log("游戏结束");
+            }
+        });
+    });
+
+    // 根据当前点计算出接下来可以走哪些位置，并在页面上标注出来
+    function setPossiblePoint($currentTd) {
+        var row = $currentTd.data("row");
+        var col = $currentTd.data("col");
+
+        var possiblePoint_row;
+        var possiblePoint_col;
+        var $possiblePoint;
+        // 所有可能的位置的相对坐标（以当前点作为基准点）
+        var possiblePositionArr = [
+            {delta_x: -2, delta_y : 1},
+            {delta_x: -1, delta_y : 2},
+            {delta_x: 1, delta_y : 2},
+            {delta_x: 2, delta_y : 1},
+            {delta_x: 2, delta_y : -1},
+            {delta_x: 1, delta_y : -2},
+            {delta_x: -1, delta_y : -2},
+            {delta_x: -2, delta_y : -1},
+        ];
+
+        for (var i = 0; i < possiblePositionArr.length; i++) {
+
+            possiblePoint_row = row + possiblePositionArr[i].delta_x;
+            possiblePoint_col = col + possiblePositionArr[i].delta_y;
+
+            // 判断所有可能的点是否位于棋盘的范围内，如果是，并且该点还没走过，则在页面上标注出来
+            if ((possiblePoint_row >= 0 && possiblePoint_row < chessboardSize)
+                && (possiblePoint_col >= 0 && possiblePoint_col < chessboardSize)) {
+                $possiblePoint = $table.find("td[data-row='"+possiblePoint_row+"'][data-col='"+possiblePoint_col+"']");
+                if (!$possiblePoint.data("visited")) {
+                    $possiblePoint.append("<span class='possible_position'></span>");
+                }
+            }
+        }
+
+    }
+</script>
+</body>
+</html>
