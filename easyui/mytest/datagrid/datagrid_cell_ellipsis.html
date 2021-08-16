@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Basic DataGrid - jQuery EasyUI Demo</title>
+    <link rel="stylesheet" type="text/css" href="../../lib/jquery-easyui-1.5.1/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../lib/jquery-easyui-1.5.1/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="../../mytest/demo.css">
+    <style type="text/css">
+        /* 单元格中的多行省略样式 */
+        .ellipsisContentDiv>div {
+            width: 93px;
+            word-break: break-word;
+        }
+
+        .ellipsisContentDiv .fake-content {
+            position: absolute;
+            z-index: -1;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .ellipsisContentDiv .text-slice {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -webkit-box-orient: vertical;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+        }
+
+        .ellipsisContentDiv .expand-more {
+            display: inline-block;
+            width: 50px;
+            height: 30px;
+            color: blue;
+        }
+
+        /* 展开/收起 */
+        .toggleTableField {
+            width: 85px;
+            margin: 10px auto 0;
+            text-align: center;
+            color: #6fcbf2;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h2>基本数据表格</h2>
+    <div class="demo-info">
+        <div class="demo-tip icon-tip"></div>
+        <div>字数过多换行展示（支持限定行数）</div>
+    </div>
+    <div style="margin: 10px 0;"></div>
+
+    <div id="dgContainer" style="width: 600px">
+        <div id="dg"></div>
+        <div class="toggleTableField showMore">展开更多数据</div>
+    </div>
+
+    <script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript">
+        var allLoadData = [
+            {"productid":"FI-SW-01","productname":"Koi","unitcost":10.00,"status":"P","listprice":36.50,"attr1":"Large","itemid":"EST-1"},
+            {"productid":"K9-DL-01","productname":"Dalmation11111啊啊啊啊啊啊xxxxxxaaaaaaaaaa呵呵呵","unitcost":12.00,"status":"P","listprice":18.50,"attr1":"Spotted Adult Female","itemid":"EST-10"},
+            {"productid":"RP-SN-01","productname":"RattlesnakeQQQQQ12321312123呵呵呵呵呵呵","unitcost":12.00,"status":"P","listprice":38.50,"attr1":"Venomless","itemid":"EST-11"},
+            {"productid":"RP-SN-01","productname":"RattlesnakeHHHHH 基金信息 12321312123呵呵呵呵呵呵","unitcost":12.00,"status":"P","listprice":26.50,"attr1":"Rattleless","itemid":"EST-12"},
+            {"productid":"RP-LI-02","productname":"Iguana","unitcost":12.00,"status":"P","listprice":35.50,"attr1":"Green Adult","itemid":"EST-13"},
+            {"productid":"FL-DSH-01","productname":"Manx","unitcost":12.00,"status":"P","listprice":158.50,"attr1":"Tailless","itemid":"EST-14"},
+            {"productid":"FL-DSH-01","productname":"Manx","unitcost":12.00,"status":"P","listprice":83.50,"attr1":"With tail","itemid":"EST-15"},
+            {"productid":"FL-DLH-02","productname":"Persian","unitcost":12.00,"status":"P","listprice":23.50,"attr1":"Adult Female","itemid":"EST-16"},
+            {"productid":"FL-DLH-02","productname":"Persian","unitcost":12.00,"status":"P","listprice":89.50,"attr1":"Adult Male","itemid":"EST-17"},
+            {"productid":"AV-CB-01","productname":"Amazon Parrot","unitcost":92.00,"status":"P","listprice":63.50,"attr1":"Adult Male","itemid":"EST-18"}
+        ];
+
+        function getData(num) {
+            if (num == 2) {
+                var result = [];
+                for (var i = 0; i < num; i++) {
+                    result.push(allLoadData[i]);
+                }
+                return result;
+            } else {
+                return allLoadData;
+            }
+        }
+
+        // 文本是否发生截断
+        function hasTextSliced($ele) {
+            var initHeight = $ele.height();
+            var height;
+            $ele.removeClass('text-slice');
+            height = $ele.height();
+
+            if (initHeight < height) {
+                // 发生截断
+                return true;
+            }
+            return false;
+        }
+
+        /**
+        * 多行省略并能展开查看全部的代码处理思路参考：https://www.jianshu.com/p/6b8243955c25
+         * https://github.com/codingplayboy/web_demo/tree/master/smallcase/expand_more
+        */
+        $(function () {
+            var $dg = $("#dg");
+            /**
+             * 这段必须写在
+             * $(function () {
+             * });
+             * 中，不然表格加载样式会有问题（右边框不展示）
+             */
+            $dg.datagrid({
+                title:'产品列表1',
+                data: getData(2),
+                width: '600',
+                // collapsible: true,
+                rownumbers : true,
+                nowrap: false,
+                columns:[[
+                    {field:'cb',checkbox: true,width:10},
+                    {field:'itemid',title:'编号',width:100},
+                    {field:'productid',title:'产品编号',width:130},
+                    {field:'productname',title:'产品名称',width:100, formatter: function (value, rowData, rowIndex) {
+                        var showHtml = "<div class='content text-slice'>"+value+"</div>";
+                        var fakeHtml = "<div class='fake-content text-slice'>"+value+"</div>";
+                        var expandHtml = "<label class='expand-more'>更多</label>";
+                        return "<div class='ellipsisContentDiv'>" + showHtml + fakeHtml + expandHtml + "</div>";
+                    }},
+                    {field:'listprice',title:'市场价',width:80,align:'right'}
+                ]],
+                onLoadSuccess: function (data) {
+                    // 绑定“更多”按钮点击事件
+                    var rowCount = $(this).datagrid('getRows').length;
+                    var opts = $(this).datagrid('options');
+
+                    for (var i = 0; i < rowCount; i++) {
+                        var $trs = opts.finder.getTr(this, i);
+                        var $contentDiv = $trs.find(".content");
+                        var $fakeDiv = $trs.find(".fake-content");
+                        var $expandLabel = $trs.find(".expand-more");
+                        if (!hasTextSliced($fakeDiv)) {
+                            $expandLabel.hide();
+                        } else {
+
+                            $expandLabel.click({contentDiv: $contentDiv, expandLabel: $expandLabel}, function (e) {
+                                // console.log(e.data);
+                                var $contentDiv = e.data.contentDiv;
+                                var $expandLabel = e.data.expandLabel;
+                                $contentDiv.toggleClass('text-slice');
+                                if ($contentDiv.hasClass('text-slice')) {
+                                    $expandLabel.text('更多');
+                                } else {
+                                    $expandLabel.text('收起');
+                                }
+                            });
+                        }
+                    }
+                }
+            });
+
+            var $toggleTableField = $(".toggleTableField");
+            $toggleTableField.click(function () {
+                if ($toggleTableField.hasClass("showMore")) {
+                    $dg.datagrid("loadData", getData());
+                    $toggleTableField.removeClass("showMore").addClass("showLess");
+                    $toggleTableField.text("收起");
+                } else if ($toggleTableField.hasClass("showLess")) {
+                    $dg.datagrid("loadData", getData(2));
+                    $toggleTableField.removeClass("showLess").addClass("showMore");
+                    $toggleTableField.text("展开更多数据");
+                }
+            });
+        });
+    </script>
+</body>
+</html>
