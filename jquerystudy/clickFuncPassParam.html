@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>jQuery click函数传参</title>
+</head>
+<body>
+    <p id="one">One!</p>
+
+    <p id="two">Two!</p>
+
+    <p id="three_1">Three_1!</p>
+    <p id="three_2">Three_2!</p>
+    <p id="three_3">Three_3!</p>
+<script src="https://cdn.bootcss.com/jquery/1.9.1/jquery.js"></script>
+<script type="text/javascript">
+    function log(msg) {
+        console.log(msg);
+    }
+
+    // 参考链接：https://blog.csdn.net/qq_21058391/article/details/52326486
+    $(function () {
+        // 这个点击后，打印的是传入的"one"
+        $("#one").click(function () {
+            log("one");
+        });
+
+        // 这个点击后，打印的是jquery的Event对象
+        $("#two").click(log);
+
+        // 这个点击后，打印的是jquery传入的对象参数
+        for (var i = 1; i <= 3; i++) {
+            $("#three_" + i).click({num: i, id: "#three_" + i, $p: $("#three_" + i)}, function (e) {
+                log(e.data);
+            });
+        }
+    });
+</script>
+</body>
+</html>
