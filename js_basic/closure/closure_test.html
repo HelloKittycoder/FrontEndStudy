@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>测试js的闭包</title>
+</head>
+<body>
+<script src="https://cdn.bootcss.com/jquery/1.9.1/jquery.js"></script>
+<script type="text/javascript">
+    function test1() {
+        var result = [];
+        for (var i = 0; i < 5; i++) {
+            result[i] = function () {
+                return i;
+            }
+        }
+        return result;
+    }
+
+    function test2() {
+        var result = [];
+        for (var i = 0; i < 5; i++) {
+            result[i] = function (val) {
+                return function () {
+                    return val;
+                };
+            }(i);
+        }
+        return result;
+    }
+
+    // 参考链接：https://www.cnblogs.com/kindofblue/p/4907847.html
+    $(function () {
+        console.log("执行测试方法1");
+        var result1 = test1();
+        for (var i = 0; i < 5; i++) {
+            console.log(result1[i]());
+        }
+
+        console.log("执行测试方法2");
+        var result2 = test2();
+        for (var i = 0; i < 5; i++) {
+            console.log(result2[i]());
+        }
+    });
+</script>
+</body>
+</html>
