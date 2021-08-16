@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Basic DataGrid - jQuery EasyUI Demo</title>
+    <link rel="stylesheet" type="text/css" href="../../lib/jquery-easyui-1.5.1/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../lib/jquery-easyui-1.5.1/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="../../mytest/demo.css">
+</head>
+<body>
+<h2>基本数据表格</h2>
+<div class="demo-info">
+    <div class="demo-tip icon-tip"></div>
+    <div>向datagrid中添加自定义函数</div>
+</div>
+<div style="margin: 10px 0;"></div>
+
+<div id="dgContainer" style="width: 600px">
+    <div id="dg"></div>
+</div>
+
+<script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/jquery.easyui.extend.js"></script>
+<script type="text/javascript">
+    var allLoadData = [
+        {"productid":"FI-SW-01","productname":"Koi","unitcost":10.00,"status":"P","listprice":36.50,"attr1":"Large","itemid":"EST-1"},
+        {"productid":"K9-DL-01","productname":"Dalmation11111啊啊啊啊啊啊xxxxxxaaaaaaaaaa呵呵呵","unitcost":12.00,"status":"P","listprice":18.50,"attr1":"Spotted Adult Female","itemid":"EST-10"},
+        {"productid":"RP-SN-01","productname":"RattlesnakeQQQQQ12321312123呵呵呵呵呵呵","unitcost":12.00,"status":"P","listprice":38.50,"attr1":"Venomless","itemid":"EST-11"},
+        {"productid":"RP-SN-01","productname":"RattlesnakeHHHHH 基金信息 12321312123呵呵呵呵呵呵","unitcost":12.00,"status":"P","listprice":26.50,"attr1":"Rattleless","itemid":"EST-12"},
+        {"productid":"RP-LI-02","productname":"Iguana","unitcost":12.00,"status":"P","listprice":35.50,"attr1":"Green Adult","itemid":"EST-13"},
+        {"productid":"FL-DSH-01","productname":"Manx","unitcost":12.00,"status":"P","listprice":158.50,"attr1":"Tailless","itemid":"EST-14"},
+        {"productid":"FL-DSH-01","productname":"Manx","unitcost":12.00,"status":"P","listprice":83.50,"attr1":"With tail","itemid":"EST-15"},
+        {"productid":"FL-DLH-02","productname":"Persian","unitcost":12.00,"status":"P","listprice":23.50,"attr1":"Adult Female","itemid":"EST-16"},
+        {"productid":"FL-DLH-02","productname":"Persian","unitcost":12.00,"status":"P","listprice":89.50,"attr1":"Adult Male","itemid":"EST-17"},
+        {"productid":"AV-CB-01","productname":"Amazon Parrot","unitcost":92.00,"status":"P","listprice":63.50,"attr1":"Adult Male","itemid":"EST-18"}
+    ];
+
+    $(function () {
+        var $dg = $("#dg");
+        $dg.datagrid({
+            title:'产品列表1',
+            data: allLoadData,
+            width: '600',
+            // collapsible: true,
+            rownumbers : true,
+            // nowrap: false,
+            columns:[[
+                {field:'cb',checkbox: true,width:10},
+                {field:'itemid',title:'编号',width:100},
+                {field:'productid',title:'产品编号',width:130},
+                {field:'productname',title:'产品名称',width:100},
+                {field:'listprice',title:'市场价',width:80,align:'right'}
+            ]]
+        });
+
+        /**
+         * 测试自定义方法（可以在控制台执行下面的方法来看效果）
+         * $("#dg").datagrid('hideRow', 0); // 隐藏初始table的第1行
+         * $("#dg").datagrid('showRow', 0); // 显示初始table的第1行
+         *
+         * $("#dg").datagrid('hideRow', 2); // 隐藏初始table的第3行
+         * $("#dg").datagrid('showRow', 2); // 显示初始table的第3行
+         */
+    });
+</script>
+</body>
+</html>
