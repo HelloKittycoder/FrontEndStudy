@@ -104,11 +104,10 @@
          * 计算每列宽度
          * @param columnNum 需要计算的列的索引
          * @param totalColumnNum 总共的列数
+         * @param clientWidth 获取可视宽度
          * @return {number} 该列占用的宽度
          */
-        function getWidth(columnNum, totalColumnNum) {
-            // 获取可视宽度
-            var clientWidth = document.body.clientWidth;
+        function getWidth(columnNum, totalColumnNum, clientWidth) {
             // 第1列为固定宽度
             var firstColumnWidth = 100;
             if (columnNum == 0) {
@@ -229,7 +228,7 @@
         $(function () {
             // 设置列宽
             fundTableFieldList.forEach(function (data, i) {
-                data["width"] = getWidth(i, fundTableFieldList.length);
+                data["width"] = getWidth(i, fundTableFieldList.length, document.body.clientWidth);
                 data["align"] = "center";
                 // 将所有字段都设置成超过3行，则显示 展开/收起 效果
                 data["formatter"] = function (value, row, data) {
@@ -268,7 +267,7 @@
 
             // 设置列宽
             compareFundTableFieldList.forEach(function (data, i) {
-                data["width"] = getWidth(i, compareFundTableFieldList.length);
+                data["width"] = getWidth(i, compareFundTableFieldList.length, document.body.clientWidth);
                 data["align"] = "center";
                 // 将所有字段都设置成超过3行，则显示 展开/收起 效果
                 data["formatter"] = function (value, row, data) {
