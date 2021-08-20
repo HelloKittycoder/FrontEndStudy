@@ -168,6 +168,61 @@
         }
 
         /**
+         * 处理单元格里的展开、收起
+         * 1.确定是否展示
+         * 2.如果展示的话，则进行相应的事件绑定
+         * @param $dgDiv datagrid容器div
+         */
+        function processShowExpandBtn($dgDiv) {
+            // 绑定“更多”按钮点击事件
+            var rowCount = $dgDiv.datagrid('getRows').length;
+            var opts = $dgDiv.datagrid('options');
+
+            for (var i = 0; i < rowCount; i++) {
+                var $trs = opts.finder.getTr($dgDiv[0], i);
+                var $contentDivs = $trs.find(".content");
+                $contentDivs.each(function () {
+                    var $contentDiv = $(this);
+
+                    // 获取当前的单元格
+                    var $tdCell = $contentDiv.parents(".datagrid-cell");
+                    var cellWidth = $tdCell.width();
+
+                    var $fakeDiv = $tdCell.find(".fake-content");
+
+                    /**
+                     * 根据easyui渲染好的单元格宽度，动态调整$contentDiv的宽度
+                     * （用来实际展示页面内容的div，当前单元格中的字超过3行，该div会进行截取，另外加上省略号）
+                     */
+                    $contentDiv.width(cellWidth);
+                    $fakeDiv.width(cellWidth);
+
+                    var $expandLabel = $tdCell.find(".expand-more");
+                    if (!hasTextSliced($fakeDiv)) {
+                        $expandLabel.hide();
+                    } else {
+
+                        $expandLabel.click({contentDiv: $contentDiv, expandLabel: $expandLabel}, function (e) {
+                            var $contentDiv = e.data.contentDiv;
+                            var $expandLabel = e.data.expandLabel;
+                            $contentDiv.toggleClass('text-slice');
+                            if ($contentDiv.hasClass('text-slice')) {
+                                $expandLabel.text('展开');
+                            } else {
+                                $expandLabel.text('收起');
+                            }
+                            $dgDiv.datagrid("resize")
+                        });
+                    }
+
+                });
+            }
+
+            // 动态调整行高（这个部分非常重要，不然表格样式有问题）
+            $dgDiv.datagrid("resize")
+        }
+
+        /**
         * 多行省略并能展开查看全部的代码处理思路参考：https://www.jianshu.com/p/6b8243955c25
          * https://github.com/codingplayboy/web_demo/tree/master/smallcase/expand_more
         */
@@ -205,54 +260,7 @@
                     {field: "project2", title: "美团科技开发有限公司", width:getWidth(3)}]]*/
                 columns:[fundTableFieldList],
                 onLoadSuccess: function (data) {
-                    var $dgDiv = $(this);
-                    
-                    // 绑定“更多”按钮点击事件
-                    var rowCount = $dgDiv.datagrid('getRows').length;
-                    var opts = $dgDiv.datagrid('options');
-
-                    for (var i = 0; i < rowCount; i++) {
-                        var $trs = opts.finder.getTr(this, i);
-                        var $contentDivs = $trs.find(".content");
-                        $contentDivs.each(function () {
-                            var $contentDiv = $(this);
-
-                            // 获取当前的单元格
-                            var $tdCell = $contentDiv.parents(".datagrid-cell");
-                            var cellWidth = $tdCell.width();
-
-                            var $fakeDiv = $tdCell.find(".fake-content");
-
-                            /**
-                             * 根据easyui渲染好的单元格宽度，动态调整$contentDiv的宽度
-                             * （用来实际展示页面内容的div，当前单元格中的字超过3行，该div会进行截取，另外加上省略号）
-                             */
-                            $contentDiv.width(cellWidth);
-                            $fakeDiv.width(cellWidth);
-
-                            var $expandLabel = $tdCell.find(".expand-more");
-                            if (!hasTextSliced($fakeDiv)) {
-                                $expandLabel.hide();
-                            } else {
-
-                                $expandLabel.click({contentDiv: $contentDiv, expandLabel: $expandLabel}, function (e) {
-                                    var $contentDiv = e.data.contentDiv;
-                                    var $expandLabel = e.data.expandLabel;
-                                    $contentDiv.toggleClass('text-slice');
-                                    if ($contentDiv.hasClass('text-slice')) {
-                                        $expandLabel.text('展开');
-                                    } else {
-                                        $expandLabel.text('收起');
-                                    }
-                                    $dgDiv.datagrid("resize")
-                                });
-                            }
-
-                        });
-                    }
-
-                    // 动态调整行高（这个部分非常重要，不然表格样式有问题）
-                    $dgDiv.datagrid("resize")
+                    processShowExpandBtn($(this));
                 }
             });
 
@@ -287,54 +295,7 @@
                 striped: true, //设置为true将交替显示行背景。
                 columns:[compareFundTableFieldList],
                 onLoadSuccess: function (data) {
-                    var $dgDiv = $(this);
-
-                    // 绑定“更多”按钮点击事件
-                    var rowCount = $dgDiv.datagrid('getRows').length;
-                    var opts = $dgDiv.datagrid('options');
-
-                    for (var i = 0; i < rowCount; i++) {
-                        var $trs = opts.finder.getTr(this, i);
-                        var $contentDivs = $trs.find(".content");
-                        $contentDivs.each(function () {
-                            var $contentDiv = $(this);
-
-                            // 获取当前的单元格
-                            var $tdCell = $contentDiv.parents(".datagrid-cell");
-                            var cellWidth = $tdCell.width();
-
-                            var $fakeDiv = $tdCell.find(".fake-content");
-
-                            /**
-                             * 根据easyui渲染好的单元格宽度，动态调整$contentDiv的宽度
-                             * （用来实际展示页面内容的div，当前单元格中的字超过3行，该div会进行截取，另外加上省略号）
-                             */
-                            $contentDiv.width(cellWidth);
-                            $fakeDiv.width(cellWidth);
-
-                            var $expandLabel = $tdCell.find(".expand-more");
-                            if (!hasTextSliced($fakeDiv)) {
-                                $expandLabel.hide();
-                            } else {
-
-                                $expandLabel.click({contentDiv: $contentDiv, expandLabel: $expandLabel}, function (e) {
-                                    var $contentDiv = e.data.contentDiv;
-                                    var $expandLabel = e.data.expandLabel;
-                                    $contentDiv.toggleClass('text-slice');
-                                    if ($contentDiv.hasClass('text-slice')) {
-                                        $expandLabel.text('展开');
-                                    } else {
-                                        $expandLabel.text('收起');
-                                    }
-                                    $dgDiv.datagrid("resize")
-                                });
-                            }
-
-                        });
-                    }
-
-                    // 动态调整行高（这个部分非常重要，不然表格样式有问题）
-                    $dgDiv.datagrid("resize")
+                    processShowExpandBtn($(this));
                 }
             });
 
