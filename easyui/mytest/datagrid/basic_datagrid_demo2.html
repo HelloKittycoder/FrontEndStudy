@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Basic DataGrid - jQuery EasyUI Demo</title>
+    <link rel="stylesheet" type="text/css" href="../../lib/jquery-easyui-1.5.1/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../lib/jquery-easyui-1.5.1/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="../../mytest/demo.css">
+    <script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/locale/easyui-lang-zh_CN.js"></script>
+
+    <style type="text/css">
+        .dgContainer {
+            /*width: 800px;*/
+            height: 200px;
+        }
+    </style>
+    <script type="text/javascript">
+        $(function () {
+            $("#dg").datagrid({
+                title:'基本数据表格',
+                url:'datagrid_data1.json',
+                /*width: '700',*/
+                height: '250',
+                fit: true,
+                fitColumns: true,
+                singleSelect:true,
+                collapsible:true,
+                columns:[[
+                    {field:'itemid',title:'编号',width:80},
+                    {field:'productid',title:'产品编号',width:100},
+                    {field:'listprice',title:'市场价',width:80,align:'right'},
+                    {field:'unitcost',title:'成本价',width:80,align:'right'},
+                    {field:'attr1',title:'描述',width:250},
+                    {field:'status',title:'状态',width:60,align:'center'},
+                ]]
+            });
+        });
+    </script>
+</head>
+<body>
+    <h2>基本数据表格</h2>
+    <div class="demo-info">
+        <div class="demo-tip icon-tip"></div>
+        <div>使用fit、fitColumns自动适应宽度</div>
+        <!-- 说明：
+        （1）fit和fitColumns的作用
+         fit：如果为true，页面缩放时，table的宽度会自动调整；
+         fitColumns：如果为true，列宽会根据width中写的宽度占table各列width之和的比例进行对列宽进行设置；
+         如果为false，列宽则设置为绝对数值，比如width写的80，会被设置成80px
+         （2）fit:true要起作用的话，外部容器一定要有高度，不然会datagrid会显示成一条线
+
+         另外一般easyui的datagrid中每个field里的width属性都是写数字（可以写'80'，'80px'，但一般写的是80）
+         参考链接：https://blog.csdn.net/weixin_39361808/article/details/86525876
+         -->
+    </div>
+    <div style="margin: 10px 0;"></div>
+
+    <!-- 说明下面写成 table或者div都可以 -->
+    <div class="dgContainer">
+        <div id="dg"></div>
+    </div>
+</body>
+</html>
