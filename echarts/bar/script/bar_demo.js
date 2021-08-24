@@ -266,18 +266,10 @@ var BarDemo = function () {
     }
 
     return {
-        queryChart1 : function () {
-            queryChart1();
-        },
-        queryChart2 : function () {
-            queryChart2();
-        },
-        queryChart3 : function () {
-            queryChart3();
-        },
-        getPageEchartsElements : function () {
-            return pageEchartsElements;
-        }
+        queryChart1 : queryChart1,
+        queryChart2 : queryChart2,
+        queryChart3 : queryChart3,
+        getPageEchartsElements : pageEchartsElements
     }
 }();
 
