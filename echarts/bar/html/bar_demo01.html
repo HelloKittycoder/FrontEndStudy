@@ -41,6 +41,16 @@
             </div>
         </div>
     </div>
+    <div class="chartContainerDiv">
+        <div class="chart2_1">
+            <div class="light borderd">
+                <div class="chartBody">
+                    <div id="chart3" class="chartContent"></div>
+                </div>
+            </div>
+        </div>
+        <!--<div class="chart2_2"></div>-->
+    </div>
 </div>
 
 <!-- 前端库在线引用地址：https://www.bootcdn.cn/ -->
@@ -52,6 +62,7 @@
     $(function () {
         BarDemo.queryChart1();
         BarDemo.queryChart2();
+        BarDemo.queryChart3();
         $("#copyPic2").click(function () {
             $("body").append($("<img/>", {src:BarDemo.getPageEchartsElements().getArr()[1].getDataURL()}));
         });

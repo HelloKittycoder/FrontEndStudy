@@ -108,7 +108,7 @@ var BarDemo = function () {
                     }
                 },
                 legend: {
-                    data: ['Forest', 'Steppe', 'Desert', 'Wetland'],
+                    data: legendData,
                     top: 25
                 },
                 toolbox: {
@@ -169,6 +169,64 @@ var BarDemo = function () {
         }
     }
 
+    // 堆叠柱状图
+    var queryChart3 = function () {
+        $.ddchart.loadChartBase('#chart3', function (callback) {
+            var responseText = getChartData3();
+            var option = getOption(responseText.axisData, responseText.seriesData, responseText.legendData);
+            pageEchartsElements.push(callback(option));
+        });
+
+        function getOption(axisData, seriesData, legendData) {
+            return {
+                title: {
+                    text: '资源总览',
+                    left:'20px',
+                    textStyle: {
+                        color: "#436EEE",
+                        fontSize: 17,
+                    }
+                },
+                tooltip: {
+                    trigger: "axis",
+                },
+                legend: {
+                    itemWidth:15,
+                    itemHeight:15,
+                    data:legendData,
+                },
+                xAxis: {
+                    data: axisData['x'],
+                    splitLine:{
+                        show:false,
+                    },
+                },
+                yAxis: {
+                    splitLine:{
+                        show:false,
+                    },
+                },
+                series: [{
+                    name: '可用',
+                    type: 'bar',
+                    stack:'使用情况',
+                    data: seriesData[0],
+                    itemStyle:{
+                        normal:{color:"#FF8849"},
+                    }
+                },{
+                    name: '不可用',
+                    type: 'bar',
+                    stack:'使用情况',
+                    data: seriesData[1],
+                    itemStyle:{
+                        normal:{color:"#3FBB49"},
+                    }
+                }]
+            };
+        }
+    }
+
     var getChartData1 = function () {
         return {
             axisData : {
@@ -194,12 +252,28 @@ var BarDemo = function () {
         };
     }
 
+    var getChartData3 = function () {
+        return {
+            axisData : {
+                x: ["网络设备","服务器","应用","其他","虚拟机","存储"]
+            },
+            seriesData : [
+                [5, 20, 36, 10, 10, 20],
+                [40, 22, 18, 35, 42, 40]
+            ],
+            legendData : ['可用','不可用']
+        }
+    }
+
     return {
         queryChart1 : function () {
             queryChart1();
         },
         queryChart2 : function () {
             queryChart2();
+        },
+        queryChart3 : function () {
+            queryChart3();
         },
         getPageEchartsElements : function () {
             return pageEchartsElements;
