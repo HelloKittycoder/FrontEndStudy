@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Basic DataGrid - jQuery EasyUI Demo</title>
+    <link rel="stylesheet" type="text/css" href="../../lib/jquery-easyui-1.5.1/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../lib/jquery-easyui-1.5.1/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="../../mytest/demo.css">
+    <script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/locale/easyui-lang-zh_CN.js"></script>
+
+    <style type="text/css">
+        .dgContainer {
+            /*width: 800px;*/
+            height: 320px;
+        }
+    </style>
+    <script type="text/javascript">
+        $(function () {
+            $("#dg").datagrid({
+                title:'基本数据表格',
+                url:'datagrid_data1.json',
+                /*width: '700',*/
+                /*height: '250',*/
+                fit: true,
+                fitColumns: true,
+                /*singleSelect:true,*/
+                collapsible:true,
+                columns:[[
+                    {field:'itemid',title:'编号',width:80},
+                    {field:'productid',title:'产品编号',width:100},
+                    {field:'listprice',title:'市场价',width:80,align:'right'},
+                    {field:'unitcost',title:'成本价',width:80,align:'right'},
+                    {field:'attr1',title:'描述',width:250},
+                    {field:'status',title:'状态',width:60,align:'center'},
+                ]]
+            });
+        });
+    </script>
+</head>
+<body>
+    <h2>基本数据表格</h2>
+    <div class="demo-info">
+        <div class="demo-tip icon-tip"></div>
+        <div>获取行的相关操作</div>
+        <!-- 说明：
+        $("#dg").datagrid("getRows") 获取所有行的数据
+
+        获取dom相关操作：
+        获取页面展示的datagrid部分（thead+tbody） $("#dg").datagrid("getPanel")
+        获取thead部分的td $("#dg").datagrid("getPanel").find('div.datagrid-header td')
+        获取tbody中的某一列的所有td（比如：productid） $("#dg").datagrid("getPanel").find("tr.datagrid-row td[field='productid']")
+         -->
+    </div>
+    <div style="margin: 10px 0;"></div>
+
+    <!-- 说明下面写成 table或者div都可以 -->
+    <div class="dgContainer">
+        <div id="dg"></div>
+    </div>
+</body>
+</html>
