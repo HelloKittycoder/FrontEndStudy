@@ -27,6 +27,53 @@
                     {field:'status',title:'状态',width:60,align:'center'},
                 ]]
             });
+
+            $("#dg2").datagrid({
+                title:'自定义checkbox', // 这里没有使用easyui提供的checkbox:true来生成checkbox，因为easyui自带的无法指定标题
+                url:'datagrid_data1.json',
+                width: '800',
+                height: '250',
+                // singleSelect:true,
+                collapsible:true,
+                columns:[[
+                    /*{field:'ck',title:'选择',align:'center',checkbox:true},*/
+                    {field:'itemid',title:'编号',width:80, styler:function (value, rowData, rowIndex) {
+                            // console.log(value, rowData, rowIndex);
+                            // return "background:red";
+                        }},
+                    {field:'productid',title:'产品编号',width:100},
+                    {field:'listprice',title:'市场价',width:80,align:'right'},
+                    {field:'unitcost',title:'成本价',width:80,align:'right'},
+                    {field:'attr1',title:'描述',width:250},
+                    {field:'status',title:'状态',width:60,align:'center'},
+                    {field:'isShow',title:'是否展示',width:60,align:'center',formatter:function (value,rowData,rowIndex) {
+                            if (rowIndex == 0) {
+                                // 设置第1行的checkbox被选中，且无法操作
+                                return "<input type='checkbox' name='ckbox' disabled checked/>";
+                            } else {
+                                // 设置第2行及以后的checkbox都能正常操作
+                                return "<input type='checkbox' name='ckbox' checked/>";
+                            }
+                        }},
+                ]],
+                onLoadSuccess: function () {
+                    // console.log("datagrid加载完成");
+                    // console.log($(this));
+                    var $dgDiv = $(this);
+                    // $("#dg2").datagrid("getPanel")：获取页面展示的datagrid部分（thead+tbody）
+                    // $("#dg2").datagrid("getPanel").find("tr.datagrid-row td[field='ckbox']")：获取isShow这一列的所有td（不含thead部分的）
+                    $dgDiv.datagrid("getPanel").find("tr.datagrid-row td[field='isShow']").find("input[type='checkbox']:enabled").on("click", function () {
+                        var $checkbox = $(this);
+                        // 根据checkbox获取当前所在的行号
+                        var rowIndex = $checkbox.parents(".datagrid-row").attr("datagrid-row-index");
+                        // 根据checkbox获取当前所在的行
+                        var row = $dgDiv.datagrid("getRows")[rowIndex];
+                        // 选取该行对应的产品编号
+                        var newProductid = (+rowIndex+1) + "." + row.productid;
+                        console.log("触发check操作，当前checkbox被选中：" + $checkbox.is(":checked") + "，该行的newProductid为：" + newProductid);
+                    });
+                }
+            });
         });
     </script>
 </head>
@@ -55,5 +102,8 @@
 
     <!-- 说明下面写成 table或者div都可以 -->
     <div id="dg"></div>
+    <br/>
+
+    <div id="dg2"></div>
 </body>
 </html>
