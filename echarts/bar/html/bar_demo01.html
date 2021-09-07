@@ -66,6 +66,25 @@
         $("#copyPic2").click(function () {
             $("body").append($("<img/>", {src:BarDemo.getPageEchartsElements().getArr()[1].getDataURL()}));
         });
+
+        // 动态隐藏与显示图例
+        /*// 隐藏图例
+        echarts.getInstanceByDom(document.getElementById("chart1")).dispatchAction({
+            type:"legendUnSelect",
+            name:"直接访问"
+        });
+
+        // 显示图例
+        echarts.getInstanceByDom(document.getElementById("chart1")).dispatchAction({
+            type:"legendSelect",
+            name:"直接访问"
+        });
+
+        // 切换图例的显示与隐藏
+        echarts.getInstanceByDom(document.getElementById("chart1")).dispatchAction({
+            type:"legendToggleSelect",
+            name:"直接访问"
+        });*/
     });
 </script>
 </body>
