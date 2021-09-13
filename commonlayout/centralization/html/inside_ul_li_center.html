@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>如何让ul中的li水平居中</title>
+    <style type="text/css">
+        ul, li {
+            margin: 0;
+            padding: 0;
+        }
+
+        .courseUL {
+            width: 600px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+        }
+        .courseUL li {
+            /*border: 1px solid;*/
+            list-style: none;
+            /* 使用flex布局时，内部元素的float属性会失效，下面写了和没写是一样的 */
+            /*float: left;*/
+            margin-left: 10px;
+        }
+
+        .courseUL2 {
+            width: 600px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+        }
+
+        .courseUL2 li {
+            list-style: none;
+            margin-left: 10px;
+        }
+        .courseUL2 .block {
+            width: 13px;
+            height: 13px;
+            display: inline-block;
+        }
+        .courseUL2 .block1 {
+            background: #385688;
+        }
+        .courseUL2 .block2 {
+            background: #6a9552;
+        }
+        .courseUL2 .block3 {
+            background: #dda451;
+        }
+        .courseUL2 .block4 {
+            background: #ad3a36;
+        }
+        .courseUL2 .block5 {
+            background: #6F3c79;
+        }
+        .courseUL2 .block6 {
+            background: #6F6F6F;
+        }
+    </style>
+</head>
+<body>
+    <!--
+      如何让ul中的li水平居中
+      参考链接：http://www.divcss5.com/css3-style/c55396.shtml
+      技术要点：
+      下面两种情况都差不多，只要保证ul与li的相对关系即可，li与其内部元素的关系根据实际情况调整
+      所以这里只看情形1
+
+      （1）ul的宽度根据实际情况设置，要求设定宽度则设定，如果和外部容器宽度一致，则可以不用设置
+      确保ul中的li能够水平居中，需要设置
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      完成（1）基本满足需求了
+      （2）li：根据实际情况做下设置，这里我不想要li前的点，就设置 list-style: none;
+      另外我想让每个li之间距离为10px，就设置 margin-left: 10px;
+     -->
+    <!-- 情形1：li中只是文字 -->
+    <ul class="courseUL" style="border: 1px solid">
+        <li>语文</li>
+        <li>数学</li>
+        <li>英语</li>
+        <li>政治</li>
+        <li>历史</li>
+        <li>地理</li>
+    </ul>
+    <!-- 情形2：li中包含别的元素 -->
+    <ul class="courseUL2" style="border: 1px solid">
+        <li>
+            <span class="block block1"></span>
+            <span>语文</span>
+        </li>
+        <li>
+            <span class="block block2"></span>
+            <span>数学</span>
+        </li>
+        <li>
+            <span class="block block3"></span>
+            <span>英语</span>
+        </li>
+        <li>
+            <span class="block block4"></span>
+            <span>政治</span>
+        </li>
+        <li>
+            <span class="block block5"></span>
+            <span>历史</span>
+        </li>
+        <li>
+            <span class="block block6"></span>
+            <span>地理</span>
+        </li>
+    </ul>
+</body>
+</html>
