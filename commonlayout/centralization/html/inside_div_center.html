@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>如何让div中的元素居中</title>
+    <style type="text/css">
+        .containerDiv {
+            width: 98%;
+            /* 上 左右 下*/
+            margin: 10px auto 0;
+        }
+
+        .testDiv {
+            text-align: center;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+<h4>如何让div中的元素水平居中</h4>
+<!--
+  如何让div中的元素水平居中
+  技术要点：
+-->
+<!-- 情况1：div里只有文字，设置text-align就行 -->
+<div class="containerDiv" style="border: 1px solid; text-align: center">
+    查看数据
+</div>
+<!-- 情况2：div（.containerDiv）里嵌套了一个div（.testDiv），展示的内容是在testDiv里
+思路：首先外层div已经是水平居中的，只要做到
+（1）内层div相对外层div保持居中，（2）内层div的文字在内层div居中即可
+其中：（1）通过 margin: 0 auto; 来控制，里面起作用的其实就是auto，
+它会自动调整内层div的左右margin，保证margin-left和margin-right一样
+（2）通过 text-align: center 来控制
+-->
+<div class="containerDiv" style="border: 1px solid">
+    <div class="testDiv">这是一个测试div</div>
+</div>
+</body>
+</html>
