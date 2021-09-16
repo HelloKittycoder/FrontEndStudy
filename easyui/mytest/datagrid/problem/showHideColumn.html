@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Basic DataGrid - jQuery EasyUI Demo</title>
+    <link rel="stylesheet" type="text/css" href="../../../lib/jquery-easyui-1.5.1/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../../lib/jquery-easyui-1.5.1/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="../../../mytest/demo.css">
+    <script type="text/javascript" src="../../../lib/jquery-easyui-1.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="../../../lib/jquery-easyui-1.5.1/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../../lib/jquery-easyui-1.5.1/locale/easyui-lang-zh_CN.js"></script>
+
+    <!--
+    问题描述：easyui对某列调用showColumn、hideColumn后，会发现该列的宽度会不断变小
+    问题重现：把 “1.提前保存列宽配置”、“2.加载原始列宽配置”部分的代码注释掉，就能看到
+    解决思路：
+    1.提前保存列宽配置：将列隐藏前的所有的列宽配置做下保存，这个列宽配置只用存1次
+    2.加载原始列宽配置：在调用展示时，先重新应用下提前保存的列宽配置
+
+    参考链接：https://www.cnblogs.com/neozhu/p/11639362.html
+    上面这个链接只是给我提供了思路，并非直接解决该问题的 -->
+    <style type="text/css">
+        .dgContainer {
+            /*width: 800px;*/
+            height: 320px;
+        }
+    </style>
+    <script type="text/javascript">
+        var originalDgColumnOptions;
+        $(function () {
+            var dgData;
+            $.ajax({
+                url: "../datagrid_data1.json",
+                dataType: "json",
+                async: false,
+                success: function (responseText) {
+                    dgData = responseText;
+                    // console.log("数据加载完成");
+                }
+            });
+
+            $("#dg").datagrid({
+                title:'基本数据表格',
+                // url:'../datagrid_data1.json',
+                /*width: '700',*/
+                /*height: '250',*/
+                fit: false,
+                fitColumns: true,
+                nowrap: true,
+                striped: true, //设置为true将交替显示行背景。
+                remoteSort: true,
+                rownumbers:false,
+                /*singleSelect:true,*/
+                collapsible:true,
+                columns:[[
+                    {field:'itemid',title:'编号',width:80},
+                    {field:'productid',title:'产品编号',width:100},
+                    {field:'listprice',title:'市场价',width:80,align:'right'},
+                    {field:'unitcost',title:'成本价',width:80,align:'right'},
+                    {field:'attr1',title:'描述',width:250},
+                    {field:'status',title:'状态',width:60,align:'center'},
+                    {field:'isShow',title:'是否展示',width:60,align:'center',formatter:function (value,rowData,rowIndex) {
+                            console.log("调用formatter方法");
+                            if (rowIndex == 0) {
+                                // 设置第1行的checkbox被选中，且无法操作
+                                return "<input type='checkbox' name='ckbox' disabled checked/>";
+                            } else {
+                                // 设置第2行及以后的checkbox都能正常操作
+                                return "<input type='checkbox' name='ckbox' checked/>";
+                            }
+                        }}
+                ]]
+            });
+
+            /**
+             * 这里写loadData和直接用datagrid的data属性的区别：
+             * 用loadData：后续加载原始列宽配置时，需要再指定要加载的数据
+             * 用datagrid的data属性：后续加载原始列宽配置时，可以不用指定要加载的数据（建议用这个）
+             */
+            // $("#dg").datagrid("loadData", dgData);
+            $("#dg").datagrid({
+                data: dgData
+            });
+
+            $("#showHide").click(function () {
+                // 1.提前保存列宽配置
+                if (!originalDgColumnOptions) {
+                    var options = $("#dg").datagrid("options");
+                    originalDgColumnOptions = $.extend(true, [], options.columns);
+                }
+
+                // 隐藏isShow列
+                $("#dg").datagrid("hideColumn", "isShow");
+
+                // 2.加载原始列宽配置
+                /*$("#dg").datagrid({
+                    columns: $.extend(true, [], originalDgColumnOptions),
+                    data: dgData
+                });*/
+                $("#dg").datagrid({
+                    columns: $.extend(true, [], originalDgColumnOptions)
+                });
+                // 显示isShow列（这个可以不写，因为原始列宽配置中该列是显示的）
+                $("#dg").datagrid("showColumn", "isShow");
+            });
+        });
+    </script>
+</head>
+<body>
+    <h2>基本数据表格</h2>
+    <div class="demo-info">
+        <div class="demo-tip icon-tip"></div>
+        <div>解决showColumn、hideColumn后某列的宽度不断变小的问题</div>
+    </div>
+    <div style="margin: 10px 0;"></div>
+
+    <button id="showHide">显示/隐藏</button>
+    <div style="margin: 10px 0;"></div>
+
+    <div class="dgContainer">
+        <div id="dg"></div>
+    </div>
+</body>
+</html>
