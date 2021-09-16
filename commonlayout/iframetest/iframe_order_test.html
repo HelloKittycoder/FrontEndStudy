@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style type="text/css">
+        #main {
+            display: flex;
+            flex-direction: column;
+        }
+        #main>div {
+            /*min-width: 200px;
+            min-height: 200px;*/
+            display: flex;
+            flex-direction: column;
+            width: 800px;
+            border: 1px solid;
+            margin: 0 auto;
+        }
+        #lightgreen {
+            background: lightgreen;
+            order: 2;
+        }
+        #pink {
+            background: pink;
+            order: 1;
+        }
+        .iframecontent {
+            margin: 0 auto;
+            width: 800px;
+            height: 200px;
+            margin: 0 auto;
+        }
+        #iframe1 {
+            order: 1;
+        }
+        #iframe2 {
+            order: 2;
+        }
+        #iframe3 {
+            order: 1;
+        }
+        #iframe4 {
+            order: 2;
+        }
+    </style>
+</head>
+<body>
+<h4 style="text-align: center">通过css样式控制iframe的显示顺序</h4>
+    <!-- 参考链接：https://www.runoob.com/cssref/css3-pr-order.html -->
+    <div id="main">
+        <div id="lightgreen">
+            <iframe id="iframe1" src="relatepage/iframe_mod1_1.html" class="iframecontent" frameborder="0"></iframe>
+            <iframe id="iframe2" src="relatepage/iframe_mod1_2.html" class="iframecontent" frameborder="0"></iframe>
+        </div>
+        <div id="pink">
+            <iframe id="iframe3" src="relatepage/iframe_mod2_1.html" class="iframecontent" frameborder="0"></iframe>
+            <iframe id="iframe4" src="relatepage/iframe_mod2_2.html" class="iframecontent" frameborder="0"></iframe>
+        </div>
+    </div>
+</body>
+</html>
