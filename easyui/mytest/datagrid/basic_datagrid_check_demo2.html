@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Basic DataGrid - jQuery EasyUI Demo</title>
+    <link rel="stylesheet" type="text/css" href="../../lib/jquery-easyui-1.5.1/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../lib/jquery-easyui-1.5.1/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="../../mytest/demo.css">
+    <script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/locale/easyui-lang-zh_CN.js"></script>
+    <!--
+    需求说明：限制多选最多选maxNum个（maxNum=5）
+    需求细化：（1）如果已选择数量+当前页的未选择数量>maxNum，则禁用当前页的“全选”；否则启用
+    已选择数量可能出现在当前页，也可能出现其他页
+    （2）已选择项如果跨了不同页，只要打开了那一页，就要把选中项给勾上
+    （3）页面刚加载时，能够加载之前在数据库中保存好的选中项（这里用个input数据来模拟下） <input id="dg_checkedIds"/>
+
+    实现思路：
+    （1）准备一个数组hasChecked，专门用来存放选中项
+    （2）easyui提供了onLoadSuccess、onClickRow、onCheck、onUncheck、onCheckAll、onUncheckAll事件，
+    当触发相应事件时，操作hasChecked里的元素即可
+
+    事件触发说明：
+    页面加载，后台传来数据库中存放的选中项的值（多个以逗号分隔）放到<input id="dg_checkedIds"/>中
+    onLoadSuccess：datagrid加载成功
+    （1）根据hasChecked中的选中项，加载当前页的选中项
+    （2）如果已选择数量+当前页的未选择数量>maxNum，则禁用当前页的“全选”；否则启用
+
+    onClickRow：点击一行，此时可能是勾选该行，也可能是取消勾选该行，因为已经触发过check或uncheck事件了，所以这里不用做处理
+
+    onCheck：勾选一行
+    需要进行下面的判断
+    （1）hasChecked有该行，说明处于初始化状态，此时不用验证；
+    （2）hasChecked没有该行，说明是在加载好以后点击的
+    如果把勾选的这行加到hasChecked数组中不超过maxNum，就加到hasChecked数组；否则不要加到hasChecked中，并取消当前行的勾选
+    （注：是否处于初始化状态，也可以通过onLoadSuccess里自己维护isLoadingHasCheckedData变量来做判断）
+
+    onUncheck：取消勾选一行
+    hasChecked中移除该行
+
+    onCheckAll：勾选全部
+    在能点“全选”的情况下，此时会接收到本页的所有行，对于每一行，如果hasChecked中没有该行，则直接把该行加到hasChecked
+
+    onUncheckAll：取消勾选全部
+    在能点“全选”的情况下，此时会接收到本页的所有行，对于每一行，直接从hasChecked中移除该行
+    -->
+
+    <script type="text/javascript">
+        /**
+         * 删除数组中的某个元素，只删它第一次出现的位置，不会产生缝隙
+         * @return 如果有元素被删除，则返回刚刚被删除的元素；否则返回空数组
+         * 使用示例：[1,2,2,3].remove(2)=>[1,2,3]
+         */
+        Array.prototype.remove = Array.prototype.remove || function (val) {
+            var index = this.indexOf(val);
+            if (index > -1) {
+                return this.splice(index, 1);
+            } else {
+                return [];
+            }
+        };
+
+        var hasChecked;
+        var isLoadingHasCheckedData = false;
+        $(function () {
+            var checkCallback = function(rows, eventName) {
+                var html = "<div>触发" + eventName + "事件，编号为";
+                var itemidArr = [];
+                $.each(rows, function (index, row) {
+                    itemidArr.push(row.itemid);
+                });
+                html += itemidArr + "</div>";
+                $("#content").append(html);
+            }
+
+            var maxNum = 5;
+            hasChecked = $("#dg_checkedIds").val() ? $("#dg_checkedIds").val().split(",") : [];
+            $("#dg").datagrid({loadFilter: pagerFilter}).datagrid({
+                title:'基本数据表格',
+                url:'datagrid_data1.json',
+                width: '750',
+                height: '400',
+                collapsible: true,
+                rownumbers : true,
+                pagination:true,
+                pageSize:10,
+                pageList: [10, 20, 30],
+                columns:[[
+                    {field:'cb',checkbox: true,width:10},
+                    {field:'itemid',title:'编号',width:80},
+                    {field:'productid',title:'产品编号',width:100},
+                    {field:'listprice',title:'市场价',width:80,align:'right'},
+                    {field:'unitcost',title:'成本价',width:80,align:'right'},
+                    {field:'attr1',title:'描述',width:250},
+                    {field:'status',title:'状态',width:60,align:'center'},
+                ]],
+                onLoadSuccess: function() {
+                    var $dg = $(this);
+                    var rows = $dg.datagrid("getRows");
+                    isLoadingHasCheckedData = true;
+                    // 加载当前记录的选中项
+                    $.each(rows, function (index, row) {
+                        if ($.inArray(row["itemid"], hasChecked) > -1) {
+                            $dg.datagrid("checkRow", index);
+                        }
+                    });
+                    isLoadingHasCheckedData = false;
+
+                    // 如果已选中项+当页的可选项>maxNum，则禁用当页的全选复选框，否则启用
+                    var uncheckedNumThisPage = $dg.datagrid("getRows").length - $dg.datagrid("getChecked").length;
+                    var $checkAllCheckbox = $dg.datagrid("getPanel").find("input[type='checkbox']:first");
+                    if (hasChecked.length + uncheckedNumThisPage > maxNum) {
+                        $checkAllCheckbox.prop("disabled", true);
+                    } else {
+                        $checkAllCheckbox.prop("disabled", false);
+                    }
+                },
+                // 选中行事件（这个会触发 onClickRow、onCheck），可能是check，也可能是uncheck
+                onClickRow: function (index, row) {
+                    console.log($("#dg").datagrid("getChecked").length);
+                    // $("#content").append("<div>触发onClickRow事件，编号为" + row.itemid + "</div>");
+                },
+                // 勾选单个事件
+                onCheck: function (index, row) {
+                    // console.log($("#dg").datagrid("getChecked").length);
+
+                    var $dg = $(this);
+                    /*if (isLoadingHasCheckedData) {
+                        // 处于初始化加载阶段
+                        if ($.inArray(row["itemid"], hasChecked) == -1) {
+                            hasChecked.push(row["itemid"]);
+                        }
+                    } else {
+                        // 加载好后点击的
+                        if (hasChecked.length + 1 > maxNum) {
+                            $dg.datagrid("uncheckRow", index);
+                        } else {
+                            hasChecked.push(row["itemid"]);
+                        }
+                    }*/
+
+                    /**
+                     * 如果check的是hasChecked里有的，说明是在初始化加载阶段，此时不用验证；
+                     * 否则就是在加载好以后点击的，此时需要验证
+                     */
+                    if ($.inArray(row["itemid"], hasChecked) == -1) {
+                        if (hasChecked.length + 1 > maxNum) {
+                            $dg.datagrid("uncheckRow", index);
+                        } else {
+                            hasChecked.push(row["itemid"]);
+                        }
+                    }
+                    // $("#content").append("<div>触发onCheck事件，编号为" + row.itemid + "</div>");
+                },
+                // 取消勾选单个事件
+                onUncheck: function (index, row) {
+                    console.log($("#dg").datagrid("getChecked").length);
+                    hasChecked.remove(row["itemid"]);
+                    // $("#content").append("<div>触发onUncheck事件，编号为" + row.itemid + "</div>");
+                },
+                // 勾选全部事件
+                onCheckAll: function (rows) {
+                    console.log($("#dg").datagrid("getChecked").length);
+                    $.each(rows, function (index, row) {
+                        if ($.inArray(row["itemid"], hasChecked) == -1) {
+                            hasChecked.push(row["itemid"]);
+                        }
+                    });
+
+                    // checkCallback(rows, "onCheckAll");
+                },
+                // 取消勾选全部事件
+                onUncheckAll: function (rows) {
+                    console.log($("#dg").datagrid("getChecked").length);
+                    $.each(rows, function (index, row) {
+                        hasChecked.remove(row["itemid"]);
+                    });
+
+                    // checkCallback(rows, "onUncheckAll");
+                }
+            });
+        });
+
+        /**
+         * 模拟easyui前端分页用的
+         * https://blog.csdn.net/qq_36827957/article/details/77340759
+         * @param data
+         * @return {{originalRows}}
+         */
+        function pagerFilter(data) {
+            if (typeof data.length == 'number' && typeof data.splice == 'function') {   // is array
+                data = {
+                    total: data.length,
+                    rows: data
+                }
+            }
+            var dg = $(this);
+            var opts = dg.datagrid('options');
+            var pager = dg.datagrid('getPager');
+            pager.pagination({
+                onSelectPage: function (pageNum, pageSize) {
+                    opts.pageNumber = pageNum;
+                    opts.pageSize = pageSize;
+                    pager.pagination('refresh', {
+                        pageNumber: pageNum,
+                        pageSize: pageSize
+                    });
+                    dg.datagrid('loadData', data);
+                }
+            });
+            if (!data.originalRows) {
+                data.originalRows = (data.rows);
+            }
+            var start = (opts.pageNumber - 1) * parseInt(opts.pageSize);
+            var end = start + parseInt(opts.pageSize);
+            data.rows = (data.originalRows.slice(start, end));
+            return data;
+        }
+    </script>
+</head>
+<body>
+    <h2>基本数据表格</h2>
+    <div class="demo-info">
+        <div class="demo-tip icon-tip"></div>
+        <div>限制多选最多选5个</div>
+    </div>
+    <div style="margin: 10px 0;"></div>
+
+    <!-- 说明下面写成 table或者div都可以 -->
+    <input id="dg_checkedIds" type="text" value="EST-1,EST-10"/>
+    <div id="dg"></div>
+    <br/>
+
+    <div id="content"></div>
+</body>
+</html>
