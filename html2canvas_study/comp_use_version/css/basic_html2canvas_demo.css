@@ -1,0 +1,88 @@
+.container {
+    width: 98%;
+    margin: 0 auto;
+}
+
+.container .part {
+    float: left;
+    margin-left: 20px;
+}
+
+/* myTable_A */
+#myTable_A {
+    /*margin: 0 auto;
+    border: 1px solid #E7EAEF;*/
+    border: none;
+    text-align: center;
+    border-collapse: collapse;
+    width: 300px;
+    height: 200px;
+    background-color: white;
+}
+
+#myTable_A th {
+    border: 1px solid #E7EAEF;
+    font-weight: initial;
+}
+
+/* myTable_B */
+#myTable_B {
+    /*margin: 0 auto;*/
+    border: none;
+    border-collapse: collapse;
+    background: #fff;
+    width: 300px;
+    height: 200px;
+    text-align: center;
+}
+/*统一对table的所有单元格字体的粗细进行设置*/
+#myTable_B th {
+    font-weight: initial;
+}
+/*table的非最后一行且非最后一列的单元格 边框 右下*/
+#myTable_B tr:not(:last-child) th:not(:last-child) {
+    border-width: 0 0.5px 0.5px 0;
+    border-style: solid;
+    border-color: #E7EAEF;
+}
+/*table的最下面一行的单元格（排除掉最右边那个） 只有右边框*/
+#myTable_B tr:last-child th:not(:last-child) {
+    border-width: 0 0.5px 0 0;
+    border-style: solid;
+    border-color: #E7EAEF;
+}
+/*table的最后一列的单元格（排除掉最下面那个） 只有下边框*/
+#myTable_B tr:not(:last-child) th:last-child {
+    border-width: 0 0 0.5px 0;
+    border-style: solid;
+    border-color: #E7EAEF;
+}
+/*table最右下角的单元格（位于最后一行最后一列的单元格）*/
+#myTable_B tr:last-child th:last-child {
+}
+
+/* myTable_C */
+#myTable_C {
+    /*margin: 0 auto;*/
+    border: none;
+    border-collapse: collapse;
+    background: #fff;
+    width: 300px;
+    height: 200px;
+    text-align: center;
+}
+/*table的所有单元格 边框 右下*/
+#myTable_C th {
+    border-width: 0 0.5px 0.5px 0;
+    border-style: solid;
+    border-color: #E7EAEF;
+    font-weight: initial;
+}
+/*table的最后一行单元格 没有下边框*/
+#myTable_C tr:last-child th {
+    border-bottom-width: 0;
+}
+/*table的最后一列单元格 没有右边框*/
+#myTable_C th:last-child {
+    border-right-width: 0;
+}

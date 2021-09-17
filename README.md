@@ -1,6 +1,10 @@
 # FrontEndStudy
 前端学习  
 
+#### 工具类框架
+#### canvas处理
+basic_html2canvas_demo.html：给一个不带外边框的table进行截图  
+
 #### 页面布局相关
 iframe_order_test.html：通过css样式控制iframe的显示顺序  
 

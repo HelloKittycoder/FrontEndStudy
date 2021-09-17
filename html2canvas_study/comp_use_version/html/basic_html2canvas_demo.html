@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>基本使用</title>
+    <script type="text/javascript" src="../../../easyui/lib/jquery-easyui-1.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="../../../lib/html2canvas/comp_use_version/html2canvas.js"></script>
+    <script type="text/javascript" src="../../../lib/html2canvas/comp_use_version/canvas2image.js"></script>
+    <script type="text/javascript" src="../../../lib/html2canvas/comp_use_version/jspdf.debug.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="../css/basic_html2canvas_demo.css"/>
+    <script type="text/javascript" src="../script/basic_html2canvas_demo.js"></script>
+    <!--
+     需求说明：
+     需要给一个table进行截图，该table没有外边框
+
+     解决方案说明：
+     myTable_A：虽然设置了最外面的table本身没有边框，但是由于内部的单元格都带边框，所以看着table还是带了外边框
+     另外，在截图时会发现，虽然给table设置了“border-collapse: collapse;”，位于table内部的单元格的边框仍然显得很粗
+
+     myTable_B和myTable_C：外观看着符合要求，截图也符合要求
+     说下这两种写法：myTable_B的样式写得比较麻烦（主要是为了练习last-child的使用），myTable_C的样式写的相对简单
+     myTable_B是从正面来给每部分设置相应的样式，myTable_C是先给整个table设置一个样式，然后再对局部样式进行覆盖
+
+     myTable_C方式相对简单点
+
+     这里再补充下：这里html2canvas方法用的其实是jspdf.debug.js里的，所以看着和html2canvas框架的官网提供的写法有点不一样
+     不过jspdf.debug.js里的html2canvas其实就是html2canvas框架里的html2canvas，里面具体怎么整合的不太清楚，有空再看看
+     -->
+</head>
+<body>
+<div class="container">
+    <hr/>
+    <div class="part">
+        <button class="screenshot">截图</button>
+        <table id="myTable_A">
+            <tr>
+                <th>序号</th>
+                <th>姓名</th>
+                <th>性别</th>
+                <th>年龄</th>
+            </tr>
+            <tr>
+                <th>1</th>
+                <th>张三</th>
+                <th>男</th>
+                <th>10</th>
+            </tr>
+            <tr>
+                <th>2</th>
+                <th>李四</th>
+                <th>男</th>
+                <th>20</th>
+            </tr>
+            <tr>
+                <th>3</th>
+                <th>王五</th>
+                <th>男</th>
+                <th>30</th>
+            </tr>
+        </table>
+    </div>
+
+    <div class="part">
+        <button class="screenshot">截图</button>
+        <table id="myTable_B">
+            <tr>
+                <th>序号</th>
+                <th>姓名</th>
+                <th>性别</th>
+                <th>年龄</th>
+            </tr>
+            <tr>
+                <th>1</th>
+                <th>张三</th>
+                <th>男</th>
+                <th>10</th>
+            </tr>
+            <tr>
+                <th>2</th>
+                <th>李四</th>
+                <th>男</th>
+                <th>20</th>
+            </tr>
+            <tr>
+                <th>3</th>
+                <th>王五</th>
+                <th>男</th>
+                <th>30</th>
+            </tr>
+        </table>
+    </div>
+
+    <div class="part">
+        <button class="screenshot">截图</button>
+        <table id="myTable_C">
+            <tr>
+                <th>序号</th>
+                <th>姓名</th>
+                <th>性别</th>
+                <th>年龄</th>
+            </tr>
+            <tr>
+                <th>1</th>
+                <th>张三</th>
+                <th>男</th>
+                <th>10</th>
+            </tr>
+            <tr>
+                <th>2</th>
+                <th>李四</th>
+                <th>男</th>
+                <th>20</th>
+            </tr>
+            <tr>
+                <th>3</th>
+                <th>王五</th>
+                <th>男</th>
+                <th>30</th>
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+</html>
