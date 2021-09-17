@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>表格相关布局</title>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+        table tr th {
+            border: 1px solid;
+            vertical-align: top;
+        }
+    </style>
+</head>
+<body>
+<h3>两列（两列的数据都是靠上展示的；其中一列没数据，不会塌陷）</h3>
+<!-- 这里一列没数据，不会塌陷，主要是因为th默认是 display: table-cell; 的显示形式 -->
+<table>
+    <tr>
+        <th>测试1</th>
+        <th>测试2</th>
+    </tr>
+    <tr>
+        <th>
+            <div>111</div>
+            <div>222</div>
+            <div>333</div>
+            <div>444</div>
+            <div>555</div>
+        </th>
+        <th>
+            <div>111</div>
+            <div>222</div>
+            <!--<div>333</div>-->
+        </th>
+    </tr>
+</table>
+</body>
+</html>
