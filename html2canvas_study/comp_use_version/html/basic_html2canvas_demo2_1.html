@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script type="text/javascript" src="../../../easyui/lib/jquery-easyui-1.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="../../../lib/html2canvas/comp_use_version/html2canvas.js"></script>
+    <script type="text/javascript" src="../../../lib/html2canvas/comp_use_version/canvas2image.js"></script>
+    <script type="text/javascript" src="../../../lib/html2canvas/comp_use_version/jspdf.debug.js"></script>
+
+    <style type="text/css">
+        .container {
+            border-style: solid;
+            border-color: red;
+            border-width: 1px 0 0 1px;
+            display: inline-block;
+        }
+        .column {
+            float: left; overflow: hidden;
+        }
+        .cell {
+            border: 1px solid red; width: 120px; height: 20px;
+            margin:-1px 0 0 -1px;
+        }
+        .clearfix {
+            clear:both;
+        }
+    </style>
+    <script type="text/javascript">
+        function screenshot(dom) {
+            html2canvas(dom, {
+                useCORS: true, // 【重要】开启跨域配置
+                logging: true,
+                onrendered: function (canvas) {
+                    var saveImage = canvas.toDataURL("image/jpg");
+                    var saveLink = document.createElement('a');
+                    saveLink.href = saveImage;
+                    saveLink.download = 'downLoad.jpg';
+                    saveLink.click();
+                }
+            });
+        }
+
+        $(function () {
+            $("#screenshot1").click(function () {
+                screenshot($(".container")[0]);
+            });
+        });
+    </script>
+</head>
+<body>
+    <button id="screenshot1">截图</button>
+    <div class="container">
+        <div class="column" style="background:red">
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+        </div>
+        <div class="column" style="background:blue">
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+        </div>
+        <div class="column" style="background:green">
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+        </div>
+        <div class="column" style="background:yellow">
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+        </div>
+        <div class="column" style="background:black">
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</body>
+</html>

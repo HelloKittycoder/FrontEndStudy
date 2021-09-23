@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script type="text/javascript" src="../../../easyui/lib/jquery-easyui-1.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="../../../lib/html2canvas/comp_use_version/html2canvas.js"></script>
+    <script type="text/javascript" src="../../../lib/html2canvas/comp_use_version/canvas2image.js"></script>
+    <script type="text/javascript" src="../../../lib/html2canvas/comp_use_version/jspdf.debug.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="../css/basic_html2canvas_demo2.css"/>
+    <!-- 如何让div、ul、li布局有table的border-collapse效果
+    参考链接：https://stackoverflow.com/questions/17915865/how-to-make-borders-collapse-on-a-div
+    http://codepen.io/Hawkun/pen/rsIEp basic_html2canvas_demo2_1.html
+    http://jsfiddle.net/R8eCr/4/ basic_html2canvas_demo2_2.html
+    -->
+    <script type="text/javascript">
+        function screenshot(dom) {
+            html2canvas(dom, {
+                useCORS: true, // 【重要】开启跨域配置
+                // logging: true,
+                onrendered: function (canvas) {
+                    var saveImage = canvas.toDataURL("image/jpg");
+                    var saveLink = document.createElement('a');
+                    saveLink.href = saveImage;
+                    saveLink.download = 'downLoad.jpg';
+                    saveLink.click();
+                }
+            });
+        }
+
+        $(function () {
+            $("#screenshot1").click(function () {
+                screenshot($(".riskDiagnosis")[0]);
+            });
+        });
+    </script>
+</head>
+<body>
+    <button id="screenshot1">截图</button>
+    <div class="container">
+        <div class="riskDiagnosis">
+            <div class="head">
+                <ul>
+                    <li>关系</li>
+                    <li>姓名</li>
+                    <li>保障A</li>
+                    <li>保障B</li>
+                    <li>保障CCC</li>
+                    <li>保障DDD</li>
+                </ul>
+            </div>
+            <div class="row">
+                <ul>
+                    <li>本人</li>
+                    <li>测试</li>
+                    <li>500万</li>
+                    <li>704万</li>
+                    <li>1244万</li>
+                    <li>37万</li>
+                </ul>
+            </div>
+            <div class="row">
+                <ul>
+                    <li>配偶</li>
+                    <li>李萧萧</li>
+                    <li>310万</li>
+                    <li>269万</li>
+                    <li>791万</li>
+                    <li class="gray"></li>
+                </ul>
+            </div>
+            <div class="row">
+                <ul>
+                    <li>父亲</li>
+                    <li>张温岚</li>
+                    <li>343万</li>
+                    <li>1244万</li>
+                    <li class="gray"></li>
+                    <li class="gray"></li>
+                </ul>
+            </div>
+            <div class="row">
+                <ul>
+                    <li>母亲</li>
+                    <li>刘大壮</li>
+                    <li>155万</li>
+                    <li>239万</li>
+                    <li class="gray"></li>
+                    <li class="gray"></li>
+                </ul>
+            </div>
+            <div class="row">
+                <ul>
+                    <li>配偶父亲</li>
+                    <li>李大仙</li>
+                    <li>220万</li>
+                    <li>851万</li>
+                    <li class="gray"></li>
+                    <li class="gray"></li>
+                </ul>
+            </div>
+            <div class="row">
+                <ul>
+                    <li>子女</li>
+                    <li>11</li>
+                    <li>185万</li>
+                    <li class="gray"></li>
+                    <li class="gray"></li>
+                    <li class="gray"></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
