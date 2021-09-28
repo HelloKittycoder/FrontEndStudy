@@ -6,42 +6,27 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <script type="text/javascript" src="../../../easyui/lib/jquery-easyui-1.5.1/jquery.min.js"></script>
-    <script type="text/javascript" src="../../../lib/html2canvas/comp_use_version/html2canvas.js"></script>
-    <script type="text/javascript" src="../../../lib/html2canvas/comp_use_version/canvas2image.js"></script>
-    <script type="text/javascript" src="../../../lib/html2canvas/comp_use_version/jspdf.debug.js"></script>
+    <script type="text/javascript" src="../../../../easyui/lib/jquery-easyui-1.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="../../../../lib/html2canvas/comp_use_version/html2canvas.js"></script>
+    <script type="text/javascript" src="../../../../lib/html2canvas/comp_use_version/canvas2image.js"></script>
+    <script type="text/javascript" src="../../../../lib/html2canvas/comp_use_version/jspdf.debug.js"></script>
 
     <style type="text/css">
         .container {
-            display: table;
-            border-collapse:collapse
-        }
-        .column {
-            display:table-row;
-
-        }
-        #myTable {
-            border: 1px solid red;
-        }
-        .cell {
-            display: table-cell;
-            border-width: 0 1px 1px 0;
             border-style: solid;
             border-color: red;
-            /*border: 1px solid red;*/
-            width: 120px;
-            height: 20px;
-            -webkit-box-sizing: border-box;
-            -moz-box-sizing: border-box;
-            box-sizing: border-box;
+            border-width: 1px 0 0 1px;
+            display: inline-block;
         }
-        /*table的最后一行单元格 没有下边框*/
-        #myTable .column:last-child div {
-            border-bottom-width: 0;
+        .column {
+            float: left; overflow: hidden;
         }
-        /*table的最后一列单元格 没有右边框*/
-        #myTable div:last-child {
-            border-right-width: 0;
+        .cell {
+            border: 1px solid red; width: 120px; height: 20px;
+            margin:-1px 0 0 -1px;
+        }
+        .clearfix {
+            clear:both;
         }
     </style>
     <script type="text/javascript">
@@ -68,32 +53,33 @@
 </head>
 <body>
     <button id="screenshot1">截图</button>
-    <div id="myTable" class="container">
-        <div class="column">
-            <div class="cell">ddd</div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-        </div>
-        <div class="column">
+    <div class="container">
+        <div class="column" style="background:red">
             <div class="cell"></div>
             <div class="cell"></div>
             <div class="cell"></div>
         </div>
-        <div class="column">
+        <div class="column" style="background:blue">
             <div class="cell"></div>
             <div class="cell"></div>
             <div class="cell"></div>
         </div>
-        <div class="column">
+        <div class="column" style="background:green">
             <div class="cell"></div>
             <div class="cell"></div>
             <div class="cell"></div>
         </div>
-        <div class="column">
+        <div class="column" style="background:yellow">
             <div class="cell"></div>
             <div class="cell"></div>
             <div class="cell"></div>
         </div>
+        <div class="column" style="background:black">
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+        </div>
+        <div class="clearfix"></div>
     </div>
 </body>
 </html>
