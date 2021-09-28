@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>demo2</title>
+    <!-- 导出pdf的基本使用
+    参考链接：https://segmentfault.com/a/1190000009211079
+    https://github.com/linwalker/render-html-to-pdf/blob/master/docs/demo2.html
+    文字生成pdf
+    -->
+</head>
+<body>
+<h1>jsPDF</h1>
+<script type="text/javascript" src="../../../../lib/html2canvas/study_use_version/jspdf.debug1.5.3.js"></script>
+<script type="text/javascript">
+    var doc = new jsPDF();
+    doc.text('Download PDF!', 10, 10);
+    doc.save('a4.pdf');
+</script>
+</body>
+</html>
