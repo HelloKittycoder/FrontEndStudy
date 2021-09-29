@@ -17,6 +17,21 @@
             value = value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3');//只能输入两个小数
             if (value !="") {
                 //以上已经过滤，此处控制的是（1）如果没有小数点，首位不能为类似于 01、02的金额；（2）如果有小数点，但不满2位，直接补0
+                obj.value= value;
+            } else {
+                obj.value = defaultValue;
+            }
+        }
+
+        /**
+         * 将数字格式化成小数点后两位
+         * @param obj
+         */
+        function formatNum(obj) {
+            var defaultValue = "0.00";
+            var value = obj.value;
+            if (value !="") {
+                //以上已经过滤，此处控制的是（1）如果没有小数点，首位不能为类似于 01、02的金额；（2）如果有小数点，但不满2位，直接补0
                 obj.value= parseFloat(value).toFixed(2);
             } else {
                 obj.value = defaultValue;
@@ -25,6 +40,6 @@
     </script>
 </head>
 <body>
-<input id="mytest" type="text" onkeyup="clearNoNum(this)" onblur="clearNoNum(this)" value="0.00">
+<input id="mytest" type="text" onkeyup="clearNoNum(this)" onblur="formatNum(this)" value="0.00">
 </body>
 </html>
