@@ -18,9 +18,8 @@
             if (value !="") {
                 //以上已经过滤
                 obj.value= value;
-            } else {
-                obj.value = defaultValue;
             }
+            // 去掉else部分，是需要处理这种情况：js光标未离开输入框，删掉数据时，不做任何处理
         }
 
         /**
