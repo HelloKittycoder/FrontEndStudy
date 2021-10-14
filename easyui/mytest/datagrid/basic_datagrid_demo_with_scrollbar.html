@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Basic DataGrid - jQuery EasyUI Demo</title>
+    <link rel="stylesheet" type="text/css" href="../../lib/jquery-easyui-1.5.1/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../lib/jquery-easyui-1.5.1/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="../../mytest/demo.css">
+    <script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            var options = {
+                title:'基本数据表格',
+                url:'datagrid_data1.json',
+                fit:false,
+                fitColumns:false,
+                width: '700',
+                nowrap:true,
+                height: '250',
+                collapsible: true,
+                rownumbers : true,
+                columns:[[
+                    {field:'cb',checkbox: true,width:10},
+                    {field:'itemid',title:'编号',width:80},
+                    {field:'productid',title:'产品编号',width:100},
+                    {field:'listprice',title:'市场价',width:80,align:'right'},
+                    {field:'unitcost',title:'成本价',width:80,align:'right'},
+                    {field:'attr1',title:'描述',width:250},
+                    {field:'status',title:'状态',width:60,align:'center'},
+                ]]
+            };
+
+            $("#dg").datagrid(options);
+            $("#dg2").datagrid(options);
+            $("#dg3").datagrid(options);
+        });
+
+        function openPage() {
+            $("#viewPageDialog").dialog({
+                title: "修改",
+                iconCls: 'icon-edit',
+                width:'720',
+                height:'450',
+                modal: true,
+                closed: true
+            }).dialog("open");
+        }
+    </script>
+</head>
+<body>
+    <h2>基本数据表格</h2>
+    <!--
+     datagrid里带滚动条的要点：
+     带水平滚动条：
+     1.fit、fitColumns都要写成false
+     2.指定width，然后columns里的所有field的列宽加起来会超过width，或者比较接近width即可
+
+     带垂直滚动条：
+     指定height，datagrid中该页需要显示的数据加起来会超过指定height
+     -->
+    <button onclick="openPage()">打开页面</button>
+    <div class="demo-info">
+        <div class="demo-tip icon-tip"></div>
+        <div>带滚动条的数据表格</div>
+    </div>
+    <div style="margin: 10px 0;"></div>
+    <div id="dg"></div>
+    <br/>
+
+    <div id="tab" class="easyui-tabs" style="width:700px;height:350px;">
+        <div title="卡签1"></div>
+        <div title="卡签2">
+            <div id="dg2"></div>
+        </div>
+    </div>
+
+    <div id="viewPageDialog" class="easyui-window" closed="true">
+        <div id="test_tab" class="easyui-tabs" style="width:700px;height:350px;">
+            <div title="卡签1"></div>
+            <div title="卡签2">
+                <div id="dg3"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
