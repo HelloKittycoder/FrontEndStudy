@@ -10,5 +10,7 @@ iframe_order_test.html：通过css样式控制iframe的显示顺序
 
 #### easyui
 1. 遇到的问题  
-showHideColumn.html：解决showColumn、hideColumn后某列的宽度不断变小的问题  
+showHideColumn.html：
+（1）解决showColumn、hideColumn后某列的宽度不断变小的问题  
+（2）记住被隐藏、展示列的选中状态  
 basic_datagrid_check_demo2.html：限制多选最多选5个  

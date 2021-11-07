@@ -88,6 +88,14 @@
                     var options = $("#dg").datagrid("options");
                     originalDgColumnOptions = $.extend(true, [], options.columns);
                 }
+                // 提前记录checkbox的选中状态
+                var checkStatusMap = {};
+                var $checkboxes = $("#dg").datagrid("getPanel").find("tr.datagrid-row td[field='isShow']").find("input[type='checkbox']");
+                $checkboxes.each(function (index, ele) {
+                    var $checkbox = $(ele);
+                    checkStatusMap[index] = $checkbox.is(":checked");
+                });
+                console.log(checkStatusMap);
 
                 // 隐藏isShow列
                 $("#dg").datagrid("hideColumn", "isShow");
@@ -99,6 +107,10 @@
                 });*/
                 $("#dg").datagrid({
                     columns: $.extend(true, [], originalDgColumnOptions)
+                });
+                // 恢复之前记录的checkbox的选中状态
+                $("#dg").datagrid("getPanel").find("tr.datagrid-row td[field='isShow']").find("input[type='checkbox']").each(function (index, checkbox) {
+                    $(this).prop("checked", checkStatusMap[index]);
                 });
                 // 显示isShow列（这个可以不写，因为原始列宽配置中该列是显示的）
                 $("#dg").datagrid("showColumn", "isShow");
