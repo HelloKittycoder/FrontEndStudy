@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Basic DataGrid - jQuery EasyUI Demo</title>
+    <link rel="stylesheet" type="text/css" href="../../../lib/jquery-easyui-1.5.1/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../../lib/jquery-easyui-1.5.1/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="../../../mytest/demo.css">
+    <script type="text/javascript" src="../../../lib/jquery-easyui-1.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="../../../lib/jquery-easyui-1.5.1/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../../lib/jquery-easyui-1.5.1/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="../../../lib/wdate/WdatePicker.js"></script>
+
+    <style type="text/css">
+        .dgContainer {
+            /*width: 800px;*/
+            height: 200px;
+        }
+    </style>
+    <script type="text/javascript">
+        var EditableDataGridDemo = function() {
+            // 记录当前正在编辑的行
+            var lastEditRowIndex = -1;
+
+            // 点击一行时的回调操作
+            var clickRowCallback = function(rowIndex) {
+                // console.log("触发了clickRow事件");
+                // 验证之前编辑的行数据是否符合条件
+                var checkResult = checkLastEditData();
+                if (checkResult) {
+                    lastEditRowIndex = rowIndex;
+                    $("#dg").datagrid('selectRow', rowIndex)
+                        .datagrid('beginEdit', rowIndex);
+                } else {
+                    $("#dg").datagrid('selectRow', lastEditRowIndex);
+                }
+            }
+
+            // 验证上一次编辑的数据是否符合要求
+            var checkLastEditData = function () {
+                if (lastEditRowIndex == -1) {
+                    return true;
+                }
+                var checkResult = $("#dg").datagrid("validateRow", lastEditRowIndex);
+                // 基础验证通过
+                if (checkResult) {
+                    // 验证“退休年龄”必须大于“实际年龄”
+                    var $retiredageNumberbox = $("#dg").datagrid("getEditor", {index:lastEditRowIndex, field:'retiredage'}).target;
+                    var retiredage = $retiredageNumberbox.numberbox("getValue");
+                    var $ageNumberbox = $("#dg").datagrid("getEditor", {index:lastEditRowIndex, field:'age'}).target;
+                    var age = $ageNumberbox.numberbox("getValue");
+                    if (retiredage) {
+                        if (parseInt(retiredage) < parseInt(age)) {
+                            $.messager.alert("操作提示", "退休年龄不能小于当前年龄！", "info");
+                            return false;
+                        }
+                    }
+
+
+                    // 上一次点编辑的那一行的“家乡”字段对应的下拉选项
+                    var $hometownCombobox = $("#dg").datagrid("getEditor", {index:lastEditRowIndex, field:'hometownCode'}).target;
+                    // 设置真正用于列表展示的值
+                    $("#dg").datagrid("getRows")[lastEditRowIndex]["hometownText"] = $hometownCombobox.combobox("getText");
+
+                    $("#dg").datagrid('endEdit', lastEditRowIndex);
+                    lastEditRowIndex = -1;
+                } else {
+                    $.messager.alert("操作提示", "当前信息收集表有未完成的操作", "info");
+                }
+                return checkResult;
+            }
+
+            // “退休年龄”输入框，绑定的blur事件处理函数
+            var retiredAgeFieldBlurFunc = function () {
+                // console.log("触发了onBlur事件")
+                var retiredAgeFieldValue = $(this).val();
+                var retiredAge = retiredAgeFieldValue ? parseInt(retiredAgeFieldValue) : 0;
+                // console.log("触发了blur事件，填写的retiredage为", retiredAge);
+                // console.log("刚刚编辑过的行index为：", lastEditRowIndex);
+
+                // 刚刚编辑过的行的age值
+                var $ageNumberbox = $("#dg").datagrid("getEditor", {index:lastEditRowIndex, field:'age'}).target;
+                var age = $ageNumberbox.numberbox("getValue");
+                // console.log("该行的age值为：", age);
+
+                if (retiredAge < age) {
+                    $.messager.alert("操作提示", "退休年龄不能小于当前年龄！", "info");
+                }
+            }
+
+            return {
+                clickRowCallback,
+                retiredAgeFieldBlurFunc
+            }
+        }();
+
+        $(function () {
+            var listData = [{id: '101',name:'张三',age:10,hometownCode:'city01',hometownText:'北京',retiredage:15},
+                {id: '102',name:'李四',age:20,hometownCode:'city02',hometownText:'上海',retiredage:null},
+                {id: '103',name:'王五',age:30,hometownCode:'city03',hometownText:'广州',retiredage:null}];
+
+            var hometownSelectList = [{value:'city01',hometownText:'北京'},
+                {value:'city02',hometownText:'上海'},
+                {value:'city03',hometownText:'广州'},
+                {value:'city04',hometownText:'深圳'},
+                ];
+
+            $("#dg").datagrid({
+                title:'学生信息收集表格',
+                iconCls: 'icon-edit',
+                singleSelect:true,
+                data:listData,
+                width: '700',
+                height: '250',
+                onClickRow:EditableDataGridDemo.clickRowCallback,
+                /*fit: true,*/
+                fitColumns: true,
+                // singleSelect:true,
+                collapsible:true,
+                checkOnSelect:false,
+                columns:[[
+                    {field:'id',title:'编号',width:80},
+                    {field:'name',title:'姓名',width:100,
+                        editor:{type:'textbox',options:{required:true}}
+                    },
+                    {field:'age',title:'年龄',width:80,align:'center',
+                        editor:{
+                            type:'numberbox',
+                            options:{
+                                required:true,
+                                precision:0,
+                                min:1,
+                                max:120
+                            }
+                        }},
+                    {field:'hometownCode',title:'<span style="color: red">*</span>家乡',width:80,
+                        editor:{
+                            type:'combobox',
+                            options:{
+                                data:hometownSelectList,
+                                editable: false,
+                                panelHeight:'auto',
+                                valueField:'value',
+                                textField:'hometownText',
+                                onChange:function (newValue) {
+                                    // console.log("当前select的值被修改了", this, newValue);
+                                    // 写一些业务逻辑
+                                }
+                            }
+                        },
+                        formatter:function (value, row) {
+                            return row.hometownText;
+                        }
+                    },
+                   {field:'retiredage',title:'退休年龄',width:100,
+                        editor:{
+                            type:'numberbox',
+                            options:{
+                                min: 1,
+                                max: 120,
+                                events: {
+                                    blur:EditableDataGridDemo.retiredAgeFieldBlurFunc
+                                }
+                            }
+                        }
+                   }
+                ]]
+            });
+        });
+    </script>
+</head>
+<body>
+    <h2>可编辑数据表格</h2>
+    <!--
+    参考链接：https://www.cnblogs.com/fudou/p/7990921.html
+    https://blog.csdn.net/king_qc/article/details/85078883
+    另外可以参考：easyui/lib/jquery-easyui-1.5.1/demo/datagrid/rowediting.html
+
+    知识要点：（1）beginEdit、endEdit 切换可编辑行的编辑状态
+    （2）singleSelect:true 限制当前表格只有一行处于编辑状态
+    （3）可编辑框里放的是combobox，textbox等
+
+    以及可编辑行的事件绑定：combobox的onChange，numberbox的onBlur
+    onblur这个事件的绑定，参考：https://blog.csdn.net/jackymvc/article/details/81207829
+    -->
+    <div class="demo-info">
+        <div class="demo-tip icon-tip"></div>
+        <div>可编辑数据表格demo</div>
+    </div>
+    <div style="margin: 10px 0;"></div>
+
+    <!-- 说明下面写成 table或者div都可以 -->
+    <div class="dgContainer">
+        <div id="dg"></div>
+    </div>
+</body>
+</html>
