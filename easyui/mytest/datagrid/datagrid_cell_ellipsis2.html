@@ -44,6 +44,12 @@
             color: #6fcbf2;
             cursor: pointer;
         }
+
+        /* header行要多行展示 */
+        .dgContainer .datagrid-header-row .datagrid-cell span {
+            white-space: normal !important;
+            word-wrap: normal !important;
+        }
     </style>
 </head>
 <body>
@@ -81,9 +87,9 @@
     <script type="text/javascript" src="../../../lib/html2canvas/comp_use_version/jspdf.debug.js"></script>
     <script type="text/javascript">
         var fundTableFieldList = [{"field":"fieldShowTitle"},
-            {"field": "project0","title":"零跑汽车第5期项目启动会"},
-            {"field": "project1","title":"寒武纪开发项目"},
-            {"field": "project2","title":"美团社交外卖项目"}];
+            {"field": "project0","title":"零跑汽车第5期项目启动会22222222222222222222222启动会启动会启动会启动会启动会启动会启动会启动会启动会"},
+            {"field": "project1","title":"寒武纪开发项目3333333333333333333333333开发项目开发项目开发项目开发项目开发项目开发项目开发项目开发项目开发项目开发项目"},
+            {"field": "project2","title":"美团社交外卖项目44444444444444444444444外卖项目外卖项目外卖项目外卖项目外卖项目外卖项目外卖项目外卖项目外卖项目外卖项目"}];
 
         var fundTable = [{"fieldShowTitle":"曾用名","project0":"浙江零跑科技有限公司","project1":"寒武纪科技开发有限公司","project2":"美团科技开发有限公司"},
             {"fieldShowTitle":"注册资本","project0":"95,465.2912万(元)","project1":"103,465.2912万(元)","project2":"339,465.2912万(元)"},
@@ -98,8 +104,8 @@
         ];
 
         var compareFundTableFieldList = [{"field":"fieldShowTitle"},
-            {"field": "project0","title":"T2-零跑汽车第5期项目启动会"},
-            {"field": "project1","title":"T2-寒武纪开发项目"}];
+            {"field": "project0","title":"T2-零跑汽车第5期项目启动会5555555555555555555555555555"},
+            {"field": "project1","title":"T2-寒武纪开发项目666666666666666666666666666666666"}];
 
         var compareFundTable = [{"fieldShowTitle":"曾用名","project0":"T2-浙江零跑科技有限公司","project1":"T2-寒武纪科技开发有限公司"},
             {"fieldShowTitle":"注册资本","project0":"T2-95,465.2912万(元)","project1":"T2-103,465.2912万(元)"},
@@ -170,6 +176,7 @@
             var height;
             $ele.removeClass('text-slice');
             height = $ele.height();
+            $ele.addClass('text-slice');
 
             if (initHeight < height) {
                 // 发生截断
@@ -185,52 +192,77 @@
          * @param $dgDiv datagrid容器div
          */
         function processShowExpandBtn($dgDiv) {
+            $dgDiv.datagrid("resize");
             // 绑定“更多”按钮点击事件
             var rowCount = $dgDiv.datagrid('getRows').length;
             var opts = $dgDiv.datagrid('options');
 
+            // 操作header行
+            var $headerTds = $dgDiv.datagrid('getPanel').find('div.datagrid-header td');
+            var $headerContentDivs = $headerTds.find(".content");
+            processShowExpandBtnCore($headerContentDivs, $dgDiv);
+
+            // 操作数据行
             for (var i = 0; i < rowCount; i++) {
-                var $trs = opts.finder.getTr($dgDiv[0], i);
-                var $contentDivs = $trs.find(".content");
-                $contentDivs.each(function () {
-                    var $contentDiv = $(this);
-
-                    // 获取当前的单元格
-                    var $tdCell = $contentDiv.parents(".datagrid-cell");
-                    var cellWidth = $tdCell.width();
-
-                    var $fakeDiv = $tdCell.find(".fake-content");
-
-                    /**
-                     * 根据easyui渲染好的单元格宽度，动态调整$contentDiv的宽度
-                     * （用来实际展示页面内容的div，当前单元格中的字超过3行，该div会进行截取，另外加上省略号）
-                     */
-                    $contentDiv.width(cellWidth);
-                    $fakeDiv.width(cellWidth);
-
-                    var $expandLabel = $tdCell.find(".expand-more");
-                    if (!hasTextSliced($fakeDiv)) {
-                        $expandLabel.hide();
-                    } else {
-
-                        $expandLabel.click({contentDiv: $contentDiv, expandLabel: $expandLabel}, function (e) {
-                            var $contentDiv = e.data.contentDiv;
-                            var $expandLabel = e.data.expandLabel;
-                            $contentDiv.toggleClass('text-slice');
-                            if ($contentDiv.hasClass('text-slice')) {
-                                $expandLabel.text('展开');
-                            } else {
-                                $expandLabel.text('收起');
-                            }
-                            $dgDiv.datagrid("resize")
-                        });
-                    }
-
-                });
+                var $tr = opts.finder.getTr($dgDiv[0], i);
+                var $contentDivs = $tr.find(".content");
+                processShowExpandBtnCore($contentDivs, $dgDiv);
             }
 
-            // 动态调整行高（这个部分非常重要，不然表格样式有问题）
             $dgDiv.datagrid("resize");
+        }
+
+        function processShowExpandBtnCore($contentDivs, $dgDiv) {
+            $contentDivs.each(function () {
+                var $contentDiv = $(this);
+
+                // 获取当前的单元格
+                var $tdCell = $contentDiv.parents(".datagrid-cell");
+                var cellWidth = $tdCell.width();
+
+                var $fakeDiv = $tdCell.find(".fake-content");
+
+                /**
+                 * 根据easyui渲染好的单元格宽度，动态调整$contentDiv的宽度
+                 * （用来实际展示页面内容的div，当前单元格中的字超过3行，该div会进行截取，另外加上省略号）
+                 */
+                // $contentDiv.width(cellWidth);
+                $fakeDiv.width(cellWidth);
+
+                var $expandLabel = $tdCell.find(".expand-more");
+                if (!hasTextSliced($fakeDiv)) {
+                    $expandLabel.hide();
+                } else {
+                    $expandLabel.show();
+                    $expandLabel.click({contentDiv: $contentDiv, expandLabel: $expandLabel}, function (e) {
+                        var $contentDiv = e.data.contentDiv;
+                        var $expandLabel = e.data.expandLabel;
+                        $contentDiv.toggleClass('text-slice');
+                        if ($contentDiv.hasClass('text-slice')) {
+                            $expandLabel.text('展开');
+                        } else {
+                            $expandLabel.text('收起');
+                        }
+                        $dgDiv.datagrid("resize");
+                    });
+                }
+
+            });
+        }
+
+        /**
+         * 生成单元格内部展开收缩需要的html代码
+         * @param value 单元格的文本
+         */
+        function fundTaleDataFormatter(value, row, data) {
+            // 如果value为空字符串、undefined或null，直接改成 ""
+            if (!value) {
+                value = "";
+            }
+            var showHtml = "<div class='content text-slice'>"+value+"</div>";
+            var fakeHtml = "<div class='fake-content text-slice'>"+value+"</div>";
+            var expandHtml = "<label class='expand-more'>展开</label>";
+            return "<div class='ellipsisContentDiv'>" + showHtml + fakeHtml + expandHtml + "</div>";
         }
 
         /**
@@ -266,17 +298,13 @@
             fundTableFieldList.forEach(function (data, i) {
                 data["width"] = getWidth(i, fundTableFieldList.length, document.body.clientWidth);
                 data["align"] = "center";
-                // 将所有字段都设置成超过3行，则显示 展开/收起 效果
-                data["formatter"] = function (value, row, data) {
-                    // 如果value为空字符串、undefined或null，直接改成 ""
-                    if (!value) {
-                        value = "";
-                    }
-                    var showHtml = "<div class='content text-slice'>"+value+"</div>";
-                    var fakeHtml = "<div class='fake-content text-slice'>"+value+"</div>";
-                    var expandHtml = "<label class='expand-more'>展开</label>";
-                    return "<div class='ellipsisContentDiv'>" + showHtml + fakeHtml + expandHtml + "</div>";
+                // title设置成超过3行，则显示 展开/收起 效果
+                if (i > 0) {
+                    var oldTitle = data["title"];
+                    data["title"] = fundTaleDataFormatter(oldTitle);
                 }
+                // 将所有字段都设置成超过3行，则显示 展开/收起 效果
+                data["formatter"] = fundTaleDataFormatter;
             });
 
             // dg0没有做单元格内部的“展开/缩起”功能
@@ -290,7 +318,10 @@
                 resizable: true,
                 nowrap: false,
                 striped: true, //设置为true将交替显示行背景。
-                columns:[copyColumnOptions]
+                columns:[copyColumnOptions],
+                onLoadSuccess: function (data) {
+                    processShowExpandBtn($(this));
+                }
             });
             $("#dg0").datagrid("loadData", getTableData("fundTable", 5));
 
@@ -320,17 +351,13 @@
             compareFundTableFieldList.forEach(function (data, i) {
                 data["width"] = getWidth(i, compareFundTableFieldList.length, document.body.clientWidth);
                 data["align"] = "center";
-                // 将所有字段都设置成超过3行，则显示 展开/收起 效果
-                data["formatter"] = function (value, row, data) {
-                    // 如果value为空字符串、undefined或null，直接改成 ""
-                    if (!value) {
-                        value = "";
-                    }
-                    var showHtml = "<div class='content text-slice'>"+value+"</div>";
-                    var fakeHtml = "<div class='fake-content text-slice'>"+value+"</div>";
-                    var expandHtml = "<label class='expand-more'>展开</label>";
-                    return "<div class='ellipsisContentDiv'>" + showHtml + fakeHtml + expandHtml + "</div>";
+                // title设置成超过3行，则显示 展开/收起 效果
+                if (i > 0) {
+                    var oldTitle = data["title"];
+                    data["title"] = fundTaleDataFormatter(oldTitle);
                 }
+                // 将所有字段都设置成超过3行，则显示 展开/收起 效果
+                data["formatter"] = fundTaleDataFormatter;
             });
 
             var $dg2 = $("#dg2");
