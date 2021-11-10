@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Basic DataGrid - jQuery EasyUI Demo</title>
+    <link rel="stylesheet" type="text/css" href="../../lib/jquery-easyui-1.5.1/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../lib/jquery-easyui-1.5.1/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="../../mytest/demo.css">
+    <style type="text/css">
+        /* 单元格中的多行省略样式 */
+        .ellipsisContentDiv>div {
+            /*width: 91px;*/
+            word-break: break-word;
+        }
+
+        .ellipsisContentDiv .fake-content {
+            position: absolute;
+            z-index: -1;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .ellipsisContentDiv .text-slice {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -webkit-box-orient: vertical;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+        }
+
+        .ellipsisContentDiv .expand-more {
+            /*display: inline-block;
+            width: 50px;
+            height: 30px;*/
+            color: blue;
+            cursor: pointer;
+        }
+
+        /* 展开/收起 */
+        .dgContainer .toggleTableField {
+            width: 85px;
+            margin: 10px auto 0;
+            text-align: center;
+            color: #6fcbf2;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h2>基本数据表格</h2>
+    <div class="demo-info">
+        <div class="demo-tip icon-tip"></div>
+        <div>字数过多换行展示（支持限定行数）</div>
+    </div>
+    <div style="margin: 10px 0;"></div>
+
+    <div class="dgContainer">
+        <div id="dg0" class="dgDiv"></div>
+    </div>
+
+    <div class="dgContainer">
+        <div id="dg" class="dgDiv"></div>
+        <div class="toggleTableField showMore">展开更多数据</div>
+    </div>
+
+    <div class="dgContainer">
+        <div id="dg2" class="dgDiv"></div>
+        <div class="toggleTableField showMore">展开更多数据</div>
+    </div>
+
+    <div>
+        <button id="screenshot1">给表1截图</button>
+    </div>
+
+    <script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/locale/easyui-lang-zh_CN.js"></script>
+    <!--<script type="text/javascript" src="../../../lib/html2canvas/html2canvas1.3.2.js"></script>-->
+    <!--<script type="text/javascript" src="../../../lib/html2canvas/html2canvas.js"></script>
+    <script type="text/javascript" src="../../../lib/html2canvas/canvas2image.js"></script>-->
+    <script type="text/javascript" src="../../../lib/html2canvas/comp_use_version/jspdf.debug.js"></script>
+    <script type="text/javascript">
+        var fundTableFieldList = [{"field":"fieldShowTitle"},
+            {"field": "project0","title":"零跑汽车第5期项目启动会"},
+            {"field": "project1","title":"寒武纪开发项目"},
+            {"field": "project2","title":"美团社交外卖项目"}];
+
+        var fundTable = [{"fieldShowTitle":"曾用名","project0":"浙江零跑科技有限公司","project1":"寒武纪科技开发有限公司","project2":"美团科技开发有限公司"},
+            {"fieldShowTitle":"注册资本","project0":"95,465.2912万(元)","project1":"103,465.2912万(元)","project2":"339,465.2912万(元)"},
+            {"fieldShowTitle":"经营状态","project0":"开业","project1":"开业","project2":"开业"},
+            {"fieldShowTitle":"统一社会信用代码","project0":"91330000MA27U01W95","project1":"KKK30000MA27U01W95","project2":"MMM30000MA27U01W95"},
+            {"fieldShowTitle":"注册地址","project0":"浙江省杭州市滨江区物联网街451号1楼","project1":"中国(上海)自由贸易试验区临港新片区环湖西二路888号","project2":"深圳市龙华区民治街道北站社区汇隆商务中心2号楼1818"},
+            {"fieldShowTitle":"公司邮箱","project0":"admin@lingpao.com,test1@lingpao.com,test2@lingpao.com","project1":"admin@hwj.com,test1@hwj.com,test2@hwj.com","project2":"admin@meituan.com,test1@meituan.com,test2@meituan.com"},
+            {"fieldShowTitle":"公司电话","project0":"13301230232,13401230232,13501230232","project1":"12301230232,12401230232,12501230232","project2":"14301230232,14401230232,14501230232"},
+            {"fieldShowTitle":"公司简介","project0":"新能源汽车与汽车配件的开发、设计，新能源汽车的生产，汽车配件的生产，汽车、汽车配件销售，计算机软件、电子产品、通讯产品的开发、技术服务、销售，计算机应用技术咨询，培训服务（不含办班培训），网络产品的开发、系统集成、销售，从事进出口业务。（依法须经批准的项目，经相关部门批准后方可开展经营活动）",
+                "project1":"计算机软件、计算机科技、信息技术、智能化科技领域内的技术开发、技术咨询、技术服务、技术转让，计算机系统集成，计算机软件开发，计算机软件及辅助设备的销售，从事货物及技术的进出口业务。【依法须经批准的项目，经相关部门批准后方可开展经营活动",
+                "project2":"一般经营项目是：计算机软件技、网络技术研发。计算机系统集成；企业形象策划、展览展示策划、会务服务、企业管理咨询、商务信息咨询、经济信息咨询、市场营销策划（不含市场调查、社会调查、资信调查等国家限制类、禁止类项目）销售自行开发的软件产品;计算机硬件及其配套设备的批发、零售、佣金代理（不含拍卖）、进出口及相关配套业务（不涉及国营贸易管理商品，涉及配额、许可证管理及其它专项规定管理的商品，按国家有关规定办理申请）;从事广告业务;供应链管理;普通货运。以上经营范围不含国家规定实施准入特别管理措施的项目，涉及备案许可资质的需取得相关证件后方可实际经营。，许可经营项目是："},
+        ];
+
+        var compareFundTableFieldList = [{"field":"fieldShowTitle"},
+            {"field": "project0","title":"T2-零跑汽车第5期项目启动会"},
+            {"field": "project1","title":"T2-寒武纪开发项目"}];
+
+        var compareFundTable = [{"fieldShowTitle":"曾用名","project0":"T2-浙江零跑科技有限公司","project1":"T2-寒武纪科技开发有限公司"},
+            {"fieldShowTitle":"注册资本","project0":"T2-95,465.2912万(元)","project1":"T2-103,465.2912万(元)"},
+            {"fieldShowTitle":"经营状态","project0":"T2-开业","project1":"T2-开业"},
+            {"fieldShowTitle":"统一社会信用代码","project0":"T2-91330000MA27U01W95","project1":"T2-KKK30000MA27U01W95"},
+            {"fieldShowTitle":"注册地址","project0":"T2-浙江省杭州市滨江区物联网街451号1楼","project1":"T2-中国(上海)自由贸易试验区临港新片区环湖西二路888号"},
+            {"fieldShowTitle":"公司邮箱","project0":"T2-admin@lingpao.com,test1@lingpao.com,test2@lingpao.com","project1":"T2-admin@hwj.com,test1@hwj.com,test2@hwj.com"},
+            {"fieldShowTitle":"公司电话","project0":"T2-13301230232,13401230232,13501230232","project1":"T2-12301230232,12401230232,12501230232"},
+            {"fieldShowTitle":"公司简介","project0":"T2-新能源汽车与汽车配件的开发、设计，新能源汽车的生产，汽车配件的生产，汽车、汽车配件销售，计算机软件、电子产品、通讯产品的开发、技术服务、销售，计算机应用技术咨询，培训服务（不含办班培训），网络产品的开发、系统集成、销售，从事进出口业务。（依法须经批准的项目，经相关部门批准后方可开展经营活动）",
+                "project1":"T2-计算机软件、计算机科技、信息技术、智能化科技领域内的技术开发、技术咨询、技术服务、技术转让，计算机系统集成，计算机软件开发，计算机软件及辅助设备的销售，从事货物及技术的进出口业务。【依法须经批准的项目，经相关部门批准后方可开展经营活动"},
+        ];
+
+        /**
+         * 计算每列宽度
+         * @param columnNum 需要计算的列的索引
+         * @param totalColumnNum 总共的列数
+         * @param clientWidth 获取可视宽度
+         * @return {number} 该列占用的宽度
+         */
+        function getWidth(columnNum, totalColumnNum, clientWidth) {
+            // 第1列为固定宽度
+            var firstColumnWidth = 100;
+            if (columnNum == 0) {
+                return firstColumnWidth;
+            } else {
+                if (totalColumnNum == 1) {
+                    return 0;
+                } else {
+                    // 剩余列均分去掉第1列外的剩余宽度
+                    var restWidth = (clientWidth - firstColumnWidth);
+                    return restWidth / (totalColumnNum - 1).toFixed(2);
+                }
+            }
+        }
+
+        /**
+         * 返回指定类型的表的前num条数据
+         * @param tableType
+         *  fundTable 成分基金表
+         *  fundTable 对比成分基金表
+         * @param num 需要展示的数据条数
+         * @return datagrid展示用的数据
+         */
+        function getTableData(tableType, num) {
+            var tableData;
+            if (tableType == "fundTable") {
+                tableData = fundTable;
+            } else if (tableType == "compareFundTable") {
+                tableData = compareFundTable;
+            } else {
+                throw "type不存在";
+            }
+
+            if (num) {
+                var result = [];
+                for (var i = 0; i < num; i++) {
+                    result.push(tableData[i]);
+                }
+                return result;
+            } else {
+                return tableData;
+            }
+        }
+
+        // 文本是否发生截断
+        function hasTextSliced($ele) {
+            var initHeight = $ele.height();
+            var height;
+            $ele.removeClass('text-slice');
+            height = $ele.height();
+
+            if (initHeight < height) {
+                // 发生截断
+                return true;
+            }
+            return false;
+        }
+
+        /**
+         * 处理单元格里的展开、收起
+         * 1.确定是否展示
+         * 2.如果展示的话，则进行相应的事件绑定
+         * @param $dgDiv datagrid容器div
+         */
+        function processShowExpandBtn($dgDiv) {
+            // 绑定“更多”按钮点击事件
+            var rowCount = $dgDiv.datagrid('getRows').length;
+            var opts = $dgDiv.datagrid('options');
+
+            for (var i = 0; i < rowCount; i++) {
+                var $trs = opts.finder.getTr($dgDiv[0], i);
+                var $contentDivs = $trs.find(".content");
+                $contentDivs.each(function () {
+                    var $contentDiv = $(this);
+
+                    // 获取当前的单元格
+                    var $tdCell = $contentDiv.parents(".datagrid-cell");
+                    var cellWidth = $tdCell.width();
+
+                    var $fakeDiv = $tdCell.find(".fake-content");
+
+                    /**
+                     * 根据easyui渲染好的单元格宽度，动态调整$contentDiv的宽度
+                     * （用来实际展示页面内容的div，当前单元格中的字超过3行，该div会进行截取，另外加上省略号）
+                     */
+                    $contentDiv.width(cellWidth);
+                    $fakeDiv.width(cellWidth);
+
+                    var $expandLabel = $tdCell.find(".expand-more");
+                    if (!hasTextSliced($fakeDiv)) {
+                        $expandLabel.hide();
+                    } else {
+
+                        $expandLabel.click({contentDiv: $contentDiv, expandLabel: $expandLabel}, function (e) {
+                            var $contentDiv = e.data.contentDiv;
+                            var $expandLabel = e.data.expandLabel;
+                            $contentDiv.toggleClass('text-slice');
+                            if ($contentDiv.hasClass('text-slice')) {
+                                $expandLabel.text('展开');
+                            } else {
+                                $expandLabel.text('收起');
+                            }
+                            $dgDiv.datagrid("resize")
+                        });
+                    }
+
+                });
+            }
+
+            // 动态调整行高（这个部分非常重要，不然表格样式有问题）
+            $dgDiv.datagrid("resize");
+        }
+
+        /**
+        * 多行省略并能展开查看全部的代码处理思路参考：https://www.jianshu.com/p/6b8243955c25
+         * https://github.com/codingplayboy/web_demo/tree/master/smallcase/expand_more
+         *
+         * 其他思路：
+         * https://www.jianshu.com/p/9d76d4a75e6f（这个可以看看，不过在这里面不好实现）
+        */
+        $(function () {
+            $("#screenshot1").click(function () {
+                var dgContainer = $(".dgContainer:eq(0)")[0];
+                html2canvas(dgContainer).then(canvas => {
+                    var saveImage = canvas.toDataURL("image/jpg");
+                    var saveLink = document.createElement('a');
+                    saveLink.href = saveImage;
+                    saveLink.download = 'downLoad.jpg';
+                    saveLink.click();
+                });
+                /*html2canvas(dgContainer, {
+                    useCORS: true, // 【重要】开启跨域配置
+                    onrendered: function (canvas) {
+                        var saveImage = canvas.toDataURL("image/jpg");
+                        var saveLink = document.createElement('a');
+                        saveLink.href = saveImage;
+                        saveLink.download = 'downLoad.jpg';
+                        saveLink.click();
+                    }
+                });*/
+            });
+
+            // 设置列宽
+            fundTableFieldList.forEach(function (data, i) {
+                data["width"] = getWidth(i, fundTableFieldList.length, document.body.clientWidth);
+                data["align"] = "center";
+                // 将所有字段都设置成超过3行，则显示 展开/收起 效果
+                data["formatter"] = function (value, row, data) {
+                    // 如果value为空字符串、undefined或null，直接改成 ""
+                    if (!value) {
+                        value = "";
+                    }
+                    var showHtml = "<div class='content text-slice'>"+value+"</div>";
+                    var fakeHtml = "<div class='fake-content text-slice'>"+value+"</div>";
+                    var expandHtml = "<label class='expand-more'>展开</label>";
+                    return "<div class='ellipsisContentDiv'>" + showHtml + fakeHtml + expandHtml + "</div>";
+                }
+            });
+
+            // dg0没有做单元格内部的“展开/缩起”功能
+            var copyColumnOptions = $.extend(true, [], fundTableFieldList);
+            copyColumnOptions.forEach(function (column, i) {
+                delete(column["formatter"]);
+            });
+            $("#dg0").datagrid({
+                title:'项目列表1',
+                fitColumns: true,
+                resizable: true,
+                nowrap: false,
+                striped: true, //设置为true将交替显示行背景。
+                columns:[copyColumnOptions]
+            });
+            $("#dg0").datagrid("loadData", getTableData("fundTable", 5));
+
+            var $dg = $("#dg");
+            $dg.datagrid({
+                // width: '100%',
+                // fit: true,
+                title:'项目列表1',
+                fitColumns: true,
+                resizable: true,
+                // rownumbers : true,
+                nowrap: false,
+                striped: true, //设置为true将交替显示行背景。
+                /*columns:[[{field: "fieldShowTitle", width:getWidth(0)},
+                    {field: "project0", title: "浙江零跑科技有限公司", width:getWidth(1)},
+                    {field: "project1", title: "寒武纪开发项目", width:getWidth(2)},
+                    {field: "project2", title: "美团科技开发有限公司", width:getWidth(3)}]]*/
+                columns:[fundTableFieldList],
+                onLoadSuccess: function (data) {
+                    processShowExpandBtn($(this));
+                }
+            });
+
+            $dg.datagrid("loadData", getTableData("fundTable", 5));
+
+            // 设置列宽
+            compareFundTableFieldList.forEach(function (data, i) {
+                data["width"] = getWidth(i, compareFundTableFieldList.length, document.body.clientWidth);
+                data["align"] = "center";
+                // 将所有字段都设置成超过3行，则显示 展开/收起 效果
+                data["formatter"] = function (value, row, data) {
+                    // 如果value为空字符串、undefined或null，直接改成 ""
+                    if (!value) {
+                        value = "";
+                    }
+                    var showHtml = "<div class='content text-slice'>"+value+"</div>";
+                    var fakeHtml = "<div class='fake-content text-slice'>"+value+"</div>";
+                    var expandHtml = "<label class='expand-more'>展开</label>";
+                    return "<div class='ellipsisContentDiv'>" + showHtml + fakeHtml + expandHtml + "</div>";
+                }
+            });
+
+            var $dg2 = $("#dg2");
+            $dg2.datagrid({
+                // width: '100%',
+                // fit: true,
+                title:'项目列表1',
+                fitColumns: true,
+                resizable: true,
+                // rownumbers : true,
+                nowrap: false,
+                striped: true, //设置为true将交替显示行背景。
+                columns:[compareFundTableFieldList],
+                onLoadSuccess: function (data) {
+                    processShowExpandBtn($(this));
+                }
+            });
+
+            $dg2.datagrid("loadData", getTableData("compareFundTable", 5));
+
+            // 处理整个列表的展开更多信息、收起
+            $(".dgContainer .toggleTableField").click(function () {
+                var $toggleTableField = $(this);
+                var $dgContainer = $toggleTableField.parent(".dgContainer");
+                var $dgDiv = $dgContainer.find(".dgDiv");
+                var dgDivId = $dgDiv.attr("id");
+
+                var tableType;
+                if (dgDivId == "dg") {
+                    tableType = "fundTable";
+                } else if (dgDivId == "dg2") {
+                    tableType = "compareFundTable";
+                }
+
+                if ($toggleTableField.hasClass("showMore")) {
+                    // 查看所有字段
+                    $dgDiv.datagrid("loadData", getTableData(tableType));
+                    $toggleTableField.removeClass("showMore").addClass("showLess");
+                    $toggleTableField.text("收起");
+                } else if ($toggleTableField.hasClass("showLess")) {
+                    // 查看5个字段
+                    $dgDiv.datagrid("loadData", getTableData(tableType, 5));
+                    $toggleTableField.removeClass("showLess").addClass("showMore");
+                    $toggleTableField.text("展开更多信息");
+                }
+            });
+        });
+    </script>
+</body>
+</html>
