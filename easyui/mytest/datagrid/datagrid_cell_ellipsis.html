@@ -55,6 +55,10 @@
     <div style="margin: 10px 0;"></div>
 
     <div class="dgContainer">
+        <div id="dg0" class="dgDiv"></div>
+    </div>
+
+    <div class="dgContainer">
         <div id="dg" class="dgDiv"></div>
         <div class="toggleTableField showMore">展开更多数据</div>
     </div>
@@ -64,9 +68,17 @@
         <div class="toggleTableField showMore">展开更多数据</div>
     </div>
 
+    <div>
+        <button id="screenshot1">给表1截图</button>
+    </div>
+
     <script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/jquery.min.js"></script>
     <script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/jquery.easyui.min.js"></script>
     <script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/locale/easyui-lang-zh_CN.js"></script>
+    <!--<script type="text/javascript" src="../../../lib/html2canvas/html2canvas1.3.2.js"></script>-->
+    <!--<script type="text/javascript" src="../../../lib/html2canvas/html2canvas.js"></script>
+    <script type="text/javascript" src="../../../lib/html2canvas/canvas2image.js"></script>-->
+    <script type="text/javascript" src="../../../lib/html2canvas/comp_use_version/jspdf.debug.js"></script>
     <script type="text/javascript">
         var fundTableFieldList = [{"field":"fieldShowTitle"},
             {"field": "project0","title":"零跑汽车第5期项目启动会"},
@@ -226,6 +238,27 @@
          * https://github.com/codingplayboy/web_demo/tree/master/smallcase/expand_more
         */
         $(function () {
+            $("#screenshot1").click(function () {
+                var dgContainer = $(".dgContainer:eq(0)")[0];
+                html2canvas(dgContainer).then(canvas => {
+                    var saveImage = canvas.toDataURL("image/jpg");
+                    var saveLink = document.createElement('a');
+                    saveLink.href = saveImage;
+                    saveLink.download = 'downLoad.jpg';
+                    saveLink.click();
+                });
+                /*html2canvas(dgContainer, {
+                    useCORS: true, // 【重要】开启跨域配置
+                    onrendered: function (canvas) {
+                        var saveImage = canvas.toDataURL("image/jpg");
+                        var saveLink = document.createElement('a');
+                        saveLink.href = saveImage;
+                        saveLink.download = 'downLoad.jpg';
+                        saveLink.click();
+                    }
+                });*/
+            });
+
             // 设置列宽
             fundTableFieldList.forEach(function (data, i) {
                 data["width"] = getWidth(i, fundTableFieldList.length, document.body.clientWidth);
@@ -242,6 +275,21 @@
                     return "<div class='ellipsisContentDiv'>" + showHtml + fakeHtml + expandHtml + "</div>";
                 }
             });
+
+            // dg0没有做单元格内部的“展开/缩起”功能
+            var copyColumnOptions = $.extend(true, [], fundTableFieldList);
+            copyColumnOptions.forEach(function (column, i) {
+                delete(column["formatter"]);
+            });
+            $("#dg0").datagrid({
+                title:'项目列表1',
+                fitColumns: true,
+                resizable: true,
+                nowrap: false,
+                striped: true, //设置为true将交替显示行背景。
+                columns:[copyColumnOptions]
+            });
+            $("#dg0").datagrid("loadData", getTableData("fundTable", 5));
 
             var $dg = $("#dg");
             $dg.datagrid({
