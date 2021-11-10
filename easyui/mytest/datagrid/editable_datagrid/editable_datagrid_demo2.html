@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Basic DataGrid - jQuery EasyUI Demo</title>
+    <link rel="stylesheet" type="text/css" href="../../../lib/jquery-easyui-1.5.1/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../../lib/jquery-easyui-1.5.1/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="../../../mytest/demo.css">
+    <script type="text/javascript" src="../../../lib/jquery-easyui-1.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="../../../lib/jquery-easyui-1.5.1/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../../lib/jquery-easyui-1.5.1/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="../../../../lib/WdatePicker-4.72/WdatePicker.js"></script>
+
+    <style type="text/css">
+        .dgContainer {
+            /*width: 800px;*/
+            height: 200px;
+        }
+
+        .Wdate[disabled] {
+            background-color: #ebe9e9;
+        }
+    </style>
+    <script type="text/javascript">
+        $(function () {
+            $("#dg").datagrid({
+                title:'基本数据表格',
+                url:'../datagrid_data1.json',
+                width: '900',
+                height: '250',
+                /*fit: true,*/
+                /*fitColumns: true,*/
+                // singleSelect:true,
+                collapsible:true,
+                checkOnSelect:false,
+                columns:[[
+                    {field:'itemid',title:'编号',width:80},
+                    {field:'productid',title:'产品编号',width:100},
+                    {field:'listprice',title:'市场价',width:80,align:'right'},
+                    {field:'unitcost',title:'成本价',width:80,align:'right'},
+                    {field:'attr1',title:'描述',width:200},
+                    {field:'ck',title:'状态',width:60,checkbox:true,align:'center'},
+                    {field:'money',title:'金额',width:100,formatter:function () {
+                        return '<input autocomplete="off" disabled type="text" style="width:85px" name="money" value="0.00"/>';
+                        }
+                    },
+                    {field:'operateDate',title:'操作日期',width:100,formatter:function () {
+                            return '<input autocomplete="off" disabled type="text" name="operateDate" class="Wdate" onclick="WdatePicker({dateFmt:\'yyyy-MM-dd\'})" style="width: 85px; height: 20px;line-height: 20px;"/>';
+                        }
+                    }
+                ]],
+                onLoadSuccess: function() {
+                    // 给已有的复选框标题位置加上文字
+                    var $ckHeader = $(this).datagrid("getPanel").find("tr.datagrid-header-row td[field='ck']");
+                    $ckHeader.find(".datagrid-header-check").html('是否使用<input type="checkbox">')
+                        .css("width", "70px");
+
+                    var $ckCell = $(this).datagrid("getPanel").find("tr.datagrid-row td[field='ck']");
+                    $ckCell.find(".datagrid-cell-check").css("width", "70px");
+
+                    // “金额”列保留小数点后两位
+                    var $moneyInput = $(this).datagrid("getPanel").find('div.datagrid-body').find("input[name='money']");
+                    var defaultVal = "0.00";
+                    $moneyInput.on("keyup", function (e) {
+                        var value = e.target.value;
+                        value = value.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符
+                        value = value.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的
+                        value = value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+                        value = value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3');//只能输入两个小数
+
+                        e.target.value = value;
+                    });
+                    $moneyInput.on("blur", function (e) {
+                        var value = e.target.value;
+                        if (value != "") {
+                            //keyup已经过滤，此处控制的是（1）如果没有小数点，首位不能为类似于 01、02的金额；（2）如果有小数点，但不满2位，直接补0
+                            e.target.value = parseFloat(value).toFixed(2);
+                        } else {
+                            e.target.value = defaultVal;
+                        }
+                    });
+
+                },
+                onCheck: function (index, row) {
+                    // 启用
+                    getDatagridRow($(this), index).find("input[type='text']").prop("disabled", false);
+                },
+                onUncheck: function (index, row) {
+                    // 禁用
+                    getDatagridRow($(this), index).find("input[type='text']").prop("disabled", true);
+                },
+                onCheckAll: function (rows) {
+                    var $this = $(this);
+                    $.each(rows, function (index, row) {
+                        getDatagridRow($this, index).find("input[type='text']").prop("disabled", false);
+                    });
+                },
+                onUncheckAll: function (rows) {
+                    var $this = $(this);
+                    $.each(rows, function (index, row) {
+                        getDatagridRow($this, index).find("input[type='text']").prop("disabled", true);
+                    });
+                }
+            });
+        });
+
+        function getDatagridRow($dg, rowIndex) {
+            return $dg.datagrid("getPanel").find('div.datagrid-body tr[datagrid-row-index="'+rowIndex+'"]');
+        }
+    </script>
+</head>
+<body>
+    <h2>基本数据表格</h2>
+    <div class="demo-info">
+        <div class="demo-tip icon-tip"></div>
+        <div>datagrid中根据已经勾选的行来做操作</div>
+        <!-- 功能说明：
+        （1）使用datagrid已有的全选/取消全选，同时在列标题上显示“是否使用”
+        （2）如果该行的复选框已经勾选，则该行可以进行操作；
+        否则无法进行操作
+        （3）复选框已经勾选时，“金额”列需要验证输入的数据为数字且最多到小数点后两位，“操作日期”可以进行日期选择
+
+        TODO：有时间考虑下，能否通过对easyui扩展来进行实现？
+        可参考：https://blog.csdn.net/maniki/article/details/76534810
+        <input name="money" class="easyui-numberbox" data-options="min:0,precision:2"/>
+        <input type="text" name="operateDate" class="Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" style="width: 85px; height: 20px;line-height: 20px;"/>
+         -->
+    </div>
+    <div style="margin: 10px 0;"></div>
+
+    <!-- 说明下面写成 table或者div都可以 -->
+    <div class="dgContainer">
+        <div id="dg"></div>
+    </div>
+</body>
+</html>
