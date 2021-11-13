@@ -23,6 +23,25 @@
         #tempSelect[multiple] option:checked {
             background: white linear-gradient(0deg, #a4a4a4 0%, #a4a4a4 100%);
         }
+
+        /** 下面是为了让option选中时，背景为白色，文字为红色，
+         但实际情况会变成，在你刚选中option的时候，文字为白色，导致文字看不到 */
+        /*#tempSelect option:hover,
+        #tempSelect option:focus,
+        #tempSelect option:active,
+        #tempSelect option:checked {
+            background: linear-gradient(#fff,#fff);
+            color: red !important;
+            font-weight: bold;
+        }*/
+        /**
+        *.参考链接：select多选样式调整
+        *.https://stackoverflow.com/questions/50618602/change-color-of-selected-option-in-select-multiple
+        *.https://stackoverflow.com/questions/66286021/select-multiple-option-color-property-wont-works-for-hover-focus-active
+        *
+        * 这里有个目前来看未解决的问题：刚点击option时的文字颜色是改变不了的
+        * 把 #tempSelect[multiple] option:checked 那部分的样式注释掉，然后打开 #tempSelect后面跟了好几个option 的那部分样式，就能看到这个问题了
+        */
     </style>
 </head>
 <body>
@@ -78,12 +97,24 @@
     </div>
 
     <div style="float: left">
-        <select id="tempSelect" multiple="multiple"></select>
+        <select id="tempSelect" multiple="multiple">
+            <option value="">aaa</option>
+            <option value="">bbb</option>
+            <option value="">ccc</option>
+        </select>
     </div>
     <script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/jquery.min.js"></script>
     <script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/jquery.easyui.min.js"></script>
     <script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/locale/easyui-lang-zh_CN.js"></script>
     <script type="text/javascript" src="../../../common/script/dd-ui.js"></script>
     <script type="text/javascript" src="basic_datagrid_app1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#tempSelect option").click(function () {
+                // $(this).css("color", "red");
+                console.log("该选项被点击了", this, $(this).css("color"));
+            });
+        });
+    </script>
 </body>
 </html>
