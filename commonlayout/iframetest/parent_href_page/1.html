@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+这是1.html
+<button onclick="updateParentHref()">点击修改外部页面的链接地址</button>
+<script type="text/javascript">
+    function updateParentHref() {
+        // console.log(window.parent.location.href);
+        window.parent.location.href = "http://www.baidu.com";
+    }
+</script>
+</body>
+</html>
