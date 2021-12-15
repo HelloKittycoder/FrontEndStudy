@@ -406,6 +406,21 @@
                         return myChart;
                     });
                 }
+            },
+            /**
+             * 获取被处理的echarts的dom
+             * 解决出现警告（There is a chart instance already initialized on the dom），同时页面不生成新的图的问题
+             * @param elementId
+             */
+            getProcessedEcharts: function (elementId) {
+                var dom = document.getElementById(elementId);
+                var myChart = echarts.getInstanceByDom(dom);
+                // 避免出现在原dom上画图，新数据不生效的情况
+                if (myChart) {
+                    myChart.dispose();
+                }
+                myChart = echarts.init(dom);
+                return myChart;
             }
         },
         // 数组操作工具方法
