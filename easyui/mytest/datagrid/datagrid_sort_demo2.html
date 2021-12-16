@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>datagrid列表排序</title>
+    <link rel="stylesheet" type="text/css" href="../../lib/jquery-easyui-1.5.1/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../lib/jquery-easyui-1.5.1/themes/icon.css">
+</head>
+<body>
+
+<!-- 需求说明：（这个demo里带排序）
+    初始状态：页面一进来，列表按照交易时间倒序排列；图上也要加载对应数据的标号
+
+    基础逻辑：
+    1.列表标号：
+    对所有选中行，依次按照交易时间从早到晚进行标号
+    2.图形展示：
+    所有勾选的行的标号，需要同时在图上体现
+
+    列表变动时的逻辑：
+    1.如果列表对交易时间进行排序，依然需要保持【基础逻辑】1、2的逻辑
+    举例：假如列表是升序排列的，标的序号就是从小到大的；
+    假如列表是降序排列的，标的序号就是从大到小的
+    2.勾选项如果发生变化：标号也要发生变更，未勾选的行的“序号”就显示成空的；标号变化，图上也要发生变化
+ -->
+<div id="chart1" style="width: 800px;height: 300px"></div>
+<div id="tradeListDg"></div>
+
+<!--<script src="https://cdn.bootcss.com/jquery/1.9.1/jquery.js"></script>-->
+<script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="../../../common/script/dd-ui.js"></script>
+<script src="https://cdn.bootcss.com/echarts/5.2.2/echarts.js"></script>
+<script type="text/javascript" src="datagrid_sort_demo2.js"></script>
+<script type="text/javascript">
+    $(function () {
+        DatagridSortDemo2.initPage();
+    });
+</script>
+</body>
+</html>
