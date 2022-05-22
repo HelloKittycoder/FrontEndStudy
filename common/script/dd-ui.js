@@ -169,6 +169,32 @@
                     }
                 }
                 return format;
+            },
+            /**
+             * 格式化文件大小，输出成带单位的字符串
+             * @param {Number} size 文件大小
+             * @param {Number} [pointLength=2] 精确到的小数点数
+             * @param {Array} units 单位数组
+             * @returns {*}
+             *
+             * @example
+             * console.log($.ddcommon.formatSize(100)); // 100B
+             * console.log($.ddcommon.formatSize(1024)); // 1.00K
+             * console.log($.ddcommon.formatSize(1024 * 1024)); // 1.00M
+             * console.log($.ddcommon.formatSize(1024 * 1024 * 1024)); // 1.00G
+             * console.log($.ddcommon.formatSize(1024 * 1024 * 1024, 0, ['B', 'K', 'M']); // 1024.00M
+             * console.log($.ddcommon.formatSize(1024 * 1024 * 1024, 0, ['B', 'K']); // 1048576.00K
+             *
+             * 参考链接：这个是看的baidu的webuploader源码后改的
+             */
+            formatSize: function (size, pointLength, units) {
+                units = units || ['B', 'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'];
+                var unit;
+                while ((unit = units.shift()) && units.length > 0 && size >= 1024) {
+                    size /= 1024;
+                }
+                return (unit === 'B' ? size : size.toFixed(pointLength || 2))
+                    + unit;
             }
         },
         // 常用正则
