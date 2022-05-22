@@ -99,6 +99,39 @@
                 return false;
             },
             /**
+             * 获取日期的起止区间（起：周一对应的日期、止：周日对应的日期）
+             *
+             * @param date Date类型的对象
+             * @param format 如果不传，则不做格式化
+             * @returns 数组，有2个元素（如果传了format，则为字符串；没传的话，则为Date格式）
+             *
+             * 使用示例：
+             * $.ddcommon.getWeekInterval(new Date(2022,4,21), "yyyy-MM-dd"); // [2022-05-16,2022-05-22]
+             * $.ddcommon.getWeekInterval(new Date(2022,4,16), "yyyy-MM-dd"); // [2022-05-16,2022-05-22]
+             * $.ddcommon.getWeekInterval(new Date(2022,4,22), "yyyy-MM-dd"); // [2022-05-16,2022-05-22]
+             */
+            getWeekInterval: function (date, format) {
+                if (!date || !(date instanceof Date)) {
+                    throw "date必须是Date类型";
+                }
+
+                // 获取当前是星期几（周日的话，getDay()返回0，这里排在第7天；周一至周六的话，getDay()返回1~6）
+                var day = date.getDay() || 7;
+                var startDate = new Date();
+                var endDate = new Date();
+
+                startDate.setDate(date.getDate() - (day - 1));
+                endDate.setDate(startDate.getDate() + 6);
+
+                var resultArr = [];
+                if (format) {
+                    resultArr.push($.hbcommon.dateFormat(startDate, format), $.hbcommon.dateFormat(endDate, format));
+                } else {
+                    resultArr.push(startDate, endDate);
+                }
+                return resultArr;
+            },
+            /**
              * 日期格式化
              * @param date Date类型的对象
              * @param format 如果不传，默认值为 yyyy-MM-dd hh:mm:ss
