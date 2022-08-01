@@ -99,6 +99,39 @@
                 return false;
             },
             /**
+             * 获取日期的起止区间（起：周一对应的日期、止：周日对应的日期）
+             *
+             * @param date Date类型的对象
+             * @param format 如果不传，则不做格式化
+             * @returns 数组，有2个元素（如果传了format，则为字符串；没传的话，则为Date格式）
+             *
+             * 使用示例：
+             * $.ddcommon.getWeekInterval(new Date(2022,4,21), "yyyy-MM-dd"); // [2022-05-16,2022-05-22]
+             * $.ddcommon.getWeekInterval(new Date(2022,4,16), "yyyy-MM-dd"); // [2022-05-16,2022-05-22]
+             * $.ddcommon.getWeekInterval(new Date(2022,4,22), "yyyy-MM-dd"); // [2022-05-16,2022-05-22]
+             */
+            getWeekInterval: function (date, format) {
+                if (!date || !(date instanceof Date)) {
+                    throw "date必须是Date类型";
+                }
+
+                // 获取当前是星期几（周日的话，getDay()返回0，这里排在第7天；周一至周六的话，getDay()返回1~6）
+                var day = date.getDay() || 7;
+                var startDate = new Date();
+                var endDate = new Date();
+
+                startDate.setDate(date.getDate() - (day - 1));
+                endDate.setDate(startDate.getDate() + 6);
+
+                var resultArr = [];
+                if (format) {
+                    resultArr.push($.hbcommon.dateFormat(startDate, format), $.hbcommon.dateFormat(endDate, format));
+                } else {
+                    resultArr.push(startDate, endDate);
+                }
+                return resultArr;
+            },
+            /**
              * 日期格式化
              * @param date Date类型的对象
              * @param format 如果不传，默认值为 yyyy-MM-dd hh:mm:ss
@@ -136,6 +169,32 @@
                     }
                 }
                 return format;
+            },
+            /**
+             * 格式化文件大小，输出成带单位的字符串
+             * @param {Number} size 文件大小
+             * @param {Number} [pointLength=2] 精确到的小数点数
+             * @param {Array} units 单位数组
+             * @returns {*}
+             *
+             * @example
+             * console.log($.ddcommon.formatSize(100)); // 100B
+             * console.log($.ddcommon.formatSize(1024)); // 1.00K
+             * console.log($.ddcommon.formatSize(1024 * 1024)); // 1.00M
+             * console.log($.ddcommon.formatSize(1024 * 1024 * 1024)); // 1.00G
+             * console.log($.ddcommon.formatSize(1024 * 1024 * 1024, 0, ['B', 'K', 'M']); // 1024.00M
+             * console.log($.ddcommon.formatSize(1024 * 1024 * 1024, 0, ['B', 'K']); // 1048576.00K
+             *
+             * 参考链接：这个是看的baidu的webuploader源码后改的
+             */
+            formatSize: function (size, pointLength, units) {
+                units = units || ['B', 'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'];
+                var unit;
+                while ((unit = units.shift()) && units.length > 0 && size >= 1024) {
+                    size /= 1024;
+                }
+                return (unit === 'B' ? size : size.toFixed(pointLength || 2))
+                    + unit;
             }
         },
         // 常用正则

@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>表格合并demo3（在easyui的mergeCells基础上做的封装）</title>
+    <style type="text/css">
+        body {
+            margin: 0px;
+            padding: 0px;
+        }
+        .containerDiv {
+            width: 98%;
+            margin: 0 auto; /* 设置div在body中居中 */
+            border: 1px solid red;
+            height: 1500px;
+        }
+        .column_3_1 {
+            width: 33.333333%;
+            float: left;
+        }
+        .column_3_2 {
+            width: 33.333333%;
+            float: left;
+        }
+        .column_3_3 {
+            width: 33.333333%;
+            float: left;
+        }
+    </style>
+</head>
+<body>
+<div class="containerDiv">
+    <div id="div1" class="column_3_1">
+        <table id="table1"></table>
+    </div>
+    <div id="div2" class="column_3_2">
+        <table id="table2" border="" cellspacing="" cellpadding=""></table>
+    </div>
+    <div id="div3" class="column_3_3">
+        <table id="table3" border="" cellspacing="" cellpadding=""></table>
+    </div>
+</div>
+<link rel="stylesheet" type="text/css" href="../../easyui/lib/jquery-easyui-1.5.1/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="../../easyui/lib/jquery-easyui-1.5.1/themes/icon.css">
+<link rel="stylesheet" type="text/css" href="../../easyui/lib/jquery-easyui-1.5.1/demo/demo.css">
+<script type="text/javascript" src="../../easyui/lib/jquery-easyui-1.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="../../easyui/lib/jquery-easyui-1.5.1/jquery.easyui.min.js"></script>
+<script type="text/javascript">
+    $(function() {
+        var data = {"rows":[{"projectName":"lsc_test_pro_01","enterpriseName":"寒武纪","accountName":"spv01","inputUser":"张三","inputDate":"2005-08-05","formType":"call款","money":"100"},
+            {"projectName":"lsc_test_pro_01","enterpriseName":"寒武纪","accountName":"spv02","inputUser":"张三","inputDate":"2005-08-07","formType":"分配收益","money":"100"},
+            {"projectName":"lsc_test_pro_01","enterpriseName":"寒武纪","accountName":"spv02","inputUser":"张三","inputDate":"2005-08-10","formType":"管理费","money":"100"},
+            {"projectName":"lsc_test_pro_01","enterpriseName":"寒武纪","accountName":"spv02","inputUser":"张三","inputDate":"2005-08-05","formType":"管理费","money":"100"},
+            {"projectName":"lsc_test_pro_02","enterpriseName":"寒武纪","accountName":"spv02","inputUser":"李四","inputDate":"2005-08-07","formType":"分配收益","money":"100"},
+            {"projectName":"lsc_test_pro_02","enterpriseName":"寒武纪","accountName":"spv02","inputUser":"李四","inputDate":"2005-08-10","formType":"管理费","money":"100"},
+            {"projectName":"lsc_test_pro_02","enterpriseName":"寒武纪1","accountName":"spv01","inputUser":"张三","inputDate":"2005-08-05","formType":"call款","money":"100"},
+            {"projectName":"lsc_test_pro_02","enterpriseName":"寒武纪1","accountName":"spv01","inputUser":"张三","inputDate":"2005-08-07","formType":"分配收益","money":"100"},
+            {"projectName":"lsc_test_pro_02","enterpriseName":"寒武纪1","accountName":"spv02","inputUser":"张三","inputDate":"2005-08-10","formType":"管理费","money":"3000"},
+            {"projectName":"lsc_test_pro_02","enterpriseName":"寒武纪1","accountName":"spv02","inputUser":"李四","inputDate":"2005-08-05","formType":"call款","money":"1000"},
+            {"projectName":"lsc_test_pro_02","enterpriseName":"寒武纪1","accountName":"spv02","inputUser":"李四","inputDate":"2005-08-07","formType":"分配收益","money":"100"},
+            {"projectName":"lsc_test_pro_02","enterpriseName":"寒武纪1","accountName":"spv02","inputUser":"李四","inputDate":"2005-08-10","formType":"管理费","money":"100"}]};
+
+        /**
+         * easyui 多列合并封装
+         * 原文只有各列的单独合并，我这里添加了关联合并（运行该html可看到差异）
+         * 另外原文中存放合并结果里，用的是对象，不方便调试，这里改成了Map
+         * 参考链接：https://blog.csdn.net/weixin_41402352/article/details/82191513
+         *
+         * 多列合并的基本思路（不用前端框架，完全自己实现，基本也是这个思路）：
+         * TODO：后续有空实现一个不用前端框架的版本
+         * （1）计算出各列如何进行合并的数组
+         * （2）根据计算结果进行合并操作
+         */
+        $.extend($.fn.datagrid.methods, {
+            /**
+             * 多列合并实现
+             * @param jq table的jq对象
+             * @param options 可选参数对象
+             *  fields：需要进行合并的列（字符串数组）
+             *  mode：1 各列单独合并；2 各列关联合并（关联顺序以fields中给的字段顺序为准）
+             * @returns table的jq对象
+             */
+            autoMergeCells : function (jq, options) {
+
+                /**
+                 * 获取关联合并时，当前单元格进行比较时要用的值
+                 * @param fieldValue 字段值
+                 * @param currentRow 当前正在循环的行
+                 * @param fields 需要进行合并的所有列字段
+                 * @param currentFieldIndex 当前单元格对应字段在fields中所处的位置
+                 * @returns {string}
+                 */
+                function getCompareValue(fieldValue, currentRow, fields, currentFieldIndex) {
+                    if (currentFieldIndex == 0) {
+                        return "_" + fieldValue;
+                    } else {
+                        var baseValue = currentRow[fields[0]];
+                        for (var j = 1; j < currentFieldIndex; j++) {
+                            baseValue += "|" + currentRow[fields[j]];
+                        }
+                        return baseValue + "_" + fieldValue;
+                    }
+                }
+
+                return jq.each(function () {
+                    var $target = $(this);
+                    /*var fields = options.fields;
+                    var mode = options.mode;
+                    // 获取待合并的列（如果没取到，则认为列表中的所有列都要参与到列合并中）
+                    if (!fields) {
+                        fields = $target.datagrid("getColumnFields");
+                    }
+                    // 获取合并模式，如果不填，默认为2（各列关联合并）
+                    if (!mode) {
+                        mode = "2";
+                    }
+                    var rows = $target.datagrid("getRows");*/
+
+                    // 上面被注释掉的部分，和下面的写法是等效的
+                    // 默认选项
+                    var defaultOptions = {
+                        // 合并模式，如果不填，默认为2（各列关联合并）
+                        mode: "2",
+                        // 待合并的列（如果没取到，则认为列表中的所有列都要参与到列合并中）
+                        fields: $target.datagrid("getColumnFields")
+                    };
+                    var parseOptions = $.extend({}, defaultOptions, options);
+
+                    // 获取待合并的列
+                    var fields = parseOptions.fields;
+                    // 获取合并模式
+                    var mode = parseOptions.mode;
+                    var rows = $target.datagrid("getRows");
+
+                    // temp中存放的是需要做列合并的每一列中，需要从哪合并到哪；打印temp数组可以看出数据结构
+                    var temp = {};
+                    for (var i = 0; i < rows.length; i++) {
+                        var row = rows[i];
+                        for (var j = 0; j < fields.length; j++) {
+                            var field = fields[j];
+                            var tf = temp[field];
+                            var compareValue;
+                            // 如果是关联合并，则采用getCompareValue获取的值；如果是各自的列合并，则直接使用单元格的值
+                            if (mode == '2') {
+                                compareValue = getCompareValue(row[field], row, fields, j);
+                            } else {
+                                compareValue = row[field];
+                            }
+
+                            if (!temp[field]) {
+                                // var tf = temp[field] = {};
+                                var tf = temp[field] = new Map();
+                                // tf[fieldValue] = [i];
+                                // tf.set(fieldValue, [i]);
+                                tf.set(compareValue, [i]);
+                            } else {
+                                // var tfv = tf[fieldValue];
+                                // var tfv = tf.get(fieldValue);
+                                var tfv = tf.get(compareValue);
+                                if (tfv) {
+                                    tfv.push(i);
+                                } else {
+                                    // tf[fieldValue] = [i];
+                                    // tf.set(fieldValue, [i]);
+                                    tf.set(compareValue, [i]);
+                                }
+                            }
+                        }
+                    }
+                    // console.log(temp);
+
+                    // 进行temp进行列合并处理
+                    $.each(temp, function (field, map) {
+                        map.forEach(function (mergeScopeArr, value, obj) {
+                            if (mergeScopeArr.length != 1) {
+                                $target.datagrid("mergeCells", {
+                                    index: mergeScopeArr[0],
+                                    field: field,
+                                    rowspan: mergeScopeArr.length
+                                });
+                            }
+                        });
+                    });
+                });
+            }
+        });
+
+        $("#table1").datagrid({
+            title: "合并前",
+            rownumbers: true,
+            fitColumns: true,
+            data: data,
+            columns: [[
+                {field:'projectName',title:'项目名称',width:120},
+                {field:'enterpriseName',title:'企业名称',width:100},
+                {field:'accountName',title:'账户名称',width:100},
+                {field:'inputUser',title:'录入人',width:70},
+                {field:'inputDate',title:'录入日期',width:100},
+                {field:'formType',title:'表单类别',width:100},
+                {field:'money',title:'金额',width:50}
+            ]]
+        });
+
+        $("#table2").datagrid({
+            title: "合并后（模式1） 这里对 projectName、enterpriseName单独做合并",
+            rownumbers: true,
+            fitColumns: true,
+            data: data,
+            columns: [[
+                {field:'projectName',title:'项目名称',width:120},
+                {field:'enterpriseName',title:'企业名称',width:100},
+                {field:'accountName',title:'账户名称',width:100},
+                {field:'inputUser',title:'录入人',width:70},
+                {field:'inputDate',title:'录入日期',width:100},
+                {field:'formType',title:'表单类别',width:100},
+                {field:'money',title:'金额',width:50}
+            ]],
+            onLoadSuccess: function () {
+                $(this).datagrid("autoMergeCells", {
+                    fields: ['projectName', 'enterpriseName'],
+                    mode: "1"
+                });
+            }
+        });
+
+        $("#table3").datagrid({
+            title: "合并后（模式2） 默认模式 这里对 projectName、enterpriseName、accountName做关联合并",
+            rownumbers: true,
+            fitColumns: true,
+            data: data,
+            columns: [[
+                {field:'projectName',title:'项目名称',width:120},
+                {field:'enterpriseName',title:'企业名称',width:100},
+                {field:'accountName',title:'账户名称',width:100},
+                {field:'inputUser',title:'录入人',width:70},
+                {field:'inputDate',title:'录入日期',width:100},
+                {field:'formType',title:'表单类别',width:100},
+                {field:'money',title:'金额',width:50}
+            ]],
+            onLoadSuccess: function () {
+                $(this).datagrid("autoMergeCells", {
+                    fields: ['projectName', 'enterpriseName', 'accountName']
+                });
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
