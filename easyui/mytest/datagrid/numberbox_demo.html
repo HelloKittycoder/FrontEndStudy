@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Number Range - jQuery EasyUI Demo</title>
+    <link rel="stylesheet" type="text/css" href="../../lib/jquery-easyui-1.5.1/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../lib/jquery-easyui-1.5.1/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="../../mytest/demo.css">
+    <script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/jquery.easyui.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            // 给numberbox绑定onblur事件
+            // 方法一：能取到刚刚输入的值
+            $("#testInputNumberbox").numberbox({
+                events: {
+                    blur: function (e) {
+                        var currentValue = e.target.value;
+                        console.log("当前输入框已失去焦点，刚刚输入的值为：", currentValue);
+                    }
+                }
+            });
+
+            // 方法二：能取到刚刚输入的值，还能取到前一次输入的值
+            $("#testInputNumberbox2").numberbox({
+                onChange: function (newValue, oldValue) {
+                    console.log("当前输入框已失去焦点，刚刚输入的值为：", newValue, "之前输入的值为：", oldValue);
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <h2>Number Range</h2>
+    <p>The value is constrained to a specified range.</p>
+    <div style="margin:20px 0;"></div>
+    <div class="easyui-panel" style="width:100%;max-width:400px;padding:30px 60px;">
+        <div style="margin-bottom:20px">
+            <input class="easyui-numberbox" data-options="label:'Amount:',labelPosition:'top',min:10,max:90,precision:2" style="width:100%;">
+        </div>
+        <div style="margin-bottom:20px">
+            <input class="easyui-numberbox" data-options="label:'Weight:',labelPosition:'top',min:10,max:90" style="width:100%;">
+        </div>
+        <div style="margin-bottom:20px">
+            <input class="easyui-numberbox" data-options="label:'Age:',labelPosition:'top',min:0,max:100" style="width:100%;">
+        </div>
+        <div style="margin-bottom:20px">
+            <input id="testInputNumberbox" class="easyui-numberbox" data-options="label:'测试输入框:',labelPosition:'top',min:0,max:100" style="width:100%;">
+        </div>
+        <div style="margin-bottom:20px">
+            <input id="testInputNumberbox2" class="easyui-numberbox" data-options="label:'测试输入框2:',labelPosition:'top',min:0,max:100" style="width:100%;">
+        </div>
+    </div>
+</body>
+</html>
