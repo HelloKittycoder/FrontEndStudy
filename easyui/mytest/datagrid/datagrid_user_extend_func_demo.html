@@ -54,6 +54,14 @@
             // nowrap: false,
             columns:[[
                 {field:'cb',checkbox: true,width:10},
+                /*{field:'rowIndex',title:'序号',width:40,formatter:function (value, row, index) {
+                    if (value) {
+                        return value;
+                    } else {
+                        return index + 1;
+                    }
+                }},*/
+                {field:'rowIndex',title:'序号',width:40,formatter:EasyuiCommon.serialFormatter},
                 {field:'itemid',title:'编号',width:100},
                 {field:'productid',title:'产品编号',width:130},
                 {field:'productname',title:'产品名称',width:100},

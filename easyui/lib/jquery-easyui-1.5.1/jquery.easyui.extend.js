@@ -1,3 +1,20 @@
+var EasyuiCommon = function() {
+
+    // 序号formatter
+    var _serialFormatter = function (value, row, index) {
+        console.log("formatter被调用了...", arguments);
+        if (value) {
+            return value;
+        } else {
+            return index + 1;
+        }
+    }
+
+    return {
+        serialFormatter: _serialFormatter
+    }
+}();
+
 // 辅助工具方法
 /**
  * 将日期格式化成字符串
