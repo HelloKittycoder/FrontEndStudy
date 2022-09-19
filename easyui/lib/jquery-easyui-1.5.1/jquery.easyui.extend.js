@@ -88,24 +88,56 @@ $.extend($.fn.datagrid.methods,{
 
 $.extend($.fn.dialog.methods,{
     /**
-     * 打开对话框后，自动在页面居中
+     * 打开对话框，页面居中展示
      * 参考链接：https://blog.csdn.net/qq_23113521/article/details/79010569
+     *
+     * 使用示例：
+     * $("#openMessage2").dialog("openWindow", {
+     *      title: '指标计算说明',
+     *      width: 480,
+     *      height: 280
+     * });
+     *
      * @param jq
      * @param options
+     *
+     * 最终调用时传的option
+     * {
+     *      title: '指标计算说明',
+     *      width: 480,
+     *      height: 280,
+     *      left: 688,
+     *      top: 2589.5,
+     *      modal: true,
+     *      closed: true
+     *  }
+     *
+     * @return {*}
      */
-    openDialog: function (jq, options) {
-        return jq.each(function () {
-            // needScrollCenter：表示需要在带滚动条的页面里水平垂直居中显示
-            if (options && options.needScrollCenter) {
-                var windowHeight = $(window).height();
-                var dialogWidth = options.width;
-                var dialogHeight = options.height;
-                var left = (document.body.scrollWidth - dialogWidth) / 2;
-                var top = $(document).scrollTop() + (windowHeight - dialogHeight) * 0.5;
+    openWindow: function (jq, options) {
+        var defaultOptions = {
+            title: '',
+            width: 200,
+            height: 200,
+            modal: true,
+            closed: true
+        };
+        var parsedOptions = $.extend({}, defaultOptions, options);
 
-                $.extend(options, {left: left, top: top});
-            }
-            $(this).dialog(options).dialog("open");
+        // 计算弹窗的left和top，用于弹窗居中展示
+        // 页面高度
+        var windowHeight = $(window).height();
+        // 弹窗宽度
+        var dialogWidth = parsedOptions.width;
+        // 弹窗高度
+        var dialogHeight = parsedOptions.height;
+        var left = (document.body.scrollWidth - dialogWidth) / 2;
+        var top = $(document).scrollTop() + (windowHeight - dialogHeight) * 0.5;
+
+        parsedOptions["left"] = left;
+        parsedOptions["top"] = top;
+        return jq.each(function () {
+            $(this).dialog(parsedOptions).dialog('open');
         });
     }
 });
