@@ -500,6 +500,47 @@
     });
 }(jQuery);
 
+$.fn.extend({
+    /**
+     * jquery对象需要保留的class
+     * @param retainClassStr class名称，有多个的话用空格隔开
+     * @return {*}
+     *
+     * e.g.
+     * $("#test").retainClass('aa bb');
+     */
+    retainClass: function (retainClassStr) {
+        var retainClassArr = [];
+        if (retainClassStr) {
+            retainClassArr = retainClassStr.split(" ");
+        }
+
+        return this.each(function () {
+            if (retainClassArr.length == 0) {
+                // 如果需要保留的class为空，则直接移除该元素上的所有class
+                $(this).removeClass();
+            } else {
+                // 如果需要保留的class不为空，则计算出需要移除的class
+                $(this).removeClass(function (index, oldClass) {
+                    var needRemoveClass = [];
+                    if (oldClass) {
+                        var oldClassArr = oldClass.split(" ");
+                        oldClassArr.forEach(function(item) {
+                            // 该class不需要保留
+                            if ($.inArray(item, retainClassArr) == -1) {
+                                needRemoveClass.push(item);
+                            }
+                        });
+                    }
+
+                    // 返回需要移除的class
+                    return needRemoveClass.join(" ");
+                });
+            }
+        });
+    }
+});
+
 /**
  * 自定义数组
  * @param option 选项
