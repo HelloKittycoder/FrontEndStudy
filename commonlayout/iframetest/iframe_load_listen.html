@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>多个iframe加载监听</title>
+    <style type="text/css">
+        #main {
+            display: flex;
+            flex-direction: column;
+        }
+        .iframecontent {
+            margin: 0 auto;
+            width: 800px;
+            height: 200px;
+            margin: 0 auto;
+            border: 1px solid;
+        }
+    </style>
+    <!-- 前端库在线引用地址：https://www.bootcdn.cn/ -->
+    <script src="https://cdn.bootcss.com/jquery/1.9.1/jquery.js"></script>
+    <script type="text/javascript">
+        /**
+         * 说明：这里的iframe加载监听，并非通用的解决方案，这里只是理想的情况，实际业务上一般会比较复杂
+         * 限制为：给iframe绑定监听事件时，所有iframe还未加载，并且所有要加载的iframe此时已经出现在页面上了；
+         * 如果有中途ajax请求，动态追加iframe，这种写法就不适用了
+         */
+        $(function () {
+            // 1.前置的ajax请求，获取业务数据（这里请求过程中，不会动态加载iframe）
+            var $firstIframeRequest = $.ajax({
+                url: 'http://localhost:8080/test',
+                type: 'post',
+                dataType: "json",
+                success: function (responseText) {
+                    console.log(responseText);
+                }
+            });
+            var $secondIframeRequest = $.ajax({
+                url: 'http://localhost:8080/test2',
+                type: 'post',
+                dataType: "json",
+                success: function (responseText) {
+                    console.log(responseText);
+                }
+            });
+
+            // 2.等待ajax请求全部完成
+            $.when($firstIframeRequest, $secondIframeRequest).done(function (firstResponse, secondResponse) {
+                // console.log(firstResponse, secondResponse)
+                console.log("两个ajax的回调sucess都调用成功了...");
+
+                // 3.此时，所有iframe还未加载，要加载的所有的iframe已经在页码上了
+                var $iframecontent = $(".iframecontent");
+                var loadSuccessIframeNum = 0;
+                // iframe的个数
+                var iframeNum = $iframecontent.length;
+                // 4.给iframe添加load监听
+                $iframecontent.on("load", function () {
+                    loadSuccessIframeNum++;
+                    // 6.等所有的iframe加载完成后，执行生成页码操作
+                    if (loadSuccessIframeNum == iframeNum) {
+                        console.log("所有iframe加载完毕");
+                        generatePageNo($iframecontent);
+                    }
+                });
+
+                // 5.逐个加载iframe的内容
+                $("#firstIframe").attr("src", "load_listen/iframe_subpage1.html");
+                $("#secondIframe").attr("src", "load_listen/iframe_subpage2.html");
+                $("#thirdIframe").attr("src", "load_listen/iframe_subpage3.html");
+                $("#fourthIframe").attr("src", "load_listen/iframe_subpage4.html");
+            }).fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                // 请求对象XMLHttpRequest，错误类型textStatus，异常对象errorThrown
+                console.log(arguments);
+            });
+        });
+
+        // 生成页码
+        function generatePageNo($iframecontent) {
+            $iframecontent.each(function (index, iframeEle) {
+                console.log($(iframeEle).contents().find("#pageNo").text(index + 1));
+            });
+        }
+    </script>
+</head>
+<body>
+    <div id="main">
+        <iframe id="firstIframe" class="iframecontent" frameborder="0"></iframe>
+        <iframe id="secondIframe" class="iframecontent" frameborder="0"></iframe>
+        <iframe id="thirdIframe" class="iframecontent" frameborder="0"></iframe>
+        <iframe id="fourthIframe" class="iframecontent" frameborder="0"></iframe>
+    </div>
+</body>
+</html>

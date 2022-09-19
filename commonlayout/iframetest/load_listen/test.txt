@@ -1,0 +1,32 @@
+说明：
+这里用到的 http://localhost:8080/test
+http://localhost:8080/test2
+我是直接搭了个springboot项目返回的json数据，当然也可以用nodejs来写（这个还不太熟悉，后续有空看看怎么写）
+
+@RequestMapping("/test")
+@ResponseBody
+public Map<String, Object> test(HttpServletResponse response) {
+    response.setHeader("Access-Control-Allow-Origin", "*");
+    Map<String, Object> resultMap = new HashMap<>();
+    resultMap.put("status", "success");
+    try {
+        Thread.sleep(2000);
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
+    return resultMap;
+}
+
+@RequestMapping("/test2")
+@ResponseBody
+public Map<String, Object> test2(HttpServletResponse response, ModelMap map) {
+    response.setHeader("Access-Control-Allow-Origin", "*");
+    Map<String, Object> resultMap = new HashMap<>();
+    resultMap.put("status", "success");
+    try {
+        Thread.sleep(3000);
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
+    return resultMap;
+}

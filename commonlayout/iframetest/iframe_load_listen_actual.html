@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>多个iframe加载监听_实际写法</title>
+    <style type="text/css">
+        #main {
+            display: flex;
+            flex-direction: column;
+        }
+        .iframecontent {
+            margin: 0 auto;
+            width: 800px;
+            height: 200px;
+            margin: 0 auto;
+            border: 1px solid;
+        }
+    </style>
+    <!-- 前端库在线引用地址：https://www.bootcdn.cn/ -->
+    <script src="https://cdn.bootcss.com/jquery/1.9.1/jquery.js"></script>
+    <script type="text/javascript">
+        /**
+         * 说明：这里的iframe加载监听，实际业务中可能会写成如下形式
+         */
+        var firstLoadSuccess = false, secondLoadSuccess = false, thirdLoadSuccess = false, fourthLoadSuccess = false;
+        $(function () {
+            // 1.前置的ajax请求，获取业务数据（这里请求过程中，还会动态加载iframe，这里是请求成功后，则加载iframe内容）
+            $.ajax({
+                url: 'http://localhost:8080/test',
+                type: 'post',
+                dataType: "json",
+                success: function (responseText) {
+                    console.log(responseText);
+                    $("#firstIframe").on("load", function () {
+                        console.log("firstIframe加载成功了");
+                        firstLoadSuccess = true;
+                    }).attr("src", "load_listen/iframe_subpage1.html");
+                }
+            });
+
+            $.ajax({
+                url: 'http://localhost:8080/test2',
+                type: 'post',
+                dataType: "json",
+                success: function (responseText) {
+                    console.log(responseText);
+                    var $secondIframe = $(`<iframe id="secondIframe" class="iframecontent" frameborder="0" src="load_listen/iframe_subpage2.html"></iframe>`);
+                    $secondIframe.on("load", function () {
+                        console.log("secondIframe加载成功了");
+                        secondLoadSuccess = true;
+                    });
+                    $("#firstIframe").after($secondIframe);
+                }
+            });
+
+            // 2.加载thirdIframe、fourthIframe
+            $("#thirdIframe").on("load", function () {
+                console.log("thirdIframe加载成功了");
+                thirdLoadSuccess = true;
+            }).attr("src", "load_listen/iframe_subpage3.html");
+
+            $("#fourthIframe").on("load", function () {
+                console.log("fourthIframe加载成功了");
+                fourthLoadSuccess = true;
+            }).attr("src", "load_listen/iframe_subpage4.html");
+
+            /**
+             * 3.设置为4s后，给页面上出现的iframe生成页码
+             * （这里没法精确知道在什么时候，生成页码；因为ajax请求的时间不确定，iframe加载多少个也不确定，iframe的加载时间不确定）
+             */
+            setTimeout(function () {
+                generatePageNo($(".iframecontent"));
+            }, 4000);
+        });
+
+        // 生成页码
+        function generatePageNo($iframecontent) {
+            if (firstLoadSuccess && secondLoadSuccess && thirdLoadSuccess && fourthLoadSuccess) {
+                $iframecontent.each(function (index, iframeEle) {
+                    console.log($(iframeEle).contents().find("#pageNo").text(index + 1));
+                });
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="main">
+        <iframe id="firstIframe" class="iframecontent" frameborder="0"></iframe>
+
+        <iframe id="thirdIframe" class="iframecontent" frameborder="0"></iframe>
+        <iframe id="fourthIframe" class="iframecontent" frameborder="0"></iframe>
+    </div>
+</body>
+</html>
