@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>svg使用</title>
+    <style type="text/css">
+        .healthPartSvg {
+            width: 100%;
+            font-size: 9px;
+            height: 12px;
+            border: 1px solid;
+        }
+    </style>
+</head>
+<body>
+<!--
+要点：1.x="50%"
+2.text-anchor="middle"
+参考链接：https://zhuanlan.zhihu.com/p/55859094
+-->
+<h3>svg内部文本水平居中</h3>
+<div>
+    <svg class="healthPartSvg">
+        <text dominant-baseline="baseline" font-size="9" x="50%" y="50%" dy=".3em" fill="#333" stroke="#333" text-anchor="middle">这是测试用的文本</text>
+    </svg>
+</div>
+</body>
+</html>
