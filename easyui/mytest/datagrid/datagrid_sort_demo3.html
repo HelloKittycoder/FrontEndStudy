@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>datagrid列表排序（单列，可恢复原有顺序）</title>
+    <link rel="stylesheet" type="text/css" href="../../lib/jquery-easyui-1.5.1/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../lib/jquery-easyui-1.5.1/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="../../mytest/demo.css">
+</head>
+<body>
+<!-- 需求说明：这里是前端排序（数据在前端一页已经展示完了）
+    1.页面初始展示时，可排序列需要显示排序标识
+    2.点击排序列后，初始顺序、升序、降序、初始顺序、升序、降序、... 交替出现
+    （说明：
+    以上三种顺序的图标交替出现，需要添加属性 multiSort:false，
+    其中升序、降序easyui都有实现，恢复初始顺序需要自己实现
+
+    如果不添加属性 multiSort:false，则呈现的效果为：
+    初始顺序、升序、降序、升序、降序、... 即第1次排完序后，后面就没有机会再看到初始顺序了）
+-->
+
+<h2>datagrid列表排序（单列，可恢复原有顺序）</h2>
+<div class="demo-info">
+    <div class="demo-tip icon-tip"></div>
+    <div>单列，可恢复原有顺序</div>
+</div>
+<div style="margin: 10px 0;"></div>
+
+<table id="dg"></table>
+
+<script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="datagrid_sort_demo3.js"></script>
+</body>
+</html>
