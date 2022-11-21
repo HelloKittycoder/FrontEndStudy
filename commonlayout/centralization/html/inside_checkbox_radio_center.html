@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>如何让单选框和复选框旁边的文字垂直居中</title>
+    <style>
+        input[type="checkbox"], input[type="radio"] {
+            vertical-align: text-bottom;
+            margin-bottom: 1px;
+            margin-right: 2px;
+        }
+    </style>
+</head>
+<body>
+<!--
+下面div的样式写成 line-height: 1.5; font-size: 12px，是为了让checkbox和旁边的文字对不齐
+实现对齐，主要是：通过 vertical-align: text-bottom;margin-bottom: 1px; 来实现的
+参考链接：http://www.manongjc.com/detail/22-mwgmjsuduoqafyj.html
+-->
+<div style="line-height: 1.5; font-size: 12px">
+    <input type="checkbox"/>语文
+    <input type="checkbox"/>数学
+    <input type="checkbox"/>英语
+    <input type="checkbox"/>政治
+    <input type="checkbox"/>历史
+    <input type="checkbox"/>地理
+</div>
+<div style="line-height: 1.5; font-size: 12px">
+    <input type="radio"/>语文
+    <input type="radio"/>数学
+    <input type="radio"/>英语
+    <input type="radio"/>政治
+    <input type="radio"/>历史
+    <input type="radio"/>地理
+</div>
+</body>
+</html>
