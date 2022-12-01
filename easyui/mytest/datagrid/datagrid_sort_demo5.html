@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Basic DataGrid - jQuery EasyUI Demo</title>
+    <link rel="stylesheet" type="text/css" href="../../lib/jquery-easyui-1.5.1/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../lib/jquery-easyui-1.5.1/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="../../mytest/demo.css">
+    <script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../lib/jquery-easyui-1.5.1/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript">
+        /**
+         * 需求说明：前端传的排序字段名和后端不一致，datagrid需要传递前先做转换，要如何处理
+         * 后端排序-需要前端传的参数，刚好名称是和后端的字段名一样
+         * 比如：前端显示字段是productid，直接点排序，传到后端的字段名是productid，但后端需要的实际字段名是product_id，这里需要作下转换
+         *
+         * 具体如何处理，见下面的js，下面在传到后端之前，对实际排序参数做了中转
+         * productid->product_id
+         * listprice->list_price
+         * unitcost->unit_cost
+         */
+        $(function () {
+            var sortFieldMap = {
+                "productid": "product_id",
+                "listprice": "list_price",
+                "unitcost": "unit_cost",
+            };
+
+            $("#dg").datagrid({
+                title:'基本数据表格',
+                url:'datagrid_data1.json',
+                remoteSort: true,
+                width: '700',
+                height: '250',
+                singleSelect:true,
+                collapsible:true,
+                onBeforeLoad: function(params) {
+                    if (params.sort) {
+                        params.sort = sortFieldMap[params.sort];
+                    }
+                    console.log("onBeforeLoad事件", params);
+                },
+                columns:[[
+                    {field:'itemid',title:'编号',width:80},
+                    {field:'productid',title:'产品编号',width:100,sortable: true},
+                    {field:'listprice',title:'市场价',width:80,align:'right',sortable: true},
+                    {field:'unitcost',title:'成本价',width:80,align:'right',sortable: true},
+                    {field:'attr1',title:'描述',width:250},
+                    {field:'status',title:'状态',width:60,align:'center'},
+                ]]
+            });
+        });
+    </script>
+</head>
+<body>
+    <div id="dg"></div>
+</body>
+</html>
