@@ -318,6 +318,24 @@ var BarDemo = function () {
                         data: seriesData
                     }
                 ],
+                // 增加x轴的水平拖动条效果
+                dataZoom: [{
+                    type: 'inside',
+                    xAxisIndex: [0],
+                    // start: 0,
+                    // end:100
+                    startValue: axisData[0],
+                    endValue: axisData[axisData.length - 1],
+
+                },
+                {
+                    show: true,
+                    type: 'slider',
+                    xAxisIndex: [0],
+                    bottom: '10%',
+                    startValue: axisData[0],
+                    endValue: axisData[axisData.length - 1],
+                }],
             };
         }
     }
