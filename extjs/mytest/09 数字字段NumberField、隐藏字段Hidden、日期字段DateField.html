@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- ExtJs 框架 START -->
+    <script type="text/javascript" src="../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="../lib/ext-3.0/ext-all.js"></script>
+    <link rel="stylesheet" type="text/css" href="../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- ExtJs 框架 END -->
+    <style type="text/css">
+        .x-form-unit {
+            height: 22px;
+            line-height: 22px;
+            padding-left: 2px;
+            display: inline-block;
+            display: inline;
+        }
+    </style>
+    <script type="text/javascript">
+        // ---------------------- 重写文本框开始 ----------------------
+        Ext.override(Ext.form.TextField, {
+            unitText: '',
+            onRender: function (ct, position) {
+                Ext.form.TextField.superclass.onRender.call(this, ct, position);
+                // 如果单位字符串已定义 则在后方增加单位对象   
+                if (this.unitText != '') {
+                    this.unitEl = ct.createChild({
+                        tag: 'div',
+                        html: this.unitText
+                    });
+                    this.unitEl.addClass('x-form-unit');
+                    // 增加单位名称的同时 按单位名称大小减少文本框的长度 初步考虑了中英文混排 未考虑为负的情况   
+                    this.width = this.width - (this.unitText.replace(/[^\x00-\xff]/g, "xx").length * 6 + 2);
+                    // 同时修改错误提示图标的位置   
+                    this.alignErrorIcon = function () {
+                        this.errorIcon.alignTo(this.unitEl, 'tl-tr', [2, 0]);
+                    };
+                }
+            }
+        });
+        // ---------------------- 重写文本框结束 ----------------------
+        
+        Ext.onReady(function () {
+            // 初始化标签中的Ext:Qtip属性
+            Ext.QuickTips.init();
+            Ext.form.Field.prototype.msgTarget = 'side';
+            
+            // 提交按钮处理方法
+            var btnSubmitClick = function () {
+                Ext.MessageBox.alert('提示', '你点了提交按钮！')
+            }
+            
+            // 重置按钮“点击时”处理方法
+            var btnResetClick = function () {
+                Ext.MessageBox.alert('提示', '你点了重置按钮！')
+            }
+            
+            // 重置按钮“鼠标悬停时”处理方法
+            var btnResetMouseOver = function () {
+                Ext.MessageBox.alert('提示', '你鼠标悬停在重置按钮之上！')
+            }
+            
+            // 提交按钮
+            var btnSubmit = new Ext.Button({
+                text: '提交',
+                handler: btnSubmitClick
+            });
+            
+            // 重置按钮
+            var btnReset = new Ext.Button({
+                text: '重置',
+                listeners: {
+                    'mouseover': btnResetMouseOver,
+                    'click': btnResetClick
+                }
+            });
+            
+            // 用户名input
+            var txtUsername = new Ext.form.TextField({
+                width: 140,
+                allowBlank: false,
+                maxLength: 20,
+                name: 'username',
+                fieldLabel: '用户名称',
+                blankText: '请输入用户名',
+                maxLengthText: '用户名不能超过20个字符'
+            });
+            
+            // 密码input
+            var txtPassword = new Ext.form.TextField({
+                width: 140,
+                allowBlank: false,
+                maxLength: 20,
+                inputType: 'password',
+                name: 'password',
+                fieldLabel: '密码',
+                blankText: '请输入密码',
+                maxLengthText: '密码不能超过20个字符'
+            });
+            
+            // ---------------------- 数字字段开始 ----------------------
+            var numberField = new Ext.form.NumberField({
+                fieldLabel: '身高',
+                width: 80,
+                decimalPrecision: 1,
+                minValue: 0.01,
+                maxValue: 200,
+                unitText: ' cm',
+                allowBlank: false,
+                blankText: '请输入身高'
+            });
+            // ---------------------- 数字字段结束 ----------------------
+            
+            // ---------------------- 隐藏域字段开始 ----------------------
+            var hiddenField = new Ext.form.Hidden({
+                name: 'userid',
+                value: '1'
+            });
+            // ---------------------- 隐藏域字段结束 ----------------------
+            
+            // ---------------------- 日期字段开始 ----------------------
+            var dateField = new Ext.form.DateField({
+                fieldLabel: '出生日期',
+                format: 'Y-m-d',
+                editable: false,
+                allowBlank: false,
+                blankText: '请选择日期'
+            });
+            // ---------------------- 日期字段结束 ----------------------
+            
+            // 表单
+            var form = new Ext.form.FormPanel({
+                frame: true,
+                title: '表单标题',
+                style: 'margin: 10px',
+                html: '<div style="padding: 10px">这里是表单内容</div>',
+                items: [txtUsername, txtPassword, numberField, hiddenField, dateField],
+                buttons: [btnSubmit, btnReset]
+            })
+
+            // 窗体
+            var win = new Ext.Window({
+                title: '窗口',
+                width: 476,
+                height: 374,
+                html: '<div>这里是窗体内容</div>',
+                resizable: true,
+                modal: true,
+                closable: true,
+                maximizable: true,
+                minimizable: true,
+                items: form
+                
+            });
+            win.show();
+        });
+    </script>
+</head>
+<body>
+<!--
+  说明：
+  (1)var btnsubmit = new Ext.Button():创建一个新的Button按钮对象。
+  (2)handler: btnsubmitclick：当用户点击的时候[即js中的onclick事件]执行方法btnsubmitclick。
+  (3)listeners: {'mouseover': btnresetmouseover,'click': btnresetclick}：当用户点击的时候[即js中的onclick事件]执行方法btnresetclick，
+      鼠标悬停时执行方法btnresetmouseover。
+  (4)handler与listeners的区别：
+      handler:执行的是首发事件，click是button这个组件的首发事件。这就是handler的运行方式：被某个组件的首要event所触发。
+              handler是一个特殊的listener。
+      listener：是一个事件名 + 处理函数的组合，事件监听，如上例代码所示，我们监听了两个事件"click"，与"mouseover"事件，并且会顺序执行。
+ -->
+</body>
+</html>

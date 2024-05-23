@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- ExtJs 框架 START -->
+    <script type="text/javascript" src="../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="../lib/ext-3.0/ext-all.js"></script>
+    <link rel="stylesheet" type="text/css" href="../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- ExtJs 框架 END -->
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            // 初始化标签中的Ext:Qtip属性
+            Ext.QuickTips.init();
+            Ext.form.Field.prototype.msgTarget = 'side';
+
+            //创建div组件
+            var imageBox = new Ext.BoxComponent({
+                autoEl: {
+                    style: 'width:150px;height:150px;margin:0px auto;border:1px solid #ccc; text-align:center;padding-top:20px;margin-bottom:10px',
+                    tag: 'div',
+                    id: 'imageshow',
+                    html: '暂无图片'
+                }
+            });
+
+            //创建文本上传域
+            var file = new Ext.form.TextField({
+                name: 'imgFile',
+                fieldLabel: '文件上传',
+                inputType: 'file',
+                allowBlank: false,
+                blankText: '请浏览图片'
+            });
+
+            //提交按钮处理方法
+            var btnSubmitClick = function () {
+                if (form.getForm().isValid()) {
+                    form.getForm().submit({
+                        waitTitle: "请稍候",
+                        waitMsg: '正在上传...',
+                        success: function (form, action) {
+                            Ext.MessageBox.alert("提示", "上传成功！");
+                            document.getElementById('imageshow').innerHTML = '<img style="width:150px;height:150px" src="' + action.result.path + '"/>';
+                        },
+                        failure: function () {
+                            Ext.MessageBox.alert("提示", "上传失败！");
+                        }
+                    });
+                }
+            }
+
+            //重置按钮"点击时"处理方法
+            var btnResetClick = function () {
+                form.getForm().reset();
+            }
+
+            //表单
+            var form = new Ext.form.FormPanel({
+                frame: true,
+                fileUpload: true,
+                url: 'http://localhost:3000/demo/upload',
+                title: '表单标题',
+                style: 'margin:10px',
+                items: [imageBox, file],
+                buttons: [{
+                    text: '保存',
+                    handler: btnSubmitClick
+                }, {
+                    text: '重置',
+                    handler: btnResetClick
+                }]
+            });
+
+            //窗体
+            var win = new Ext.Window({
+                title: '窗口',
+                width: 476,
+                height: 374,
+                resizable: true,
+                modal: true,
+                closable: true,
+                maximizable: true,
+                minimizable: true,
+                buttonAlign: 'center',
+                items: form
+            });
+            win.show();
+        });
+    </script>
+</head>
+<body>
+<!--
+  说明：
+  (1)var combocitystore = new Ext.data.Store():创建一个新的数据源。
+  (2)proxy: new Ext.data.HttpProxy({ url: '/App_Ashx/Demo/City.ashx' })：数据代理为http代理，地址为/App_Ashx/Demo/City.ashx。
+  (3)reader: new Ext.data.JsonReader({ root: 'data' },[{ name: 'id' }, { name: 'name'}]):读取json返回值根节点为data，对象列为id和name。
+      这里要结合client与server观察,我在server端的输出如下：{data:[{id:1,name:'北京'},{id:2,name:'上海'}]}
+  (4)comboboxcity.on('select', function () {}：市选择变化时触发事件。
+  (5)comboareastore.baseParams.id = comboboxcity.getValue()：注意，前面的comboareastore是区的数据源，
+      当市变化时，我们给区的数据源加上个向server端发送的参数。
+  (6)comboareacity.setValue('')：把区的下拉列表设置为空，由于非空验证，Ext会提示用户“请选择区”，这个地方也可以把加载出来的第一个区
+      显示在区的下拉列表中，具体请自行实现吧。        
+  (7)comboareastore.load()：区的数据源重新加载。
+ -->
+</body>
+</html>

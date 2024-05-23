@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- ExtJs 框架 START -->
+    <script type="text/javascript" src="../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="../lib/ext-3.0/ext-all.js"></script>
+    <link rel="stylesheet" type="text/css" href="../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- ExtJs 框架 END -->
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            //----------------------继承前开始----------------------//
+            var panel1 = new Ext.Panel({
+                title: '标题',
+                width: 500,
+                height: 100,
+                html: '好好学习'
+            });
+            var panel2 = new Ext.Panel({
+                title: '标题',
+                width: 500,
+                height: 100,
+                html: '天天向上'
+            });
+            //----------------------继承前结束----------------------//
+            //----------------------继承后开始----------------------//
+            var MyPanel = Ext.extend(Ext.Panel, {
+                title: '标题',
+                width: 500,
+                height: 100
+            });
+            var myPanel1 = new MyPanel({
+                html: '好好学习'
+            });
+            var myPanel2 = new MyPanel({
+                html: '天天向上'
+            });
+            //----------------------继承后结束----------------------//
+            // 定义新的类FormPanel，并且把变化的属性暴露出来以便以后继承
+            var MyFormPanel = Ext.extend(Ext.form.FormPanel, {
+                title: '属性外露',
+                width: 500,
+                labelWidth: 80,
+                initComponent: function () {
+                    this.items = [{
+                        xtype: 'textfield',
+                        fieldLabel: '姓名',
+                        id: this.usernameid, // 变化的部分
+                        name: 'username',
+                    }];
+                    this.buttons = [{
+                        text: '确 定',
+                        handler: this.submit, // 变化的部分
+                        scope: this,
+                    }, {
+                        text: '取 消',
+                        handler: this.cancel, // 变化的部分
+                        scope: this,
+                    }];
+                    MyFormPanel.superclass.initComponent.call(this, arguments); // 调用父类的initComponent
+                }
+            });
+            // 创建测试对象1
+            var testForm1 = new MyFormPanel({
+                usernameid: 'username',
+                submit: function () {
+                    console.log(Ext.getCmp('username').getValue());
+                },
+                cancel: function () {
+                    testForm1.getForm().reset();
+                }
+            });
+            // 创建测试对象2
+            var testForm2 = new MyFormPanel({
+                title: '覆盖属性',
+                usernameid: 'usernameid',
+                submit: function () {
+                    console.log(this.usernameid);
+                },
+                cancel: function () {
+                    testForm2.getForm().reset();
+                }
+            });
+            // 创建窗体
+            var win = new Ext.Window({
+                title: '窗口',
+                id: 'window',
+                width: 500,
+                height: 620,
+                resizable: true,
+                closable: true,
+                maximizable: true,
+                minimizable: true,
+                items: [panel1, panel2, myPanel1, myPanel2, testForm1, testForm2]
+            });
+            win.show();
+        });
+    </script>
+</head>
+<body>
+<!--
+    说明：
+    (1)var MyPanel = Ext.extend(Ext.Panel, {
+                title: '标题',
+                width: 500,
+                height: 100
+            });
+    Ext.extend 用来继承已有的类 这里给 title,width,height加上了默认值
+    第12行至37行，简单介绍了组件的继承，如：平时我们在用MessageBox.show()时，一般会有4种情况，“成功”，“失败”，“出错”,“确认”。。
+    我们通过简单的继承，就可以把这4类文本框封装的很好，每次使用时new我们的新类即可。
+    (2)第38--82行，我做了个组件套用子组件的例子，给组件附加子组件须在 initComponent: function () {} 初始化组件时加入，
+    并且在完成后，还要显示的调用  MyFormPanel.superclass.initComponent.call(this, arguments); //调用父类的initComponent
+    我们在开发中，常会用到 GridPanel，会定义分页组件，按钮等，经过这个实例，我们可以在把原有的 GridPanel再包一层，以保证软件中的“单一原则”。
+    其中变化的部分我们可以通过定义新属性把他外露出来。如上例所示。
+-->
+</body>
+</html>

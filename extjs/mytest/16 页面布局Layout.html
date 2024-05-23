@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- ExtJs 框架 START -->
+    <script type="text/javascript" src="../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="../lib/ext-3.0/ext-all.js"></script>
+    <link rel="stylesheet" type="text/css" href="../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- ExtJs 框架 END -->
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            //----------------------ContainerLayout开始----------------------//
+            var box1 = new Ext.BoxComponent({
+                autoEl: {
+                    tag: 'div',
+                    style: 'background:red;width:300px;height:30px',
+                    html:'box1'
+                }
+            });
+            var box2 = new Ext.BoxComponent({
+                autoEl: {
+                    tag: 'div',
+                    style: 'background:yellow;width:300px;height:30px',
+                    html:'box2'
+                }
+            });
+            var box3 = new Ext.BoxComponent({
+                autoEl: {
+                    tag: 'div',
+                    style: 'background:blue;width:300px;height:30px;color:#fff',
+                    html:'box3'
+                }
+            });
+            var containerLayout = new Ext.Container({
+                layout: 'form',
+                items: [box1, box2, box3],
+                renderTo: 'containerLayout'
+            });
+            //----------------------ContainerLayout结束----------------------//
+            //----------------------FormLayout开始----------------------//
+            var formLayout = new Ext.Panel({
+                title: 'FormLayout',
+                layout: 'form',
+                items: [
+                    new Ext.form.TextField({fieldLabel: '用户名'}),
+                    new Ext.form.TextField({fieldLabel: '密码'}),
+                    new Ext.form.TextField({fieldLabel: '重复密码'}),
+                ],
+                renderTo: 'formLayout'
+            });
+            //----------------------FormLayout结束----------------------//
+            //----------------------ColumnLayout开始----------------------//
+            var columnLayout = new Ext.Panel({
+                width: 600,
+                title: 'ColumnLayout',
+                layout: 'column',
+                items: [
+                    new Ext.form.FormPanel({title: '第一列', columnWidth: .33, labelWidth: 50, items: [
+                            new Ext.form.TextField({fieldLabel: '用户名'})
+                        ]
+                    }),
+                    new Ext.form.FormPanel({title: '第二列', columnWidth: .33, labelWidth: 50, items: [
+                            new Ext.form.TextField({fieldLabel: '密码'})
+                        ]
+                    }),
+                    new Ext.form.FormPanel({title: '第三列', columnWidth: .33, labelWidth: 50, items: [
+                            new Ext.form.TextField({fieldLabel: '重复密码'})
+                        ]
+                    }),
+                ],
+                renderTo: 'columnLayout'
+            });
+            //----------------------ColumnLayout结束----------------------//
+            //----------------------BorderLayout开始----------------------//
+            var borderLayout = new Ext.Panel({
+                title: 'BorderLayout',
+                layout: 'border',
+                width: 1100,
+                height: 300,
+                items: [
+                    new Ext.Panel({title: '上北', region: 'north', html: '可以放个logo什么的'}),
+                    new Ext.Panel({title: '下南', region: 'south', html: '版权信息？', autoEl: 'center'}),
+                    new Ext.Panel({title: '中间', region: 'center', html: '主面板'}),
+                    new Ext.Panel({title: '左西', region: 'west', html: '树形菜单或是手风琴'}),
+                    new Ext.Panel({title: '右东', region: 'east', html: '常用功能或是去掉？'}),
+                ],
+                renderTo: 'borderLayout'
+            });
+            //----------------------BorderLayout结束----------------------//
+            //----------------------AccordionLayout开始----------------------//
+            var accordionLayout = new Ext.Panel({
+                title: 'AccordionLayout',
+                layout: 'accordion',
+                height: 200,
+                items: [
+                    new Ext.Panel({title: '用户管理', items: [new Ext.BoxComponent({autoEl: {tag: 'div', html: '用户管理'}})]}),
+                    new Ext.Panel({title: '角色管理', items: [new Ext.BoxComponent({autoEl: {tag: 'div', html: '角色管理'}})]}),
+                    new Ext.Panel({title: '系统管理', items: [new Ext.BoxComponent({autoEl: {tag: 'div', html: '系统管理'}})]}),
+                ],
+                renderTo: 'accordionLayout'
+            });
+            //----------------------AccordionLayout结束----------------------//
+            //----------------------FitLayout开始----------------------//
+            var fitLayout = new Ext.Panel({
+                title: 'FitLayout',
+                height: 100,
+                renderTo: 'fitLayout',
+                layout: 'fit',
+                items: [
+                    new Ext.Panel({bodyStyle: 'background:red', html: '使用了fit布局，填充满'}),
+                    new Ext.Panel({bodyStyle: 'background:yellow', html: '这个panel不会显示，因为是fit布局'}),
+                ]
+            });
+            var noFitLayout = new Ext.Panel({
+                title: 'NoFitLayout',
+                height: 100,
+                renderTo: 'fitLayout',
+                items: [
+                    new Ext.Panel({bodyStyle: 'background:red', html: '未使用fit布局，没有填充满'}),
+                    new Ext.Panel({bodyStyle: 'background:yellow', html: '这个panel会显示，因为不是fit布局'}),
+                ]
+            });
+            //----------------------FitLayout结束----------------------//
+            //----------------------TableLayout开始（这个展示的和例子给的不一样，原因未知）----------------------//
+            var tableLayout = new Ext.Panel({
+                title: 'TableLayout',
+                layout: 'table',
+                layoutConfig: {column: 3},
+                defaults: {
+                    width: 133,
+                    height: 100,
+                    autoEl: 'center'
+                },
+                defaultType: 'panel',
+                items: [
+                    {html: '行1列1'},
+                    {html: '行1列2'},
+                    {html: '行[1,2]列3', rowspan: 2, height: 180},
+                    {html: '行2列[1,2]', colspan: 2, width: 266},
+                ],
+                renderTo: 'tableLayout',
+            });
+            //----------------------TableLayout结束----------------------//
+        });
+    </script>
+</head>
+<body>
+<div id="containerLayout" style="float: left; width: 300px">
+    ContainerLayout：垂直方式放置
+</div>
+<div id="formLayout" style="float: left; width: 240px; padding-left: 10px;"></div>
+<div id="columnLayout" style="float: left; width: 500px; padding-left: 10px;"></div>
+<div id="borderLayout" style="padding: 10px 0; clear: both"></div>
+<div id="accordionLayout" style="width: 300px; float: left; height: 200px"></div>
+<div id="fitLayout" style="width: 300px; float: left; height: 200px; padding-left: 10px;"></div>
+<div id="tableLayout" style="width: 400px; float: left; padding-left: 10px;"></div>
+</body>
+</html>
