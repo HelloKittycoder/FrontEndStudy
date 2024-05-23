@@ -227,6 +227,119 @@ var BarDemo = function () {
         }
     }
 
+    var queryChart4 = function () {
+        $.ddchart.loadChartBase('#chart4', function (callback) {
+            /*$.post(chartAjaxDataUrl,{
+                "chartDataType":"test1"
+            }, function (responseText) {
+                if (responseText != null) {
+                    var option = getOption(responseText.seriesData, responseText.legendData);
+                    callback(option);
+                }
+            });*/
+            var responseText = getChartData4();
+            var option = getOption(responseText.axisData, responseText.seriesData, responseText.legendData, responseText.chartDateRateMap);
+            pageEchartsElements.push(callback(option));
+        });
+
+        function getOption(axisData, seriesData, legendData, chartDateRateMap) {
+            return {
+                title: {
+                    text: '易方达消费行业股票(110022)当前收益',
+                    x: 'center'
+                },
+                color: ['#ffd75c'],
+                tooltip : {
+                    trigger: 'axis',
+                    /*axisPointer: {
+                        type: 'cross',
+                        label: {
+                            backgroundColor: '#6a7985'
+                        }
+                    },*/
+                    /**
+                     * 自定义tooltip
+                     * 参考链接：https://blog.csdn.net/qq_25646191/article/details/78874289
+                     * @param params
+                     * @return {string}
+                     */
+                    formatter: function (params) {
+                        var param = params[0];
+                        var xAxisValue = param.name; // 日期
+                        var color = param.color; //图例颜色
+                        var rateStr = chartDateRateMap[xAxisValue]; // 格式化后的率的字符串
+
+                        /*htmlStr = `<div>
+                                    20230117<br/>
+                                    <span style="margin-right:5px;display:inline-block;width:10px;height:10px;border-radius:5px;background-color:#ff0000;"></span>
+                                    <span style="margin-right: 20px;">当前收益</span>6.39(4.25%)
+                                </div>`;*/
+
+                        var htmlStr = `<div>
+                                    ${xAxisValue}<br/>
+                                    <span style="margin-right:5px;display:inline-block;width:10px;height:10px;border-radius:5px;background-color:${color};"></span>
+                                    <span style="margin-right: 20px;">当前收益</span>${param.value}(${rateStr})
+                                </div>`;
+                        return htmlStr;
+                    }
+                },
+                toolbox: {
+                    feature: {
+                        saveAsImage: {show: true}
+                    }
+                },
+                legend: {
+                    orient: 'vertical',
+                    right: 60,
+                    top: 20,
+                    data: legendData
+                },
+                xAxis : [
+                    {
+                        type : 'category',
+                        name : '日期',
+                        data : axisData['x'],
+                        axisTick: {
+                            alignWithLabel: true
+                        }
+                    }
+                ],
+                yAxis : [
+                    {
+                        type : 'value',
+                        name : '单位：元'
+                    }
+                ],
+                series : [
+                    {
+                        name:'当前收益',
+                        type:'bar',
+                        barWidth: '60%', // 经过尝试发现barWidth设置成百分比需要echarts3.2.2才支持
+                        data: seriesData
+                    }
+                ],
+                // 增加x轴的水平拖动条效果
+                dataZoom: [{
+                    type: 'inside',
+                    xAxisIndex: [0],
+                    // start: 0,
+                    // end:100
+                    startValue: axisData[0],
+                    endValue: axisData[axisData.length - 1],
+
+                },
+                {
+                    show: true,
+                    type: 'slider',
+                    xAxisIndex: [0],
+                    bottom: '10%',
+                    startValue: axisData[0],
+                    endValue: axisData[axisData.length - 1],
+                }],
+            };
+        }
+    }
+
     var getChartData1 = function () {
         return {
             axisData : {
@@ -265,10 +378,30 @@ var BarDemo = function () {
         }
     }
 
+    var getChartData4 = function () {
+        return {
+            axisData : {
+                x: ['20230112', '20230113', '20230116', '20230117', '20230118', '20230119', '20230127']
+            },
+            seriesData : [0, 1.16, 4.67, 6.39, 7.45, 8.55, 17.04],
+            legendData : ['当前收益'],
+            chartDateRateMap: {
+                '20230112': '10%',
+                '20230113': '12%',
+                '20230116': '13%',
+                '20230117': '15%',
+                '20230118': '25%',
+                '20230119': '35%',
+                '20230127': '45%',
+            }
+        };
+    }
+
     return {
         queryChart1 : queryChart1,
         queryChart2 : queryChart2,
         queryChart3 : queryChart3,
+        queryChart4 : queryChart4,
         getPageEchartsElements : pageEchartsElements
     }
 }();

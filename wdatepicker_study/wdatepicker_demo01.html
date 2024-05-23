@@ -7,7 +7,17 @@
 </head>
 <body>
     <!-- 显示时，value如果没有值，默认展示当天下午15:00，选择后展示格式为：yyyyMMdd HH:mm -->
-    <input autocomplete="off" type="text" name="operateDate" class="Wdate" onclick="WdatePicker({dateFmt:'yyyyMMdd HH:mm', startDate:'%y-%M-%d 15:00:00'})"
-       style="width: 115px; height: 20px;line-height: 20px;"/>
+    <div>
+        <input autocomplete="off" type="text" name="operateDate" class="Wdate" onclick="WdatePicker({dateFmt:'yyyyMMdd HH:mm', startDate:'%y-%M-%d 15:00:00'})"
+               style="width: 115px; height: 20px;line-height: 20px;"/>
+    </div>
+
+    <!-- 开始时间限制只能是20230205至20230210，结束时间限制只能是20230205至20230210（添加maxDate和minDate即可） -->
+    <div>
+        时间：<input autocomplete="off" type="text" id="startDate" name="startDate" class="Wdate" onclick="WdatePicker({dateFmt:'yyyyMMdd', startDate:'2023-02-05', minDate:'2023-02-05', maxDate:'2023-02-10'})"
+                  style="width: 115px; height: 20px;line-height: 20px;"/>-
+        <input autocomplete="off" type="text" id="endDate" name="endDate" class="Wdate" onclick="WdatePicker({dateFmt:'yyyyMMdd', startDate:'2023-02-05', minDate:'2023-02-05', maxDate:'2023-02-10'})"
+               style="width: 115px; height: 20px;line-height: 20px;"/>
+    </div>
 </body>
 </html>
