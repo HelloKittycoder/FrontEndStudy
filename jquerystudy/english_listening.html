@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>VOA英语听力练习</title>
+    <style>
+        .timeperiod {
+            background-color: #b0e0e6;
+        }
+    </style>
+</head>
+<body>
+<!-- 功能说明：VOA英语听力练习
+1.支持选择本地mp3或者线上的url进行播放（优先播放本地mp3，如果没有本地的，则必须输入url地址）
+2.lrc内容需要自己手动进行维护，粘贴在 lrcContent 变量中
+3.A-B区间播放：支持点击某句话后，自动重复播放这句话（是否自动，可在页面进行配置，默认为否）
+
+TODO：
+1.本来打算用django来做的，但是django映射本地文件，返回mp3，在audio控件上无法设置进度（后续有空看看如何解决）。看了下可能是响应头的问题
+2.这个纯html版的，最后一句没有按照写的重复次数播放，只播放了1次，原因未知，后续有空再看看
+ -->
+<audio id="listening_audio" controls preload="metadata"></audio><br/>
+<label for="listening_audio_url">请输入听力材料的url：</label><input id="listening_audio_url" style="width: 260px" value="https://files.51voa.cn/202405/astronomers-find-super-hot-super-earth.mp3"/><br/>
+<label for="listening_audio_file">请选择听力材料文件：</label><input id="listening_audio_file" type="file"/><br/>
+<button id="playListeningBtn">播放听力材料</button><br/>
+A-B播放<br/>
+<input id="start_time" placeholder="起始时间" value="8.52"/>
+<input id="end_time" placeholder="结束时间" value="13.40"/>
+<input id="listen_times" placeholder="播放次数" value="2"/><button id="playListeningBtn2">反复播放</button>
+
+<div><span id="toggleClickInterval">是否点击句子后，直接播放该区间（点我切换）：</span><span id="playAfterClickIntervalText">否</span></div>
+<button id="loadAllTimePoint">加载时间区间</button>
+<h4>所有时间区间</h4>
+<div id="all_time_intervals"></div>
+<script src="https://cdn.bootcss.com/jquery/1.9.1/jquery.js"></script>
+<script type="text/javascript">
+    var playAfterClickInterval = false;
+    
+    var lrcContent = '[00:00.04]Astronomers have searched for years for rocky planets outside our solar system.\n' +
+        '[00:08.52]They have finally found one with an atmosphere.\n' +
+        '[00:13.40]Scientists believe that a rocky planet with an atmosphere is key to sustaining life.\n' +
+        '[00:21.76]But the planet that astronomers found offers no hope for life.\n' +
+        '[00:28.40]Its surface is made up of molten rock.\n' +
+        '[00:33.36]Researchers recently called the planet a "super-Earth."\n' +
+        '[00:38.64]It is a rocky world much larger than our planet but smaller than the gas giant in our solar system, Neptune.\n' +
+        '[00:48.96]The planet orbits extremely close to its star.\n' +
+        '[00:53.52]The star is less bright and smaller than our own.\n' +
+        '[00:58.08]Observations using two devices aboard the James Webb Space Telescope suggest there is an atmosphere.\n' +
+        '[01:08.64]But the atmosphere may not be able to support life.\n' +
+        '[01:13.80]It could be continuously filled up by gases that large areas of molten rock release.\n' +
+        '[01:22.76]Renyu Hu is a planetary scientist with NASA\'s Jet Propulsion Laboratory and California Institute of Technology.\n' +
+        '[01:35.00]He was the lead writer of the study, which appeared recently in the publication Nature.\n' +
+        '[01:43.40]Hu said, "The atmosphere is likely rich in carbon dioxide or carbon monoxide, but can also have other gases such as water vapor and sulfur dioxide."\n' +
+        '[01:59.64]He added that current observations cannot tell what the exact atmospheric makeup is.\n' +
+        '[02:08.28]The Webb data also did not make clear the thickness of the atmosphere.\n' +
+        '[02:14.92]Hu said it could be as thick as Earth\'s or even thicker than that of Venus.\n' +
+        '[02:22.24]Venus has a toxic atmosphere that is the densest in our solar system.\n' +
+        '[02:29.12]The planet is called 55 Cancri e.\n' +
+        '[02:32.92]Scientists also call it Janssen.\n' +
+        '[02:37.20]It is about 8.8 times more massive than Earth and about two times as wide.\n' +
+        '[02:44.84]It orbits its star at one-25th the distance between our solar system\'s innermost planet Mercury and the sun.\n' +
+        '[02:55.52]As a result, its surface temperature is about 1,725 degrees Celsius.\n' +
+        '[03:04.76]One side of the planet probably always faces its star.\n' +
+        '[03:10.44]Four other planets, all gas giants, are known to orbit the same star.\n' +
+        '[03:17.08]The planet is found in our Milky Way galaxy, about 41 light-years from Earth.\n' +
+        '[03:24.80]A light-year is the distance light travels in a year, or 9.5 trillion kilometers.\n' +
+        '[03:32.80]The planet\'s star is gravitationally tied to another star in the system.\n' +
+        '[03:40.08]Having two stars in the same system is called a binary system.\n' +
+        '[03:46.20]The other star is a red dwarf, the smallest kind of an ordinary star.\n' +
+        '[03:53.36]The distance between these two stars is 1,000 times the distance between Earth and the sun.\n' +
+        '[04:01.68]Light from one star takes six days to reach the other star.\n' +
+        '[04:07.48]Although the rocky planet does appear to have an atmosphere, scientists say it probably should not even have one.\n' +
+        '[04:17.24]Being so close to its star, any atmosphere should be taken away by the effects of the star.\n' +
+        '[04:25.92]But gases dissolved in the planet\'s large ocean of molten rock may continue to fill up the atmosphere, Hu said.\n' +
+        '[04:36.40]"The planet cannot be habitable," Hu added.\n' +
+        '[04:40.12]That is because it is too hot to have liquid water, which is also considered necessary for life.\n' +
+        '[04:49.32]Scientists have found other planets with an atmosphere outside our solar system.\n' +
+        '[04:56.20]But they have all been gaseous planets, not rocky ones.\n' +
+        '[05:01.72]As the James Webb telescope pushes the limits of space exploration, the discovery of a rocky planet with an atmosphere is a sign of progress.\n' +
+        '[05:14.68]On Earth, the atmosphere warms the planet.\n' +
+        '[05:18.72]It contains the oxygen people breathe and protects against the effects of the sun.\n' +
+        '[05:26.40]It also creates the pressure needed for liquid water to remain on the planet\'s surface.\n' +
+        '[05:34.08]Brice-Olivier Demory is a scientist at Switzerland\'s University of Bern\'s Center for Space and Habitability.\n' +
+        '[05:44.80]He helped write the new study.\n' +
+        '[05:47.32]He said, "On Earth, atmosphere is key for life."\n' +
+        '[05:53.28]He added that the findings create hope that the Webb telescope may one day find cooler planets that could support liquid water on their surface.\n' +
+        '[06:04.68]"But," he said, "we are not there yet."\n' +
+        '[06:08.68]I\'m Gregory Stachel.';
+    
+    // 开关切换
+    $("#toggleClickInterval").click(function () {
+        playAfterClickInterval = !playAfterClickInterval;
+        $("#playAfterClickIntervalText").text(playAfterClickInterval ? "是" : "否");
+    });
+    
+    var $listeningAudio = $("#listening_audio");
+    var listeningAudio = $listeningAudio[0];
+    $("#playListeningBtn").click(function () {
+        // 如果传了文件，则优先播放文件
+        let listeningAudioFile = $("#listening_audio_file")[0];
+        if (listeningAudioFile.files.length > 0) {
+            $listeningAudio.attr("src", URL.createObjectURL(listeningAudioFile.files[0]));
+            listeningAudio.play();
+            return false;
+        }
+        
+        // 如果没传文件，也可以支持url播放
+        let listeningAudioUrl = $("#listening_audio_url").val();
+        if (listeningAudioUrl === undefined || listeningAudioUrl === '') {
+            alert('请输入听力材料的地址')
+        }
+
+        // https://files.51voa.cn/202405/astronomers-find-super-hot-super-earth.mp3
+        $listeningAudio.attr("src", listeningAudioUrl);
+        listeningAudio.play();
+    });
+
+    $("#playListeningBtn2").click(function () {
+        let startTime = $("#start_time").val();
+        if (startTime === undefined || startTime === '') {
+            alert('请输入起始时间');
+            return false;
+        }
+
+        let endTime = $("#end_time").val();
+        if (endTime === undefined || endTime === '') {
+            alert('请输入结束时间');
+            return false;
+        }
+
+        let listenTimes = $("#listen_times").val();
+        if (listenTimes === undefined || listenTimes === '') {
+            alert('请输入播放次数');
+            return false;
+        }
+
+        // 执行 A-B 区间循环播放
+        listeningAudio.currentTime = startTime;
+        listeningAudio.play();
+        controlIntervalPlay(listeningAudio, startTime, endTime, listenTimes);
+    });
+    
+    var $allTimeIntervals = $("#all_time_intervals");
+    // 加载时间区间
+    $("#loadAllTimePoint").click(function () {
+        let duration = listeningAudio.duration;
+        // 如果获取不到音频的时长
+        if (isNaN(duration)) {
+            alert('请先播放音频');
+            return false;
+        }
+
+        // 截取出lrc中每一行的时间，放到一个数组中
+        let lrcArray = lrcContent.split("\n");
+        let lrcTimeArray = [];
+        for (let lrc of lrcArray) {
+            lrcTimeArray.push(matchLrcTime(lrc));
+        }
+        
+        // 将lrc中的内容渲染到页面上，并且在dom元素上放置每句话的起止时间
+        var html = "";
+        for (let i = 0; i < lrcArray.length; i++) {
+            let lrc = lrcArray[i];
+            let startend = null;
+            let startends = null;
+            if (i < lrcArray.length - 1) {
+                startend = lrcTimeArray[i] + "-" + lrcTimeArray[i + 1];
+                startends = convertLrcTimeToSeconds(lrcTimeArray[i]) + "-" + convertLrcTimeToSeconds(lrcTimeArray[i + 1]);
+            } else {
+                startend = lrcTimeArray[i] + "-";
+                startends = convertLrcTimeToSeconds(lrcTimeArray[i]) + "-" + duration;
+            }
+            html += `<div class="timeperiod" startend="${startend}" startends="${startends}">${lrc}</div>`;
+        }
+        $allTimeIntervals.html(html);
+    });
+
+    $allTimeIntervals.on("click", ".timeperiod", function () {
+        $(this).css("background", "#f1b3b3")
+            .siblings().css("background", "#b0e0e6");
+        let startends = $(this).attr("startends");
+        let splitArray = startends.split("-");
+        $("#start_time").val(splitArray[0]);
+        $("#end_time").val(splitArray[1]);
+        
+        if (playAfterClickInterval) {
+            $("#playListeningBtn2").click();
+        }
+    });
+
+    /**
+     * 匹配lrc中的时间字符串
+     * 示例：
+     * matchLrcTime("[06:08.68]I'm Gregory Stachel.");
+     * 返回 06:08.68
+     */
+    function matchLrcTime(lrc) {
+        const regex = /\[(.*)\]/;
+        const match = lrc.match(regex);
+        if (match) {
+            // const time = match[1]; // "06:08.68"
+            // console.log(time);
+            return match[1];
+        } else {
+            // console.log("No match found.");
+            throw "No match found.";
+        }
+    }
+
+    /**
+     * 将lrc中的时间转换为秒
+     * 
+     * 这里假设时间格式都是 "06:08.68" 这种形式的，即 分:秒。其他情况暂时没考虑
+     * 上面这个转换结果为 6*60+8.68=368.68
+     */
+    function convertLrcTimeToSeconds(lrcTime) {
+        var splitArray = lrcTime.split(':');
+        return parseFloat(splitArray[0]) * 60 + parseFloat((splitArray[1]));
+    }
+    
+    var playCallback = null;
+
+    /**
+     * 控制区间播放
+     * @param audioEle
+     * @param startTime
+     * @param endTime
+     * @param listenTimes
+     */
+    function controlIntervalPlay(audioEle, startTime, endTime, listenTimes) {
+        // 解绑事件
+        if (playCallback != null) {
+            audioEle.removeEventListener('timeupdate', playCallback);
+        }
+        
+        // 如果没有输结束时间，则认为结束时间为音频的总时长
+        if (endTime == null || endTime == undefined) {
+            endTime = audioEle.duration;
+        }
+
+        let counter = 0;
+        playCallback = event => {
+            // console.log('The currentTime attribute has been updated. Again.');
+            if (event.target.currentTime >= endTime) {
+                listeningAudio.currentTime = startTime;
+                counter++;
+                
+                if (counter >= listenTimes) {
+                    // 超出播放次数，解绑事件，并暂停播放
+                    audioEle.removeEventListener('timeupdate', playCallback);
+                    audioEle.pause();
+                }
+            }
+        };
+        // 重新绑定事件
+        audioEle.addEventListener('timeupdate', playCallback);
+    }
+</script>
+</body>
+</html>
