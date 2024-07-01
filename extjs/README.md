@@ -64,3 +64,9 @@ combobox_test_data.js 只能给 11 下拉列表联动Combobox_Two.html 用
 test_data.js 是作为一个后台来用的，不只是给11用的，涉及的前端页见代码注释
 
 
+
+#### 其他
+
+如何在idea中添加ExtJs提示？（这个感觉不配置好像也能提示）https://blog.csdn.net/hanwb1/article/details/88579867
+
+
