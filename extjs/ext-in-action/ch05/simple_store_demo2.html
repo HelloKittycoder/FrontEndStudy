@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <script type="text/javascript" src="../../lib/ext-3.0/examples/ux/PagingMemoryProxy.js"></script>
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            // P184 传递分页参数
+            var customers = [
+                // ID, NAME, AGE, OCCUPATION, DOB
+                [1, "David Wang", 27, "Programmer", "1983-01-01"],
+                [2, "Mary Chen", 25, "Sales", "1985-11-22"],
+                [3, "Christina Chung", 22, "Doctor", "1988-03-28"],
+                [4, "Joe Fun", 30, "Lawyer", "1980-05-10"]
+            ];
+
+            var Customer = Ext.data.Record.create([
+                {name: 'id', type: 'int', mapping: 0},
+                {name: 'name', type: 'string', mapping: 1},
+                {name: 'age', type: 'int', mapping: 2},
+                {name: 'occupation', type: 'string', mapping: 3},
+                {name: 'dob', type: 'date', mapping: 4, dateFormat: 'Y-m-d'},
+            ]);
+            var customerReader = new Ext.data.ArrayReader({idIndex: 0}, Customer);
+            var customerProxy = new Ext.ux.data.PagingMemoryProxy(customers);
+            var customerStore = new Ext.data.Store({
+                proxy: customerProxy,
+                reader: customerReader
+            });
+            
+            customerStore.load({
+                params: {
+                    start: 2, // 数据的起始索引
+                    limit: 2 // 截取数据条数
+                }
+            });
+            console.log(customerStore.getAt(1).get('name')); // Joe Fun
+        });
+    </script>
+</head>
+<body>
+</body>
+</html>

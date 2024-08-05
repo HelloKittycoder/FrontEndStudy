@@ -1,0 +1,185 @@
+<html>
+<head>
+  <title>综合查询系统</title>
+	 <link rel="stylesheet" type="text/css" href="../../resources/css/ext-all.css" />
+    <link rel="stylesheet" type="text/css" href="../ux/css/PanelResizer.css" />
+    <link rel="stylesheet" type="text/css" href="grid-examples.css" />
+     <link rel="stylesheet" type="text/css" href="../shared/examples.css" />
+    <style type="text/css">
+    html, body {
+        font:normal 12px verdana;
+        margin:0;
+        padding:0;
+        border:0 none;
+        overflow:hidden;
+        height:100%;
+    }
+    p {
+        margin:5px;
+    }
+    .settings {
+        background-image:url(../shared/icons/fam/folder_wrench.png);
+    }
+    .nav {
+        background-image:url(../shared/icons/fam/folder_go.png);
+    }
+    </style>
+
+    <!-- GC -->
+    <!-- LIBS -->
+    <script type="text/javascript" src="../../adapter/ext/ext-base.js"></script>
+    <!-- ENDLIBS -->
+
+    <script type="text/javascript" src="../../ext-all.js"></script>
+    
+    <!-- EXAMPLES -->
+
+  
+    <script type="text/javascript">
+    Ext.onReady(function(){
+    
+        // NOTE: This is an example showing simple state management. During development,
+        // it is generally best to disable state management as dynamically-generated ids
+        // can change across page loads, leading to unpredictable results.  The developer
+        // should ensure that stable state ids are set for stateful components in real apps.
+        Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
+        
+        var viewport = new Ext.Viewport({
+            layout: 'border',
+            items: [
+            // create instance immediately
+            new Ext.BoxComponent({
+                region: 'north',
+                height: 32, // give north and south regions a height
+                autoEl: {
+                    tag: 'div',
+                    html:'<p>放置banner或者显示功能菜单</p>'
+                }
+            }), {
+                // lazily created panel (xtype:'panel' is default)
+                region: 'south',
+                contentEl: 'south',
+                split: true,
+                height: 100,
+                minSize: 100,
+                maxSize: 200,
+                collapsible: true,
+                title: '功能导航',
+                margins: '0 0 0 0'
+            }, {
+                region: 'east',
+                title: '数据明细',
+                collapsible: true,
+                split: true,
+                width: 225, // give east and west regions a width
+                minSize: 175,
+                maxSize: 400,
+                margins: '0 5 0 0',
+                layout: 'fit', // specify layout manager for items
+                items:            // this TabPanel is wrapped by another Panel so the title will be applied
+                new Ext.TabPanel({
+                    border: false, // already wrapped so don't add another border
+                    activeTab: 1, // second tab initially active
+                    tabPosition: 'bottom',
+                    items: [{
+                        html: '<p>A TabPanel component can be a region.</p>',
+                        title: '报表导航',
+                        autoScroll: true
+                    }, new Ext.grid.PropertyGrid({
+                        title: '数据明细',
+                        //closable: true,
+                        source: {
+                            "(name)": "Properties Grid",
+                            "grouping": false,
+                            "autoFitColumns": true,
+                            "productionQuality": false,
+                            "created": new Date(Date.parse('10/15/2006')),
+                            "tested": false,
+                            "version": 0.01,
+                            "borderWidth": 1
+                        }
+                    })]
+                })
+            }, {
+                region: 'west',
+                id: 'west-panel', // see Ext.getCmp() below
+                title: '查询导航',
+                split: true,
+                width: 200,
+                minSize: 175,
+                maxSize: 400,
+                collapsible: true,
+                margins: '0 0 0 5',
+                layout: {
+                    type: 'accordion',
+                    animate: true
+                },
+                items: [{
+                    contentEl: 'west',
+                    title: '病案管理系统',
+                    border: false,
+                    iconCls: 'nav' // see the HEAD section for style used
+                }, {
+                    title: '设置',
+                    html: '<p>设置显示datagrid的数据库相关参数</p>',
+                    border: false,
+                    iconCls: 'settings'
+                }]
+            },
+            // in this instance the TabPanel is not wrapped by another panel
+            // since no title is needed, this Panel is added directly
+            // as a Container
+            new Ext.TabPanel({
+                region: 'center', // a center region is ALWAYS required for border layout
+                deferredRender: false,
+                activeTab: 0,     // first tab initially active
+                items: [{
+                    contentEl: 'center1',
+                    title: '表格区',
+                    //closable: true,
+                    autoScroll: true
+                }, {
+                    contentEl: 'center2',
+                    title: '图形区',
+                    autoScroll: true
+                }//,{
+                 //   contentEl: 'center3',
+                 //   title: '图形区',
+                 //   autoScroll: true}
+                ]
+            })]
+        });
+        // get a reference to the HTML element with id "hideit" and add a click listener to it 
+        //Ext.get("hideit").on('click', function(){
+            // get a reference to the Panel that was created with id = 'west-panel' 
+         //   var w = Ext.getCmp('west-panel');
+            // expand or collapse that Panel based on its collapsed property state
+        //    w.collapsed ? w.expand() : w.collapse();
+       // });
+    });
+    </script>
+	<script type="text/javascript" src="../ux/ProgressBarPager.js"></script>
+    <script type="text/javascript" src="../ux/PanelResizer.js"></script>
+    <script type="text/javascript" src="../ux/PagingMemoryProxy.js"></script>
+    <script type="text/javascript" src="progress-bar-pager.js"></script>
+	<script type="text/javascript" src="left-tree-grid.js"></script>
+</head>
+<body>
+<script type="text/javascript" src="../shared/examples.js"></script>
+    <!-- use class="x-hide-display" to prevent a brief flicker of the content -->
+    <div id="west" class="x-hide-display">
+        <div id="left-tree-grid"></div>
+    </div>
+    <div id="center2" class="x-hide-display">
+       <p>放置datagrid显示图形</p>
+    </div>
+    <div id="center1" class="x-hide-display">
+        <div id="grid-example"></div>
+    </div>
+    <div id="props-panel" class="x-hide-display" style="width:200px;height:200px;overflow:hidden;">
+    </div>
+    <div id="south" class="x-hide-display">
+        <p>存放HIS系统各功能子模块</p>
+    </div>
+</body>
+</html>

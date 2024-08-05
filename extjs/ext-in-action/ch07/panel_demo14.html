@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            // P239 7.2.5 顶层组件栏(tbar)与底层组件栏(bbar)
+            var container = new Ext.Panel({
+                width: 300,
+                height: 180,
+                title: 'Panel Demo',
+                tbar: [
+                    {xtype: 'button', text: '<b>TOP LEFT</b>'},
+                    '->',
+                    {xtype: 'button', text: '<b>TOP RIGHT</b>'},
+                ],
+                html: 'CONTEXT',
+                bbar: [
+                    {xtype: 'button', text: '<b>BOT LEFT</b>'},
+                    '->',
+                    {xtype: 'button', text: '<b>BOT RIGHT</b>'},
+                ]
+            });
+            container.render('container');
+        });
+    </script>
+</head>
+<body>
+<div id="container"></div>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            // P212 6.2.4 BaseItem基础选项
+            // 书上的BaseItem写法用不了，这里稍微做了调整；iconCls中没有icon-accept图标，自己另外找了下ext里自带的
+            var menu = new Ext.menu.Menu({
+                renderTo: 'myMenu',
+                width: 150,
+                floating: false,
+                items: [
+                    new Ext.menu.BaseItem({
+                        autoEl: {
+                            html: 'File'
+                        }
+                    }),
+                    new Ext.menu.TextItem({text: 'Edit'}),
+                    new Ext.menu.Item({text: 'View', iconCls: 'x-grid3-check-col-on'}),
+                ]
+            });
+        });
+    </script>
+</head>
+<body>
+<div id="myMenu"></div>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            // P310 9.4 WYSIWYG文本编辑器
+            var editor = {
+                xtype:'htmleditor',
+                fieldLabel: 'HTML',
+                anchor: '100%',
+                enableAlignments:true, //启用对齐功能
+                enableColors:true, //启用颜色功能
+                enableFont:true, // 启用字体功能
+                enableFontSize:true, // 启用字号功能
+                enableFormat:true, // 启用格式功能
+                enableLinks:true, //启用链接功能
+                enableLists:true, // 启用列表功能
+                enableSourceEdit:true // 启用检查源代码功能
+            };
+
+            var form = new Ext.form.FormPanel({
+                title: 'FormPanel',
+                width: 700,
+                height: 400,
+                frame: true,
+                labelWidth: 60,
+                items: [
+                    editor
+                ],
+                renderTo: 'container'
+            });
+
+        });
+    </script>
+</head>
+<body>
+<div id="container"></div>
+</body>
+</html>

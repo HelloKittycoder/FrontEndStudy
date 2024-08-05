@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            // P296 9.2.4 数字字段
+            Ext.QuickTips.init();
+            
+            var form = new Ext.form.FormPanel({
+                title: 'FormPanel',
+                width: 200,
+                height: 100,
+                frame: true,
+                labelWidth: 35,
+                items: [
+                    {
+                        xtype: 'numberfield',
+                        fieldLabel: 'Salary',
+                        decimalPrecision: 3,
+                        minValue: 0.0001,
+                        minText: '数值过小',
+                        maxValue: 100000,
+                        maxText: '数值过大',
+                        msgTarget: 'under'
+                    },
+                ],
+                renderTo: 'container'
+            });
+            
+        });
+    </script>
+</head>
+<body>
+<div id="container"></div>
+</body>
+</html>

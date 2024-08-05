@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            // P317 9.8 字段提示QuickTips与QuickTip
+            Ext.QuickTips.init();
+            
+            Ext.apply(Ext.QuickTips.getQuickTip(), {
+                maxWidth:200, // 提示性文本区块的最大宽度
+                minWidth:100, // 提示性文本区块的最小宽度
+                showDelay:50, // 在鼠标移至控件上50ms后显示提示性文字
+                trackMouse: true // 跟踪鼠标
+            });
+            
+            var username = {
+                xtype:'textfield',
+                name:'username',
+                id:'usernameTxt',
+                fieldLabel:'Username'
+            };
+            
+            var password = {
+                xtype:'textfield',
+                name:'password',
+                id:'passwordTxt',
+                fieldLabel:'Password',
+                inputType:'password'
+            };
+            
+            var form = new Ext.form.FormPanel({
+                title:'FormPanel Reader',
+                width:330,
+                height:120,
+                frame:true,
+                labelWidth:80,
+                items:[
+                    username,
+                    password
+                ],
+                buttons:[
+                    {text:'Submit'}
+                ]
+            });
+            form.on('afterrender', function () {
+                Ext.QuickTips.register({
+                    target:Ext.getCmp('usernameTxt'),
+                    title:'账号',
+                    text:'请输入您的账号',
+                    width:120,
+                    dismissDelay:10000
+                });
+                Ext.QuickTips.register({
+                    target:Ext.getCmp('passwordTxt'),
+                    title:'密码',
+                    text:'请输入您的密码',
+                    width:120,
+                    dismissDelay:10000
+                });
+            });
+            form.render('container');
+        });
+    </script>
+</head>
+<body>
+<div id="container"></div>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            // P290 9.1 表单容器FormPanel与一般容器Panel的差异 添加提交url及参数
+            var submitForm = function () {
+                form.getForm().submit();
+            }
+            
+            var clearForm = function () {
+                form.getForm().reset();
+            }
+            
+            var form = new Ext.form.FormPanel({
+                title: 'FormPanel',
+                width: 300,
+                height: 200,
+                frame: true,
+                defaultType: 'textfield',
+                url: 'http://localhost/test.php', // 这里没有写服务端代码，只是看看提交参数
+                baseParams: {
+                    id: '123',
+                    foo: 'bar'
+                },
+                items: [
+                    {fieldLabel: 'Username'},
+                    {fieldLabel: 'Password', inputType: 'password'},
+                ],
+                buttons: [
+                    {xtype: 'button', text: 'Submit', handler: submitForm, scope: this},
+                    {xtype: 'button', text: 'Clear', handler: clearForm, scope: this}
+                ],
+                renderTo: 'container'
+            });
+            
+        });
+    </script>
+</head>
+<body>
+<div id="container"></div>
+</body>
+</html>

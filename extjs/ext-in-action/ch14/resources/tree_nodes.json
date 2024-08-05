@@ -1,0 +1,20 @@
+[
+  {"text":"叶子1", "leaf":true},
+  {"text":"叶子2", "leaf":true},
+  {"text":"叶子3", "leaf":true},
+  {"text":"分支1", "children":[
+    {"text":"分枝1-叶子1", "leaf":true},
+    {"text":"分枝1-叶子2", "leaf":true},
+    {"text":"分枝1-叶子3", "leaf":true}
+  ]},
+  {"text":"分枝2", "children":[
+    {"text":"分枝2-叶子1", "leaf":true},
+    {"text":"分枝2-叶子2", "leaf":true},
+    {"text":"分枝2-叶子3", "leaf":true},
+    {"text":"分枝2-分枝1", "children":[
+      {"text":"分枝2-分枝1-叶子1","leaf":true},
+      {"text":"分枝2-分枝1-叶子2","leaf":true},
+      {"text":"分枝2-分枝1-叶子3","leaf":true}
+    ]}
+  ]}
+]

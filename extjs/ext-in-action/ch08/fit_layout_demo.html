@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            // P268 8.4 填满容器的FitLayout
+            var container = new Ext.Panel({
+                title: 'Fit Layout',
+                width: 300,
+                height: 280,
+                layout: 'fit',
+                frame: false,
+                tbar: [
+                    '->',
+                    {xtype: 'button', text: 'Login'}
+                ],
+                items: [{
+                    xtype: 'panel',
+                    title: 'InnerPanel',
+                    frame: false,
+                    collapsible: true,
+                    tbar: [
+                        {xtype: 'textfield'},
+                        {xtype: 'button', text: 'Search'}
+                    ],
+                    items: [
+                        {xtype: 'button', text: 'I FIT'}
+                    ],
+                    bbar: [
+                        {xtype: 'button', text: 'Save'},
+                        {xtype: 'button', text: 'Close'}
+                    ]
+                }],
+                bbar: [
+                    '->',
+                    {xtype: 'button', text: 'Help'}
+                ],
+                renderTo: 'container'
+            });
+        });
+    </script>
+</head>
+<body>
+<div id="container"></div>
+</body>
+</html>

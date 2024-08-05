@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            // P301 9.3.1 使用本地数据-使用复杂的JsonStore
+            // 1.创建Store
+            var companyInfo = {
+                title: 'Fans Info Corp.',
+                phone: '02-1234567',
+                fax: '02-5678912',
+                address: 'Somewhere out there',
+                employees: [
+                    {id: 1, name: 'Aitch', age: 28},
+                    {id: 2, name: 'Mary', age: 27},
+                    {id: 3, name: 'David', age: 25},
+                ]
+            };
+
+            var comboStore = new Ext.data.JsonStore({
+                root: 'employees',
+                fields: [
+                    'id', 'name', 'age'
+                ],
+                data: companyInfo
+            });
+
+            // 2.创建ComboBox
+            var employees = {
+                xtype: 'combo',
+                fieldLabel: 'Employee',
+                store: comboStore,
+                displayField: 'name',
+                typeAhead: false,
+                forceSelection: true,
+                mode: 'local'
+            };
+            
+            var form = new Ext.form.FormPanel({
+                title: 'FormPanel',
+                width: 300,
+                height: 100,
+                frame: true,
+                labelWidth: 60,
+                items: [
+                    employees
+                ],
+                renderTo: 'container'
+            });
+            
+        });
+    </script>
+</head>
+<body>
+<div id="container"></div>
+</body>
+</html>

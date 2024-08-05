@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            // P185 存储对象可以进行添加、更新、查找、删除与遍历存储的记录
+            var customers = [
+                // ID, NAME, AGE, OCCUPATION, DOB
+                [1, "David Wang", 27, "Programmer", "1983-01-01"],
+                [2, "Mary Chen", 25, "Sales", "1985-11-22"],
+                [3, "Christina Chung", 22, "Doctor", "1988-03-28"],
+                [4, "Joe Fun", 30, "Lawyer", "1980-05-10"]
+            ];
+
+            var Customer = Ext.data.Record.create([
+                {name: 'id', type: 'int', mapping: 0},
+                {name: 'name', type: 'string', mapping: 1},
+                {name: 'age', type: 'int', mapping: 2},
+                {name: 'occupation', type: 'string', mapping: 3},
+                {name: 'dob', type: 'date', mapping: 4, dateFormat: 'Y-m-d'},
+            ]);
+            var customerReader = new Ext.data.ArrayReader({idIndex: 0}, Customer);
+            var customerStore = new Ext.data.Store({
+                reader: customerReader
+            });
+            customerStore.loadData(customers);
+            
+            // 添加记录
+            var newCustomer = new Customer({
+                name: 'Joseph Cuwan',
+                age: 33,
+                occupation: 'Sales',
+                dob: '1977-08-14'
+            });
+            customerStore.add(newCustomer);
+            console.log('New customer: ' + customerStore.getAt(4).get('name'));
+            
+            // 更新记录
+            var customer = customerStore.getAt(2);
+            customer.set('dob', '1988-04-10');
+            console.log('Customer %s\'s DOB: %s', customer.get('name'),
+                customer.get('dob'));
+            
+            // 查找记录
+            var salesCustomers = customerStore.query('occupation', 'Sales');
+            var salesToBeRemoved = [];
+            console.log("Iterating records: ");
+            // 遍历记录
+            salesCustomers.each(function (customer) {
+                console.log("Customer: " + customer.get('name') + ', ID: ' + customer.id);
+                salesToBeRemoved.push(customer);
+            });
+            
+            // 删除记录
+            console.log("Removing records: ");
+            // lsc注：customerStore.remove并不能批量删除记录，这里只能使用循环的方式删除多条记录
+            // customerStore.remove(salesToBeRemoved);
+            for (let salesCustomer of salesToBeRemoved) {
+                customerStore.remove(salesCustomer);
+            }
+            
+            // 遍历记录
+            console.log("After records removed: ");
+            customerStore.each(function (customer) {
+                console.log("Customer: id=" + customer.get('id') + ", name=" + customer.get('name'));
+            }, this);
+        });
+    </script>
+</head>
+<body>
+</body>
+</html>

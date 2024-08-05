@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            // P234 7.2.3 查找子组件/容器 filterBy
+            var findPanel = function (comp, key) {
+                return comp.defaultType == 'panel';
+            }
+            
+            var container = new Ext.Panel({
+                width: 300,
+                height: 180,
+                title: 'Panel Demo',
+                frame: true,
+                items: [
+                    {xtype: 'button', text: 'Button1', id: 'bt1'},
+                    {xtype: 'button', text: 'Button2', id: 'bt2'},
+                    {xtype: 'button', text: 'Button3', id: 'bt3'},
+                    {autoEl: {html: 'Panel1'}, id: 'pn1'},
+                    {autoEl: {html: 'Panel2'}, id: 'pn2'}
+                ]
+            });
+            container.on('render', function () {
+                var panels = container.items.filterBy(findPanel);
+                panels.each(function (comp) {
+                    console.log(comp.id);
+                });
+            });
+            container.render('container');
+        });
+    </script>
+</head>
+<body>
+<div id="container"></div>
+</body>
+</html>

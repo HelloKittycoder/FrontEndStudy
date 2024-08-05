@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            // P300 9.3.1 使用本地数据-使用JsonStore
+            // 1.创建Store
+            /*var comboStore = new Ext.data.JsonStore({
+                fields: [
+                    {name: 'id', mapping: 'user_id'},
+                    {name: 'name', mapping: 'user_name'},
+                    {name: 'age', mapping: 'user_age'},
+                ],
+                data: [
+                    {user_id: 1, user_name: 'Aitch', user_age: 28},
+                    {user_id: 2, user_name: 'Mary', user_age: 27},
+                    {user_id: 3, user_name: 'David', user_age: 25},
+                ]
+            });*/
+
+            var comboStore = new Ext.data.JsonStore({
+                fields: [
+                    'id',
+                    'name',
+                    {name: 'age', type: 'int'}
+                ],
+                data: [
+                    {id: 1, name: 'Aitch', age: 28},
+                    {id: 2, name: 'Mary', age: 27},
+                    {id: 3, name: 'David', age: 25},
+                ]
+            });
+
+            // 2.创建ComboBox
+            var employees = {
+                xtype: 'combo',
+                fieldLabel: 'Employee',
+                store: comboStore,
+                displayField: 'name',
+                typeAhead: false,
+                forceSelection: true,
+                mode: 'local'
+            };
+            
+            var form = new Ext.form.FormPanel({
+                title: 'FormPanel',
+                width: 300,
+                height: 100,
+                frame: true,
+                labelWidth: 60,
+                items: [
+                    employees
+                ],
+                renderTo: 'container'
+            });
+            
+        });
+    </script>
+</head>
+<body>
+<div id="container"></div>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            // P184 存储对象还提供了类似数据库事务的功能
+            var customers = [
+                // ID, NAME, AGE, OCCUPATION, DOB
+                [1, "David Wang", 27, "Programmer", "1983-01-01"],
+                [2, "Mary Chen", 25, "Sales", "1985-11-22"],
+                [3, "Christina Chung", 22, "Doctor", "1988-03-28"],
+                [4, "Joe Fun", 30, "Lawyer", "1980-05-10"]
+            ];
+
+            var Customer = Ext.data.Record.create([
+                {name: 'id', type: 'int', mapping: 0},
+                {name: 'name', type: 'string', mapping: 1},
+                {name: 'age', type: 'int', mapping: 2},
+                {name: 'occupation', type: 'string', mapping: 3},
+                {name: 'dob', type: 'date', mapping: 4, dateFormat: 'Y-m-d'},
+            ]);
+            var customerReader = new Ext.data.ArrayReader({idIndex: 0}, Customer);
+            var customerStore = new Ext.data.Store({
+                reader: customerReader
+            });
+            customerStore.loadData(customers);
+            
+            // 取得第1条客户记录
+            var customer = customerStore.getAt(0);
+            // 设置客户的年龄
+            customer.set('age', 28);
+            console.log('Customer\'s age: %s', customer.get('age')); // 28
+            // 拒绝变更
+            customerStore.rejectChanges();
+            console.log('Customer\'s age: %s', customer.get('age')); // 27
+            // 再次设置年龄
+            customer.set('age', 30);
+            // 提交变更
+            customerStore.commitChanges();
+            // 再次拒绝（一旦commit了，再调用reject就没效果了）
+            customerStore.rejectChanges();
+            console.log('Customer\'s age: %s', customer.get('age')); // 30
+        });
+    </script>
+</head>
+<body>
+</body>
+</html>

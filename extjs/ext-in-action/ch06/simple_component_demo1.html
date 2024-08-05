@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            // P209 6.2.1 ColorPalette 调色板
+            var cp = new Ext.ColorPalette({value: '000000'}); // 000000为初始颜色
+            cp.render('color-div');
+            
+            cp.on('select', function (palette, selColor) {
+                // 显示用户选择的颜色
+                console.log('User selected: ' + selColor);
+            });
+        });
+    </script>
+</head>
+<body>
+<div id="color-div"></div>
+</body>
+</html>

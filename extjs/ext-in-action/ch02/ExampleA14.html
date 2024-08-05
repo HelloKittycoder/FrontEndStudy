@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <!-- 引入 HelloWindow.js 预先设置好的视图组件 -->
+    <script type="text/javascript" src="HelloWindow.js"></script>
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            var helloWindow = new HelloWindow({
+                items: {
+                    html: '<p>This is a window.</p>'
+                }
+            });
+            helloWindow.show('windowDiv');
+        });
+    </script>
+</head>
+<body>
+<div id="windowDiv"></div>
+</body>
+</html>

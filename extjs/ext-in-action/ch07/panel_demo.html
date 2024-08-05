@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            // P228 7.2 Panel容器
+            var container = new Ext.Panel({
+                width: 300,
+                height: 180,
+                layout: 'column',
+                title: 'Panel',
+                frame: true,
+                defaults: {
+                    xtype: 'container',
+                    columnWidth: .5,
+                    autoEl: {
+                        html: 'Rocket QUEEN~'
+                    }
+                },
+                items: [
+                    {style: 'border: 1px dotted #F00;'},
+                    {style: 'border: 1px dotted #00F;'}
+                ],
+                style: 'border: 2px solid #000;padding:5px;' +
+                    'margin-left:auto;margin-right:auto;'
+            });
+            container.render('container');
+        });
+    </script>
+</head>
+<body>
+<div id="container"></div>
+</body>
+</html>

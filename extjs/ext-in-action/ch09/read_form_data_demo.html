@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            // P316 9.7 提交/读取数据-读取数据
+            var form = new Ext.form.FormPanel({
+                title: 'FormPanel Reader',
+                width: 330,
+                height: 120,
+                frame: true,
+                labelWidth: 80,
+                reader:new Ext.data.JsonReader({
+                    fields: [
+                        {name:'data_username', mapping:"username"},
+                        {name:'data_email', mapping:"email"},
+                    ]
+                }),
+                items: [
+                    {xtype:'textfield', name:'data_username', fieldLabel:'Username'},
+                    {xtype:'textfield', name:'data_email', fieldLabel:'Email'},
+                ],
+                buttons: [
+                    {
+                        text:'Read',
+                        handler:function () {
+                            form.getForm().load({
+                                url: 'http://localhost:3000/users/load_form_data_test',
+                                params: {
+                                    id: 1
+                                }
+                            });
+                        },
+                        scope:this
+                    },
+                ],
+                renderTo: 'container'
+            });
+
+        });
+    </script>
+</head>
+<body>
+<div id="container"></div>
+</body>
+</html>

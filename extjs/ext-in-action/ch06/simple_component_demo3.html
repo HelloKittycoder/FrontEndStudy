@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            // P211 6.2.3 SplitButton按钮（书上提供的代码没有效果，下面试了下，没法给每个选项统一绑定事件；
+            // 另外也没法选择某个选项。这个暂时先不弄了，一般开发也不会用到这个）
+            var spBtn = new Ext.SplitButton({
+                text: '颜色',
+                renderTo: 'mySpBtn',
+                handler: function () {
+                    console.log('Your clicked the button');
+                },
+                arrowHandler: function () {
+                    console.log('arrowHandler', arguments);
+                },
+                menu: {
+                    /*default: {
+                        checked: true, // 是否标识第一个选项为“已选择”
+                        group: 'colorBtnGroup', // 按钮组
+                        checkHandler: setColorHandler // 选择事件处理程序
+                    },*/
+                    items: [
+                        {text: '红'},
+                        {text: '黄'},
+                        {text: '蓝'},
+                    ]
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+<div id="mySpBtn"></div>
+</body>
+</html>

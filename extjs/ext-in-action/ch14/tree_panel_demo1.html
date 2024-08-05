@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            // P426 14.1 使用静态数据创建TreePanel
+            var treeNodes = {
+                text:'根',
+                expanded:true,
+                children:[
+                    {text:'叶子1', leaf:true},
+                    {text:'叶子2', leaf:true},
+                    {text:'分枝A', children:[
+                        {text:'叶子A-1', leaf:true},
+                        {text:'叶子A-2', leaf:true},
+                        {text:'分支甲-1', children:[
+                            {text:'叶子A-甲-1',leaf:true},
+                            {text:'叶子A-甲-2',leaf:true},
+                        ]}
+                    ]},
+                ]
+            };
+            
+            var treePanel = new Ext.tree.TreePanel({
+                title:'This is a Tree',
+                root:treeNodes,
+                autoScroll:true,
+                renderTo:'container'
+            });
+        });
+    </script>
+</head>
+<body>
+<div id="container"></div>
+</body>
+</html>

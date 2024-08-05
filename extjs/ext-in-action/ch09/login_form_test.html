@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <script type="text/javascript" src="loginForm.js"></script>
+    <style type="text/css">
+        .login_banner img {
+            width: 30px;
+            height: 30px;
+        }
+    </style>
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            // P326 9.10 实战练习：登录表单-测试loginForm.js
+            var submitAction = {
+                waitTitle:'请稍等',
+                waitMsg:'数据传输中，请稍等...',
+                success:function (basicForm, action) {
+                    console.log("Login Result:" + action.result.msg);
+                },
+                failure:function (basicForm, action) {
+                    console.log("Login Failed::" + action.result.msg);
+                }
+            };
+            
+            var config = {
+                labelWidth:80,
+                labelAlign:'right',
+                accountLabel:'Email',
+                accountField:'email',
+                accountVtype:'email',
+                style:'margin-left:auto;margin-right:auto;',
+                url:'http://localhost:3000/users/receiver',
+                submitAction:submitAction
+            };
+            var loginForm = new Aitch.ext.LoginForm(config);
+            loginForm.renderForm();
+        });
+    </script>
+</head>
+<body>
+<div id="container"></div>
+</body>
+</html>

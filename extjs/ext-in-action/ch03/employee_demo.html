@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <script type="text/javascript">
+        Employee = Ext.extend(Ext.util.Observable, {
+            constructor: function (config) {
+                this.name = '';
+                this.email = '';
+                this.salary = '';
+            
+                this.addEvents('getSalary', 'offDuty');
+                Ext.apply(this, config);
+                
+                // 如同Java中的super()
+                Employee.superclass.constructor.call(this, config);
+            },
+            toString: function () {
+                var selfDesc = "I'm " + this.name;
+                selfDesc += " with Email: " + this.email;
+                selfDesc += " Salary: " + this.salary;
+                return selfDesc;
+            }
+        });
+        
+        Ext.onReady(function () {
+            var emp = new Employee({
+                name: 'David Chen',
+                email: 'david@myDavid.david.com',
+                salary: 50000
+            });
+
+            emp.on('getSalary', function () {
+                console.log(emp);
+            }, this);
+            
+            emp.fireEvent('getSalary');
+        });
+    </script>
+</head>
+<body>
+</body>
+</html>

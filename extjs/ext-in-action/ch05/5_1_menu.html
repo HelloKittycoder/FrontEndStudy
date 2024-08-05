@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <!-- P169 文件名称：ch05/app/webroot/js/menu/index.js -->
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            Ext.get('getMenuBtn').on('click', function (event, eventTarget) {
+                var conn = new Ext.data.Connection();
+                // P169 初始版本
+                /*conn.request({
+                    url: 'http://localhost:3000/demo/menuList',
+                    callback: function (opts, success, response) {
+                        console.dir(response);
+                    },
+                    success: function (response, opts) {
+                        var data = Ext.decode(response.responseText);
+                        Ext.fly('menuList').update(data.menuItems.join('<br/>'));
+                    },
+                    failure: function (response, opts) {
+                        Ext.fly('menuList').update('读取失败：' + response.responseText);
+                        
+                    }
+                });*/
+                
+                // P171 改进版本（加了进度条弹框提示）
+                Ext.MessageBox.wait('读取中', // 进度条的标题
+                    '数据读取中，请稍后'); // 窗口标题
+                conn.request({
+                    url: 'http://localhost:3000/demo/menuList',
+                    callback: function (opts, success, response) {
+                        Ext.MessageBox.hide(); // 隐藏读取窗口
+                        console.dir(response);
+                    },
+                    success: function (response, opts) {
+                        var data = Ext.decode(response.responseText);
+                        Ext.fly('menuList').update(data.menuItems.join('<br/>'));
+                    },
+                    failure: function (response, opts) {
+                        Ext.fly('menuList').update('读取失败：' + response.responseText);
+
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+<button id="getMenuBtn">获取菜单</button>
+<div id="menuList"></div>
+</body>
+</html>

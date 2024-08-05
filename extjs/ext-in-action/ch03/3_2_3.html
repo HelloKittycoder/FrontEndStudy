@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>3.2.3 Ext.EventManager</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <!-- 3.2.2 P102 -->
+    <style type="text/css">
+        .happyStyle {
+            width: 200px;
+            height: 200px;
+            border: 1px solid;
+        }
+    </style>
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            // 修改clickHandler为可以接收第三个参数
+            var clickHandler = function (event, target, configObj) {
+                Ext.MessageBox.alert("Click", "You clicked: " + target.id + ' ' + configObj.exd);
+                console.log(outsideVar);
+                // 显示configObj的内容
+                console.dir(configObj);
+            }
+            
+            var outsideVar = "Hi";
+
+            // 给happyDiv绑定事件
+            Ext.EventManager.addListener('happyDiv', 'click', clickHandler,
+                this, // 指定作用域，如果不指定的话，读取不到outsideVar变量
+                {
+                    single: true, // 确保事件只会被触发一次
+                    buffer: 1000, // 延时一秒进行触发
+                    exd: 'How are you?' // 额外提供的属性
+                });
+            
+            // lsc补充：通过button来控制happyDiv是否绑定上事件
+            /*Ext.get('bindEventBtn').on('click', function (event, eventTarget) {
+                Ext.EventManager.addListener('happyDiv', 'click', clickHandler,
+                    this, // 指定作用域，如果不指定的话，读取不到outsideVar变量
+                    {
+                        single: true, // 确保事件只会被触发一次
+                        buffer: 1000, // 延时一秒进行触发
+                        exd: 'How are you?' // 额外提供的属性
+                    });
+                Ext.MessageBox.alert("提示", "绑定事件成功");
+            });
+            
+            Ext.get("removeEventBtn").on("click", function (event, eventTarget) {
+                Ext.EventManager.removeListener('happyDiv', 'click', clickHandler);
+                Ext.MessageBox.alert("提示", "移除事件成功");
+            })*/
+        });
+
+    </script>
+</head>
+<body>
+<div id="happyDiv" class="happyStyle"></div>
+<!--<button id="bindEventBtn">绑定事件</button>
+<button id="removeEventBtn">移除事件</button>-->
+</body>
+</html>

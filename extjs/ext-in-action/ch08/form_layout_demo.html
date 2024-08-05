@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            // P273 8.7 表单布局FormLayout
+            var container = new Ext.Panel({
+                title: 'Form Layout',
+                width: 300,
+                height: 180,
+                frame: true,
+                layout: 'form',
+                labelAlign: 'right',
+                defaults: {
+                    xtype: 'textfield',
+                    labelSeparator: '：'
+                },
+                items: [
+                    {fieldLabel: 'Username', anchor: '-50'},
+                    {fieldLabel: 'Password', anchor: '-50'},
+                    {fieldLabel: 'Email', anchor: '-5'},
+                    {fieldLabel: 'Address', anchor: '-5'},
+                    {fieldLabel: 'Phone', anchor: '-5'},
+                ],
+                renderTo: 'container'
+            });
+        });
+    </script>
+</head>
+<body>
+<div id="container"></div>
+</body>
+</html>

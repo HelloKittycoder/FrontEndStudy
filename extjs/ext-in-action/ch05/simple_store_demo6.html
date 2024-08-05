@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            // ArrayStore读取客户端对象 P194
+            var customers = [
+                // ID, NAME, AGE, OCCUPATION, DOB
+                [1, "David Wang", 27, "Programmer", "1983-01-01"],
+                [2, "Mary Chen", 25, "Sales", "1985-11-22"],
+                [3, "Christina Chung", 22, "Doctor", "1988-03-28"],
+                [4, "Joe Fun", 30, "Lawyer", "1980-05-10"]
+            ];
+            
+            var customerStore = new Ext.data.ArrayStore({
+                fields: [
+                    {name: 'id', type: 'int', mapping: 0},
+                    {name: 'name', type: 'string', mapping: 1},
+                    {name: 'age', type: 'int', mapping: 2},
+                    {name: 'occupation', type: 'string', mapping: 3},
+                    {name: 'dob', type: 'string', mapping: 4, dateFormat: 'Y-m-d'},
+                ]
+            });
+            customerStore.loadData(customers);
+
+            customerStore.each(function (customer) {
+                console.log("Customer: id=" + customer.get('id') + ", name=" + customer.get('name')
+                    + ", age=" + customer.get('age'));
+            }, this);
+            
+            // JsonStore读取客户端对象（lsc补充）
+            var customersInJson = [
+                {id: 1, name: "David Wang", age: 27, occupation: "Programmer", dob: "1983-01-01"},
+                {id: 2, name: "Mary Chen", age: 25, occupation: "Sales", dob: "1985-11-22"},
+                {id: 3, name: "Christina Chung", age: 22, occupation: "Doctor", dob: "1988-03-28"},
+                {id: 4, name: "Joe Fun", age: 30, occupation: "Lawyer", dob: "1980-05-10"},
+            ];
+
+            var customerJsonStore = new Ext.data.ArrayStore({
+                fields: [
+                    {name: 'id', type: 'int', mapping: 'id'},
+                    {name: 'name', type: 'string', mapping: 'name'},
+                    {name: 'age', type: 'int', mapping: 'age'},
+                    {name: 'occupation', type: 'string', mapping: 'occupation'},
+                    {name: 'dob', type: 'string', mapping: 'dob', dateFormat: 'Y-m-d'},
+                ]
+            });
+            customerJsonStore.loadData(customers);
+
+            customerStore.each(function (customer) {
+                console.log("Customer: id=" + customer.get('id') + ", name=" + customer.get('name')
+                    + ", age=" + customer.get('age'));
+            }, this);
+        });
+    </script>
+</head>
+<body>
+</body>
+</html>

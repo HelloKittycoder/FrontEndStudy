@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            // P298 9.2.5 字段验证
+            Ext.QuickTips.init();
+            
+            // lsc注：这个部分书上写的正则有问题，这里调整一下
+            var timeTest = /^([01][0-9]|2[0-3]):([0-5][0-9])(\s[a|p]m)$/i;
+            Ext.apply(Ext.form.VTypes, {
+                time: function (val, field) {
+                    return timeTest.test(val);
+                },
+                timeText: '错误的时间格式，必须为：08:22 PM!',
+                timeMask: /[\d\s:amp]/i
+            });
+            
+            var form = new Ext.form.FormPanel({
+                title: 'FormPanel',
+                width: 200,
+                height: 100,
+                frame: true,
+                labelWidth: 35,
+                items: [
+                    {
+                        xtype: 'textfield',
+                        fieldLabel: 'Time',
+                        msgTarget: 'under',
+                        vtype: 'time',
+                        // 覆盖原来定义的错误信息（lsc注：这个部分书上写的没效果，跟踪源码发现需要写成vtypeText）
+                        vtypeText: '不可以哦！时间格式必须为：HH:mm A/PM'
+                    }
+                ],
+                renderTo: 'container'
+            });
+            
+        });
+    </script>
+</head>
+<body>
+<div id="container"></div>
+</body>
+</html>

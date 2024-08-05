@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入jQuery与Ext的适配器 -->
+    <script type="text/javascript" src="../../../lib/jquery/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/jquery/ext-jquery-adapter.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <!-- 3-4 P60 -->
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            // 使用$.each遍历$()提取的所有元素
+            $.each($('div.demoDiv'), function (index, node) {
+                // Ext.get() 将HTML元素转变成Element
+                // 改变dom.innerHTML的值
+                Ext.get(node).update("Demo:" + index);
+            });
+            
+            // Ext.get() 将jqueryDom转变为Element
+            var $myDiv = $("#myDiv");
+            Ext.get($myDiv.get()).update("I'm unpredictable");
+        });
+    </script>
+</head>
+<body>
+<div class="demoDiv"></div>
+<div class="demoDiv"></div>
+<div class="demoDiv"></div>
+<div class="demoDiv"></div>
+<div id="myDiv"></div>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            // P230 7.2.1 添加子组件/容器 容器在执行期间加入组件
+            var container = new Ext.Panel({
+                width: 300,
+                height: 180,
+                title: 'Panel Demo',
+                frame: true,
+            });
+            container.render('container');
+
+            var addItems = function () {
+                container.add({
+                    xtype: 'button',
+                    text: 'Button1'
+                });
+                container.add({
+                    xtype: 'button',
+                    text: 'Button2'
+                });
+                container.add(new Ext.Button({
+                    text: 'Button3'
+                }));
+            }
+            addItems.defer(1000);
+            
+            var refresh = function () {
+                container.el.fadeIn({
+                    callback: function () {
+                        container.doLayout();
+                    },
+                    scope: this
+                });
+            }
+            refresh.defer(1500);
+        });
+    </script>
+</head>
+<body>
+<div id="container"></div>
+</body>
+</html>

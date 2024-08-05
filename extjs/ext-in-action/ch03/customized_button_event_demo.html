@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <script type="text/javascript">
+        // 定义命名空间
+        Ext.ns('Application.CustomizedButtonEvent');
+        // 定义构造函数
+        Application.CustomizedButtonEvent = function (config) {
+            // Private Variables
+            // 私有变量的用意在于仅供构造函数使用，特别适合设定配置对象时使用
+            var panelTitle = config.panelTitle;
+            var panelWidth = config.panelWidth;
+            var panelHeight = config.panelHeight;
+            
+            // Public Variables
+            // 公有变量适合用在实例方法中，即便在外部也可以存取也无伤大雅
+            this.observable;
+            this.panel;
+            this.renderTarget = '';
+            
+            // 观察套用Ext.apply()前/后this.renderTarget的值
+            console.log("RenderTarget: " + this.renderTarget);
+            
+            // 将外部传入的配置对象套用到公有变量上
+            Ext.apply(this, config);
+            
+            console.log("RenderTarget: " + this.renderTarget);
+            
+            // 创建Observable实例，以便自定义事件
+            this.observable = new Ext.util.Observable();
+            // 定义事件
+            this.observable.addEvents(Application.CustomizedButtonEvent.BTN_CLICK);
+            // 注册事件处理程序
+            this.observable.on(Application.CustomizedButtonEvent.BTN_CLICK, this.onCustEvent);
+            
+            // 创建一个Panel
+            this.panel = new Ext.Panel({
+                width: panelWidth,
+                height: panelHeight,
+                title: panelTitle,
+                border: true,
+                frame: true,
+                items: [
+                    // Panel中含有一个按钮
+                    {
+                        xtype: 'button', // 创建一个Button组件
+                        text: 'Click Me',
+                        listeners: {
+                            scope: this, // 指定作用域为CustomizedButtonEvent的实例
+                            click: this.onBtnClickHandler
+                        }
+                    }
+                ]
+            });
+        }
+        
+        // Class Variables
+        Application.CustomizedButtonEvent.BTN_CLICK = "btnClick";
+        
+        // 定义实例方法
+        Application.CustomizedButtonEvent.prototype = {
+            onBtnClickHandler: function (event, eventTarget) {
+                // 按钮在按下时会先调用这个事件处理程序
+                console.log("You clicked a button");
+                console.log("Delegating to another handler");
+                // 触发 BTN_CLICK 事件
+                this.observable.fireEvent(Application.CustomizedButtonEvent.BTN_CLICK);
+            },
+            onCustEvent: function () {
+                // 显示消息框以告知用户按下了按钮
+                Ext.MessageBox.alert("Click", "You clicked Me!");
+            },
+            showPanel: function () {
+                // 显示Panel
+                this.panel.render(this.renderTarget);
+            }
+        }
+        
+        Ext.onReady(function () {
+            var config = {
+                panelTitle: '自定义按钮事件',
+                panelWidth: 300,
+                panelHeight: 80,
+                renderTarget: 'container'
+            };
+            var app = new Application.CustomizedButtonEvent(config);
+            app.showPanel();
+        });
+    </script>
+</head>
+<body style="padding: 10px">
+<div id="container"></div>
+</body>
+</html>

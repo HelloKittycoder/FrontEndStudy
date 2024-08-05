@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            // 这里可以理解为是对test_remote_operations.html中写法的封装，实际开发中一般用这种方式请求数据
+            // JsonStore用的比较多
+            
+            // P194
+            // 使用ArrayStore读取数组数据
+            var customersArrayStore = new Ext.data.ArrayStore({
+                url: 'http://localhost:3000/users/testJsonRecords',
+                root: 'customersInArray',
+                totalProperty: 'customerCount',
+                fields: [
+                    {name: 'name', type: 'string', mapping: 0},
+                    {name: 'age', type: 'int', mapping: 1},
+                    {name: 'occupation', type: 'string', mapping: 2},
+                    {name: 'dob', type: 'string', mapping: 3, dateFormat: 'Y-m-d'},
+                ]
+            });
+            customersArrayStore.on('load', function () {
+                // 这里的this是customersArrayStore
+                console.log('Data Loaded in ArrayStore: ');
+                this.each(function (customer) {
+                    console.log("Customer [%s]: %s", customer.id, customer.get('name'));
+                });
+            });
+            customersArrayStore.load();
+
+            // P195
+            // 使用JsonStore读取json数据
+            var customersJsonStore = new Ext.data.JsonStore({
+                url: 'http://localhost:3000/users/testJsonRecords',
+                root: 'customersInJson',
+                totalProperty: 'customerCount',
+                fields: [
+                    {name: 'name', type: 'string', mapping: 'name'},
+                    {name: 'age', type: 'int', mapping: 'age'},
+                    {name: 'occupation', type: 'string', mapping: 'occupation'},
+                    {name: 'dob', type: 'string', mapping: 'dob', dateFormat: 'Y-m-d'},
+                ]
+            });
+            customersJsonStore.on('load', function () {
+                console.log('Data Loaded in JsonStore: ');
+                this.each(function (customer) {
+                    console.log("Customer [%s]: %s", customer.id, customer.get('name'));
+                });
+            });
+            customersJsonStore.load();
+            
+            /*
+            var CustomerJsonRecord = Ext.data.Record.create([
+                {name: 'name', type: 'string', mapping: 'name'},
+                {name: 'age', type: 'int', mapping: 'age'},
+                {name: 'occupation', type: 'string', mapping: 'occupation'},
+                {name: 'dob', type: 'string', mapping: 'dob', dateFormat: 'Y-m-d'},
+            ]);
+           
+            var customerJsonReader = new Ext.data.JsonReader({
+                root: 'customersInJson',
+                totalProperty: 'customerCount'
+            }, CustomerJsonRecord);
+            var customersInJsonStore = new Ext.data.Store({
+                proxy: httpProxy,
+                reader: customerJsonReader
+            });
+            customersInJsonStore.on('load', function () {
+                this.each(function (customer) {
+                    console.log("Customer [%s]: %s", customer.id, customer.get('name'));
+                });
+            });
+            customersInJsonStore.load();*/
+        });
+    </script>
+</head>
+<body>
+</body>
+</html>

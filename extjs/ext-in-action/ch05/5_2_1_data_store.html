@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <!-- P169 文件名称：ch05/app/webroot/js/menu/index.js -->
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            // P181 手动创建对象
+            /*var customers = [
+                // ID, NAME, AGE, OCCUPATION, DOB
+                [1, "David Wang", 27, "Programmer", "1983-01-01"],
+                [2, "Mary Chen", 25, "Sales", "1985-11-22"],
+                [3, "Christina Chung", 22, "Doctor", "1988-03-28"],
+                [4, "Joe Fun", 30, "Lawyer", "1980-05-10"]
+            ];
+            
+            var Customer = Ext.data.Record.create([
+                {name: 'id', type: 'int', mapping: 0},
+                {name: 'name', type: 'string', mapping: 1},
+                {name: 'age', type: 'int', mapping: 2},
+                {name: 'occupation', type: 'string', mapping: 3},
+                {name: 'dob', type: 'date', mapping: 4, dateFormat: 'Y-m-d'},
+            ]);
+            
+            var customer1 = new Customer({
+                id: customers[0][0],
+                name: customers[0][1],
+                age: customers[0][2],
+                occupation: customers[0][3],
+                dob: customers[0][4]
+            });
+            
+            // console.log(customer1, customer1.get("name"));
+            console.log(customer1.get("name"));*/
+            
+            // P182 使用data.Store来加载对象
+            /*var customers = [
+                // ID, NAME, AGE, OCCUPATION, DOB
+                [1, "David Wang", 27, "Programmer", "1983-01-01"],
+                [2, "Mary Chen", 25, "Sales", "1985-11-22"],
+                [3, "Christina Chung", 22, "Doctor", "1988-03-28"],
+                [4, "Joe Fun", 30, "Lawyer", "1980-05-10"]
+            ];
+
+            var Customer = Ext.data.Record.create([
+                {name: 'id', type: 'int', mapping: 0},
+                {name: 'name', type: 'string', mapping: 1},
+                {name: 'age', type: 'int', mapping: 2},
+                {name: 'occupation', type: 'string', mapping: 3},
+                {name: 'dob', type: 'date', mapping: 4, dateFormat: 'Y-m-d'},
+            ]);
+            var customerReader = new Ext.data.ArrayReader({idIndex: 0}, Customer);
+            var customerStore = new Ext.data.Store({
+                reader: customerReader
+            });
+            customerStore.loadData(customers);
+            // 获取第2行数据中的name属性
+            console.log(customerStore.getAt(1).get('name'));*/
+            
+            // P183 使用MemoryProxy
+            var customers = [
+                // ID, NAME, AGE, OCCUPATION, DOB
+                [1, "David Wang", 27, "Programmer", "1983-01-01"],
+                [2, "Mary Chen", 25, "Sales", "1985-11-22"],
+                [3, "Christina Chung", 22, "Doctor", "1988-03-28"],
+                [4, "Joe Fun", 30, "Lawyer", "1980-05-10"]
+            ];
+
+            var Customer = Ext.data.Record.create([
+                {name: 'id', type: 'int', mapping: 0},
+                {name: 'name', type: 'string', mapping: 1},
+                {name: 'age', type: 'int', mapping: 2},
+                {name: 'occupation', type: 'string', mapping: 3},
+                {name: 'dob', type: 'date', mapping: 4, dateFormat: 'Y-m-d'},
+            ]);
+            var customerReader = new Ext.data.ArrayReader({idIndex: 0}, Customer);
+            var customerProxy = new Ext.data.MemoryProxy(customers);
+            var customerStore = new Ext.data.Store({
+                proxy: customerProxy,
+                reader: customerReader
+            });
+            customerStore.load(); // 要使用代理，就必须调用load()
+            console.log(customerStore.getAt(1).get('name'));
+        });
+    </script>
+</head>
+<body>
+</body>
+</html>

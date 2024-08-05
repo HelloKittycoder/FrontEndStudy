@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            // P207 BoxComponent用作图片占位符
+            var box = new Ext.BoxComponent({
+                autoEl: {
+                    tag: 'img',
+                    src: 'images/robot.png'
+                }
+            });
+            
+            var panel = new Ext.Panel({
+                title: 'BoxComponent',
+                renderTo: 'boxDiv',
+                frame: true,
+                width: 300,
+                items: [box]
+            });
+        });
+    </script>
+</head>
+<body>
+<div id="boxDiv"></div>
+</body>
+</html>

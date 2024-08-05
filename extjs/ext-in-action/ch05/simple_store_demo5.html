@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            var customers = [
+                {id: 1, cst_name: "David Wang", cst_age: 27},
+                {id: 2, cst_name: "Mary Chen", cst_age: 25},
+                {id: 3, cst_name: "Christina Zung", cst_age: 22},
+                {id: 4, cst_name: "Joe Fun", cst_age: 30},
+            ];
+            
+            var Customer = Ext.data.Record.create([
+                {name: 'id', type: 'int', mapping: 'id'},
+                {name: 'name', type: 'string', mapping: 'cst_name'},
+                {name: 'age', type: 'int', mapping: 'cst_age'},
+            ]);
+            var customerReader = new Ext.data.JsonReader({idIndex: 0}, Customer);
+            
+            var customerProxy = new Ext.data.MemoryProxy(customers);
+            var customerStore = new Ext.data.Store({
+                proxy: customerProxy,
+                reader: customerReader
+            });
+            customerStore.load();
+
+            customerStore.each(function (customer) {
+                console.log("Customer: id=" + customer.get('id') + ", name=" + customer.get('name') 
+                    + ", age=" + customer.get('age'));
+            }, this);
+        });
+    </script>
+</head>
+<body>
+</body>
+</html>

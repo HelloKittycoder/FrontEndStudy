@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <script type="text/javascript">
+        function onWakeUpHandler(msg) {
+            console.log("FIRE IN THE HOLE!");
+            console.log("I'm waked. MSG: " + msg);
+        }
+
+        function onSleepHandler(msg) {
+            console.log("FIRE IN THE HOLE!");
+            console.log("I'm going to sleep. MSG: " + msg);
+        }
+
+        function onGotoSchoolHandler(msg) {
+            console.log("FIRE IN THE HOLE!");
+            console.log("I'm going to school. MSG: " + msg);
+        }
+        
+        Ext.onReady(function () {
+            // 1.创建Observable的实例
+            var observable = new Ext.util.Observable();
+            
+            // 2.定义需要的事件
+            observable.addEvents("wakeUp", "sleep", "gotoSchool");
+            // 或是
+            /*observable.addEvents({
+                wakeUp: true, // true是必要的，这样才可以加入这个事件
+                sleep: true,
+                gotoSchool: true,
+            });*/
+            
+            // 3.定义事件处理程序
+            observable.on('wakeUp', onWakeUpHandler);
+            observable.on('sleep', onSleepHandler);
+            observable.on('gotoSchool', onGotoSchoolHandler);
+            
+            // 4.调用fireEvent，触发事件
+            observable.fireEvent('wakeUp', "Just get f*%k up!!");
+        });
+    </script>
+</head>
+<body>
+</body>
+</html>

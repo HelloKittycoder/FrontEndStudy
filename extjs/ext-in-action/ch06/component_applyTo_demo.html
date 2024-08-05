@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            // P206 applyTo与renderTo之间的差别
+            // renderTo和直接调render方法是一样的
+            // applyTo经过尝试，发现该属性没法使用，网上也没找到相关的解决办法，暂时先不管了
+            /*var box = new Ext.BoxComponent({
+                applyTo: 'inner-container',
+                autoEl: {
+                    tag: 'div',
+                    html: 'Inner BoxComponent',
+                    style: 'background: #56F878'
+                }
+            });*/
+
+            /*var box = new Ext.BoxComponent({
+                autoEl: {
+                    tag: 'div',
+                    html: 'Inner BoxComponent',
+                    style: 'background: #56F878'
+                }
+            });
+            box.applyToMarkup('inner-container')*/
+        });
+    </script>
+</head>
+<body>
+<div id="outter-container" style="padding: 20px;">
+    <div id="inner-container" style="background: #F0B029;">
+        <p>Inner Container</p>
+    </div>
+</div>
+</body>
+</html>

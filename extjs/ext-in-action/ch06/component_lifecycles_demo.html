@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            // lsc注：这里html属性没有效果，书上提供的写法有问题，用不了，应该用下面的写法
+            /*var box = new Ext.BoxComponent({
+                html: 'This is a BoxComponent'
+            });*/
+            // P203
+            // 创建html结构
+            /*var box = new Ext.BoxComponent({
+                autoEl: {
+                    html: 'This is a BoxComponent'
+                }
+            });
+            box.render('boxDiv');
+            box.el.applyStyles('background:#5AB823;')*/
+            
+            // P204
+            // BoxComponent组件的生命周期
+            /*var box = new Ext.BoxComponent({
+                listeners: {
+                    beforeshow: function () {
+                        console.log("component fired beforeshow event");
+                    },
+                    show: function () {
+                        console.log("componen fired show event");
+                    },
+                    beforerender: function () {
+                        console.log("component fired beforerender event");
+                        // 如果这里返回false，后面render就不会执行了
+                        // return false;
+                    },
+                    render: function () {
+                        console.log("component fired render event");
+                    },
+                    afterrender: function () {
+                        console.log("component fired afterrender event");
+                    }
+                }
+            });
+            box.render('boxDiv');*/
+            
+            // P205
+            // 使用autoEl生成带有内容的html结构
+            var box = new Ext.BoxComponent({
+                autoEl: {
+                    tag: 'blockquote',
+                    html: 'This is a BoxComponent'
+                }
+            });
+            box.render('boxDiv');
+        });
+    </script>
+</head>
+<body>
+<div id="boxDiv"></div>
+</body>
+</html>

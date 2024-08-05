@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            // P311 9.5 日期字段
+            var datefield = {
+                xtype: 'datefield',
+                fieldLabel: 'Date',
+                format: 'Y-m-d',
+                editable: false
+            };
+
+            var form = new Ext.form.FormPanel({
+                title: 'FormPanel',
+                width: 300,
+                height: 100,
+                frame: true,
+                labelWidth: 60,
+                items: [
+                    datefield
+                ],
+                renderTo: 'container'
+            });
+
+        });
+    </script>
+</head>
+<body>
+<div id="container"></div>
+</body>
+</html>

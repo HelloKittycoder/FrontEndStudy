@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <script type="text/javascript" src="../../lib/ext-3.0/src/locale/ext-lang-zh_CN.js"></script>
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            // P214 6.2.5 DatePicker日期选择面板
+            var dp = new Ext.DatePicker({
+                showToday: true, // 显示当天
+                renderTo: 'myDate'
+            });
+            dp.on('select', function (datePicker, selDate) {
+                console.log('Date: ' + selDate.format('Y年m月d日'));
+            });
+        });
+    </script>
+</head>
+<body>
+<div id="myDate"></div>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>3.2.2 阻止事件的进行与默认行为</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <!-- 3.2.2 P100 -->
+    <style type="text/css">
+        .outer {
+            width: 200px;
+            height: 200px;
+            border: 1px solid;
+        }
+        
+        .inner {
+            width: 100px;
+            height: 100px;
+            border: 1px solid red;
+        }
+    </style>
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            var linkClickHandler = function (event, target) {
+                event.preventDefault();
+                // console.log('进入linkClickHandler');
+                Ext.MessageBox.alert("Link Click", "Redirect to: " + target.href);
+            }
+            Ext.EventManager.addListener('baiduLink', 'click', linkClickHandler);
+            
+            var clickHandler = function (event) {
+                event.stopPropagation(); // 如果不写这个，在inner点击时，会触发两次事件（这里是阻止事件的传播）
+                var target = event.getTarget();
+                console.log("Target: " + target.id);
+            }
+            Ext.EventManager.addListener('outer', 'click', clickHandler);
+            Ext.EventManager.addListener('inner', 'click', clickHandler);
+        });
+        
+    </script>
+</head>
+<body>
+<a id="baiduLink" href="http://www.baidu.com">百度</a>
+<div id="outer" class="outer">
+    I'm outer
+    <div id="inner" class="inner">
+        I'm inner
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            // P244 7.3 Viewport容器
+            var searchPanel = {
+                region: 'north',
+                layout: 'hbox',
+                title: '查询',
+                height: 60,
+                collapsible: true,
+                items: [
+                    {xtype: 'box', autoEl: {tag: 'img', src: 'images/search.png', style: 'width: 25px; height: 25px'}},
+                    {xtype: 'box', autoEl: {html: '<b>关键字</b>'}},
+                    {xtype: 'textfield'},
+                    {xtype: 'button', text: '开始'},
+                    {xtype: 'spacer', width: 20},
+                    {xtype: 'box', autoEl: {html: '<b>起始时间</b>'}}
+                ]
+            };
+            
+            var menuPanel = {
+                region: 'west',
+                title: '功能',
+                collapsible: true,
+                width: 80,
+                padding: 10,
+                items: [
+                    {xtype: 'button', text: '登录'},
+                    {xtype: 'spacer', height: 20},
+                    {xtype: 'button', text: '管理'},
+                    {xtype: 'spacer', height: 20},
+                    {xtype: 'button', text: '新闻'},
+                    {xtype: 'spacer', height: 20},
+                    {xtype: 'button', text: '邮件'},
+                ]
+            };
+
+            var contentPanel = {
+                region: 'center',
+                title: '内容',
+                columnWidth: .75,
+                height: 482,
+                padding: 10,
+                html: 'Seeing a murder on a television... can help work off one\'s antagonisms. And if you haven\'t any antagonisms, thie commercials will give you some.'
+            };
+            
+            var root = new Ext.Viewport({
+                layout: 'border',
+                title: 'Nested Demo',
+                items: [
+                    searchPanel,
+                    menuPanel,
+                    contentPanel
+                ]
+            });
+            root.render('container');
+        });
+    </script>
+</head>
+<body>
+<div id="container"></div>
+</body>
+</html>

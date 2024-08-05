@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            // P215 6.3 xtype神秘类型
+            /*var oldSchoolPanel = new Ext.Panel({
+                title: '没有使用XTYPE',
+                frame: true,
+                width: 300,
+                height: 180,
+                items: [
+                    new Ext.Button({text: 'OLD SCH BTN 1', width: 100}),
+                    new Ext.Button({text: 'OLD SCH BTN 2', width: 100}),
+                    new Ext.Button({text: 'OLD SCH BTN 3', width: 100}),
+                    new Ext.Button({text: 'OLD SCH BTN 4', width: 100}),
+                    new Ext.Button({text: 'OLD SCH BTN 5', width: 100}),
+                    new Ext.Button({text: 'OLD SCH BTN 6', width: 100}),
+                ],
+                listeners: {
+                    beforerender: function () {
+                        console.time("oldSchool");
+                    },
+                    afterrender: function () {
+                        console.timeEnd("oldSchool");
+                    }
+                }
+            });
+            oldSchoolPanel.render('boxDiv');*/
+            
+            var newStylePanel = new Ext.Panel({
+                title: '使用XTYPE',
+                frame: true,
+                width: 300,
+                height: 180,
+                items: [
+                    {xtype: 'button', text: 'NEW STYLE BTN 1', width: 100},
+                    {xtype: 'button', text: 'NEW STYLE BTN 2', width: 100},
+                    {xtype: 'button', text: 'NEW STYLE BTN 3', width: 100},
+                    {xtype: 'button', text: 'NEW STYLE BTN 4', width: 100},
+                    {xtype: 'button', text: 'NEW STYLE BTN 5', width: 100},
+                    {xtype: 'button', text: 'NEW STYLE BTN 6', width: 100},
+                ],
+                listeners: {
+                    beforerender: function () {
+                        console.time("newStyle");
+                    },
+                    afterrender: function () {
+                        console.timeEnd("newStyle");
+                    }
+                }
+            });
+            newStylePanel.render('boxDiv');
+        });
+    </script>
+</head>
+<body>
+<div id="boxDiv"></div>
+</body>
+</html>

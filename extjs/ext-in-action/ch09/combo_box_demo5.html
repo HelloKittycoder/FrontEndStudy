@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            // P303 9.3.2 远程数据与下拉菜单
+            // 1.创建Store
+            var comboStore = new Ext.data.JsonStore({
+                fields: [
+                    'id', 'name', 'age'
+                ],
+                url: 'http://localhost:3000/users/combo_test'
+            });
+
+            // 2.创建ComboBox
+            var employees = new Ext.form.ComboBox({
+                fieldLabel: 'Employee',
+                store: comboStore,
+                displayField: 'name',
+                valueField: 'id',
+                typeAhead: false,
+                forceSelection: true,
+                triggerAction: 'all',
+                mode: 'remote'
+            });
+
+            employees.on('select', function (combo, record, index) {
+                console.log("User selected: " + record.get('name') + "@" + index
+                    + ",Value:" + employees.getValue());
+            });
+
+            var form = new Ext.form.FormPanel({
+                title: 'FormPanel',
+                width: 300,
+                height: 100,
+                frame: true,
+                labelWidth: 60,
+                items: [
+                    employees
+                ],
+                renderTo: 'container'
+            });
+
+        });
+    </script>
+</head>
+<body>
+<div id="container"></div>
+</body>
+</html>

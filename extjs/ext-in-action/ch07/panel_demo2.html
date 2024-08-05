@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            // P229 7.2.1 添加子组件/容器
+            var container = new Ext.Panel({
+                width: 300,
+                height: 180,
+                title: 'Panel Demo',
+                frame: true,
+                items: [
+                    /*{
+                        style: 'border: 1px dotted #F00;',
+                        autoEl: {
+                            html: 'Panel1'
+                        }
+                    },*/
+                    /*{
+                        style: 'border: 1px dotted #00F;',
+                        autoEl: {
+                            html: 'Panel2'
+                        }
+                    },*/
+                    new Ext.Panel({
+                        style: 'border: 1px dotted #F00;',
+                        autoEl: {
+                            html: 'Panel1'
+                        }
+                    }),
+                    new Ext.Panel({
+                        style: 'border: 1px dotted #00F;',
+                        autoEl: {
+                            html: 'Panel2'
+                        }
+                    })
+                ],
+            });
+            container.render('container');
+        });
+    </script>
+</head>
+<body>
+<div id="container"></div>
+</body>
+</html>

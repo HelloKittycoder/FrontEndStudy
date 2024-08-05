@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <style type="text/css">
+        .login_banner img {
+            width: 30px;
+            height: 30px;
+        }
+    </style>
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            // P331 10.2 创建GridPanel与数据排序-属性配置 tools、collapsible、resizable
+            // 数据Store
+            var store = new Ext.data.JsonStore({
+                fields: ['id', 'name', 'info', 'created'],
+                data: [
+                    {id:1, name:'aitch', info:'Funny man', created:'2011/02/28'},
+                    {id:2, name:'david', info:'Canon man', created:'2011/02/25'},
+                    {id:3, name:'john', info:'Decent man', created:'2011/02/20'},
+                    {id:4, name:'halen', info:'Test man', created:'2011/02/24'},
+                ]
+            });
+            
+            // 字段定义ColumnModel
+            var columns = new Ext.grid.ColumnModel({
+                columns:[
+                    {header:'id', dataIndex:'id', width:20},
+                    {header:'name', dataIndex:'name', width:50, resizable:false},
+                    {header:'info', dataIndex:'info', width:80, resizable:false},
+                    {header:'created', dataIndex:'created', width:80},
+                ]
+            });
+            
+            var grid = new Ext.grid.GridPanel({
+                title:'GridPanel',
+                width:240,
+                height:120,
+                store:store,
+                viewConfig:{
+                    forceFit:true
+                },
+                colModel:columns,
+                // 这些tools需要自己去实现，目前看来只是有按钮显示
+                tools:[
+                    {id:'close',qtip:'关闭'},
+                    {id:'minimize',qtip:'最小化'},
+                    {id:'maximize',qtip:'最大化'},
+                    {id:'restore',qtip:'还原'},
+                    {id:'refresh',qtip:'刷新'},
+                ],
+                collapsible:true
+            });
+            grid.render('container');
+        });
+    </script>
+</head>
+<body>
+<div id="container"></div>
+</body>
+</html>

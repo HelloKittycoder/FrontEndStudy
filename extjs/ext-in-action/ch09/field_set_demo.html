@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <style type="text/css">
+        .login_banner {
+            text-align: center;
+        }
+        .login_banner img {
+            width: 30px;
+            height: 30px;
+        }
+    </style>
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            // P321 9.9.2 使用FieldSet集合特定字段
+            var username = {
+                xtype:'textfield',
+                name:'username',
+                id:'usernameTxt',
+                fieldLabel:'Username',
+                anchor:'100%'
+            };
+            
+            var password = {
+                xtype:'textfield',
+                name:'password',
+                id:'passwordTxt',
+                fieldLabel:'Password',
+                inputType:'password',
+                anchor:'100%'
+            };
+            
+            var accountFS = {
+                xtype:'fieldset',
+                title:'账号',
+                collapsible:true,
+                items:[username, password]
+            };
+            
+            var form = new Ext.form.FormPanel({
+                title:'FormPanel Reader',
+                width:330,
+                height:190,
+                frame:true,
+                labelWidth:80,
+                items:[
+                    accountFS
+                ],
+                buttons:[
+                    {text:'Submit'}
+                ]
+            });
+            form.render('container');
+        });
+    </script>
+</head>
+<body>
+<div id="container"></div>
+</body>
+</html>

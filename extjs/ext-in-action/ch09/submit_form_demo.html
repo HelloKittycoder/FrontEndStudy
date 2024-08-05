@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            // P313 9.7 提交/读取数据-提交数据
+            var username = {
+                xtype:'textfield',
+                fieldLabel:'Username',
+                name:'username'
+            };
+            var password = {
+                xtype:'textfield',
+                fieldLabel:'Password',
+                name:'password',
+                inputType:'password'
+            };
+            
+            var submitForm = function () {
+                // form.getForm().submit();
+                form.getEl().mask('锁定表单', 'x-mask-loading');
+                form.getForm().submit({
+                    waitTitle:'数据传送中',
+                    waitMsg:'正在将数据提交至服务器，请稍等...',
+                    success:function (basicform, action) {
+                        Ext.fly('msgDiv').update(action.result.msg);
+                        form.getEl().unmask();
+                    },
+                    failure:function (basicform, action) {
+                        Ext.fly('msgDiv').update(action.result.msg);
+                        form.getEl().unmask();
+                    }
+                });
+            }
+            var resetForm = function () {
+                form.getForm().reset();
+            }
+
+            var form = new Ext.form.FormPanel({
+                title: 'FormPanel',
+                width: 330,
+                height: 180,
+                frame: true,
+                labelWidth: 80,
+                url: 'http://localhost:3000/users/receiver',
+                items: [
+                    username,
+                    password
+                ],
+                buttons: [
+                    {text:'Submit', handler:submitForm, scope:this},
+                    {text:'Reset', handler:resetForm, scope:this}
+                ],
+                renderTo: 'container'
+            });
+
+        });
+    </script>
+</head>
+<body>
+<div id="msgDiv"></div>
+<div id="container"></div>
+</body>
+</html>

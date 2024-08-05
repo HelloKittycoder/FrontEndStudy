@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>3.2.2 注册/移除事件处理程序</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <!-- 3.2.2 P100 -->
+    <style type="text/css">
+        .happyStyle {
+            width: 200px;
+            height: 200px;
+            border: 1px solid;
+        }
+    </style>
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            var happyDiv = Ext.get('happyDiv');
+            
+            var clickHandler = function (event, eventTarget) {
+                Ext.MessageBox.alert("Click", "You clicked: " + eventTarget.id);
+            }
+
+            happyDiv.on('click', clickHandler);
+        });
+        
+    </script>
+</head>
+<body>
+<div id="happyDiv" class="happyStyle"></div>
+</body>
+</html>

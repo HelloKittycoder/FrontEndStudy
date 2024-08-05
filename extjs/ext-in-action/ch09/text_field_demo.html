@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            // P292 9.2 文本字段
+            Ext.QuickTips.init();
+            
+            var submitForm = function () {
+                form.getForm().submit();
+            }
+            var clearForm = function () {
+                form.getForm().reset();
+            }
+            
+            var form = new Ext.form.FormPanel({
+                title: 'FormPanel',
+                width: 200,
+                height: 100,
+                frame: true,
+                defaultType: 'textfield',
+                labelWidth: 30,
+                items: [
+                    {fieldLabel:'Email',
+                    minLength:8, minLengthText:'长度不能小于8个字符',
+                    maxLength:40, maxLengthText:'最大不能超过40个字符',
+                    allowBlank:false, blankText:'本字段不能为空',
+                    vtype:'email',
+                    vtypeText:'无效的Email账户',
+                    emptyText:'请输入您的Email',
+                    grow:true,
+                    growMin:140,
+                    stripCharsRe:/^(aitch)*$/,
+                    maskRe:/[a-z]/i
+                    },
+                ],
+                buttons: [
+                    {xtype: 'button', text: 'Submit', handler: submitForm, scope: this},
+                    {xtype: 'button', text: 'Clear', handler: clearForm, scope: this}
+                ],
+                renderTo: 'container'
+            });
+            
+        });
+    </script>
+</head>
+<body>
+<div id="container"></div>
+</body>
+</html>

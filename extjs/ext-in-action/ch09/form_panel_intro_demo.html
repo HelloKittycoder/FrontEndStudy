@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            // P289 9.1 表单容器FormPanel与一般容器Panel的差异
+            var clearForm = function () {
+                form.getForm().reset();
+            }
+            
+            var form = new Ext.form.FormPanel({
+                title: 'FormPanel',
+                width: 300,
+                height: 200,
+                frame: true,
+                defaultType: 'textfield',
+                items: [
+                    {fieldLabel: 'Username'},
+                    {fieldLabel: 'Password', inputType: 'password'},
+                ],
+                buttons: [
+                    {xtype: 'button', text: 'Clear', handler: clearForm, scope: this}
+                ],
+                renderTo: 'container'
+            });
+            
+        });
+    </script>
+</head>
+<body>
+<div id="container"></div>
+</body>
+</html>

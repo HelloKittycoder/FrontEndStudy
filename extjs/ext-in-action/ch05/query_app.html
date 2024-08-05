@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            // 实战练习：表格组件 P199
+            var customers = [
+                // ID, NAME, AGE, OCCUPATION, DOB
+                [1, "David Wang", 27, "Programmer", "1983-01-01"],
+                [2, "Mary Chen", 25, "Sales", "1985-11-22"],
+                [3, "Christina Chung", 22, "Doctor", "1988-03-28"],
+                [4, "Joe Fun", 30, "Lawyer", "1980-05-10"]
+            ];
+
+            var customerStore = new Ext.data.ArrayStore({
+                fields: [
+                    {name: 'id', type: 'int', mapping: 0},
+                    {name: 'name', type: 'string', mapping: 1},
+                    {name: 'age', type: 'int', mapping: 2},
+                    {name: 'occupation', type: 'string', mapping: 3},
+                    {name: 'dob', type: 'string', mapping: 4, dateFormat: 'Y-m-d'},
+                ]
+            });
+            
+            var queryField = new Ext.form.TextField({
+                name: 'queryString',
+                scope: this,
+                enableKeyEvents: true,
+                listeners: {
+                    keyup: function (field, eventObject) {
+                        var queryString = queryField.getValue();
+                        grid.getStore().filter('occupation', queryString);
+                    }
+                }
+            });
+            
+            var grid = new Ext.grid.GridPanel({
+                columns: [
+                    {header: '序号', dataIndex: 'id'},
+                    {header: '姓名', dataIndex: 'name'},
+                    {header: '年龄', dataIndex: 'age'},
+                    {header: '职业', dataIndex: 'occupation'},
+                    {header: '生日', dataIndex: 'dob', renderer: Ext.util.Format.dateRenderer('Y年m月d日')},
+                ],
+                tbar: ['-', '查询：', queryField],
+                autoHeight: true,
+                store: customerStore
+            });
+            grid.render('container');
+            customerStore.loadData(customers);
+        });
+    </script>
+</head>
+<body>
+<div id="container"></div>
+</body>
+</html>

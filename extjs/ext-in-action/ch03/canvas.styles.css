@@ -1,0 +1,15 @@
+div.fake-container { /* 画布容器的排列方式 */
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+}
+
+div.canvas-pixel-div { /* 方块起始样式 */
+    background: #B4D8EC;
+    border: 1px solid #B4D8EC;
+}
+
+div.canvas-pixel-div-mouseover { /* 方块在鼠标经过后的样式 */
+    background: #B4AAEC;
+    border: 1px solid #B4AAEC;
+}

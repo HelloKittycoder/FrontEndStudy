@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../../lib/ext-3.0/ext-all.js"></script>
+    <!-- 3-4 P60(这个例子ajax请求没有效果，有点问题，暂时不管了) -->
+    <script type="text/javascript">
+        var myDiv;
+        function loadParagraph() {
+            // 指示div#container读取ajax_piece.html
+            Ext.get('container').load({
+                url: 'FrontEndStudy/extjs/ext-in-action/ch03/3-5/ajax_piece.html',
+                callback: function (el, success, response) {
+                    if (success) {
+                    } else {
+                        // 无法读取
+                        Ext.MessageBox.alert('读取失败', response.statusText);
+                    }
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+<div id="container">
+    <div id="msg">Hi, this is local msg.</div>
+</div>
+</body>
+</html>

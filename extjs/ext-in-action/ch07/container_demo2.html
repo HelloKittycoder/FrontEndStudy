@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            // P224 7.1 Container容器 改进写法（可以提取默认配置，items中的对象如果有改动则会覆盖已有的配置）
+            // 参考P226 container_ajax_load_with_layout.html
+            var container = new Ext.Container({
+                width: 300,
+                height: 180,
+                layout: 'column',
+                defaults: {
+                    xtype: 'container',
+                    columnWidth: .5,
+                    autoEl: {
+                        html: 'Rocket QUEEN~'
+                    }
+                },
+                items: [
+                    {
+                        autoEl: {
+                            html: 'Column1'
+                        },
+                        style: 'border: 1px dotted #F00;'
+                    },
+                    {
+                        style: 'border: 1px dotted #00F;'
+                    }
+                ],
+                style: 'border: 2px solid #000;'
+            });
+            container.render('container');
+        });
+    </script>
+</head>
+<body>
+<div id="container"></div>
+</body>
+</html>

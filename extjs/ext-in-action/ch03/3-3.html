@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <!-- 3-1 P55 -->
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            // get会创建多个引用
+            var myDiv = Ext.get('myID1');
+            console.log('myDiv=%s', myDiv.dom.innerHTML); // myDiv=It's a good day
+            Ext.get('myID2');
+            console.log('myDiv=%s', myDiv.dom.innerHTML); // myDiv=It's a good day
+            
+            // fly用的是一个引用
+            var myFlyDiv = Ext.fly('myID1');
+            console.log('myFlyDiv=%s', myFlyDiv.dom.innerHTML); // myDiv=It's a good day
+            Ext.fly('myID2');
+            console.log('myFlyDiv=%s', myFlyDiv.dom.innerHTML); // myDiv=It's a nice day
+        });
+    </script>
+</head>
+<body>
+<div id="myID1">It's a good day</div>
+<div id="myID2">It's a nice day</div>
+</body>
+</html>
