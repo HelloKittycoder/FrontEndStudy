@@ -49,6 +49,10 @@ ExtJs API 下载：https://files.cnblogs.com/iamlilinfeng/Ext3.0.API.rar
 
 
 
+也可以看看这个 ExtJs完整资源包下载：http://www.xwood.net/_site_domain_/_root/5870/5930/5932/t_c261026.html
+
+
+
 #### 自学记录
 
 
@@ -70,3 +74,7 @@ test_data.js 是作为一个后台来用的，不只是给11用的，涉及的�
 如何在idea中添加ExtJs提示？（这个感觉不配置好像也能提示）https://blog.csdn.net/hanwb1/article/details/88579867
 
 
+
+*补充：*
+
+上面都是ExtJs3的教程，ExtJs4视频教程见https://www.bilibili.com/video/BV1FJ411X7FV（配套资源代码 https://download.csdn.net/download/yongyou920/4272660，extjs4.2下载 https://download.csdn.net/download/u011344009/7509909）
