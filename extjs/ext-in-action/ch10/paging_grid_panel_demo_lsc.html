@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" type="text/css" href="../../lib/ext-3.0/resources/css/ext-all.css"/>
+    <!-- 引入基础类定义 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/adapter/ext/ext-base.js"></script>
+    <!-- 引入所有组件 -->
+    <script type="text/javascript" src="../../lib/ext-3.0/ext-all.js"></script>
+    <script type="text/javascript" src="../../lib/ext-3.0/examples/ux/PagingMemoryProxy.js"></script>
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            // 动态将数据加到内存中，并进行分页
+            // 基于paging_grid_panel_demo1.html修改
+            // P336 10.3 使用PagingToolbar进行分页-客户端分页
+            var  data = [{"id":1,"artist":"id-101","title":"title-101","rate":1},
+                {"id":2,"artist":"id-102","title":"title-102","rate":2},
+                {"id":3,"artist":"id-103","title":"title-103","rate":3},
+                {"id":4,"artist":"id-104","title":"title-104","rate":4},
+                {"id":5,"artist":"id-105","title":"title-105","rate":5},
+                {"id":6,"artist":"id-106","title":"title-106","rate":6},
+                {"id":7,"artist":"id-107","title":"title-107","rate":7},
+                {"id":8,"artist":"id-108","title":"title-108","rate":8},
+                {"id":9,"artist":"id-109","title":"title-109","rate":9}];
+            
+            // 数据Store
+            var store = new Ext.data.JsonStore({
+                fields: ['id', 'artist', 'title', 'rate'],
+                proxy: new Ext.ux.data.PagingMemoryProxy(data)
+            });
+            
+            // 字段定义ColumnModel
+            var columns = new Ext.grid.ColumnModel({
+                columns:[
+                    {header:'序号', dataIndex:'id', width:20},
+                    {header:'歌手', dataIndex:'artist', width:100},
+                    {header:'歌名', dataIndex:'title', width:120},
+                    {header:'评分', dataIndex:'rate', width:80, sortable:true},
+                ],
+                defaults: {
+                    resizable: false
+                }
+            });
+            
+            var pagingTB = {
+                xtype:'paging',
+                store:store,
+                pageSize:5,
+                displayInfo:true,
+                displayMsg:'记录：第{0}条-第{1}条，共{2}条',
+                emptyMsg:'没有数据'
+            };
+
+            var no = 9;
+            var grid = new Ext.grid.GridPanel({
+                title:'GridPanel',
+                width:400,
+                height:280,
+                store:store,
+                viewConfig:{
+                    forceFit:true
+                },
+                colModel:columns,
+                tbar:[{
+                    text: "新增",
+                    scope: this,
+                    handler: function () {
+                        ++no;
+                        data.push({
+                            "id":no,"artist":"id-10" + no,"title":"title-10" + no,"rate":no
+                        });
+                        // store.loadData(data);
+                        // 直接显示最后一页
+                        var start = Math.floor((data.length -1) / 5) * 5;
+                        store.load({params:{start:start, limit:5}});
+                    }
+                }],
+                bbar:pagingTB
+            });
+            grid.render('container');
+            store.load({params:{start:0, limit:5}});
+        });
+    </script>
+</head>
+<body>
+<div id="container"></div>
+</body>
+</html>
